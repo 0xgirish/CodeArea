@@ -1,0 +1,158 @@
+<html>
+<head>
+	<title>Code Area | IIT Ropar</title>
+	<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+	<script src="./bootstrap/js/jquery-3.2.1.min.js
+"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<script src="./bootstrap/js/ace.js" charset="utf-8"></script>
+	<style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 42;
+        bottom: 70;
+        left: 1;
+        right: 1;
+    }
+    #language {
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	right: 2%;
+    	width: 16%;
+    }
+    #btn-run {
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	left: 2%;
+    }
+    #fontsize{
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	right: 21%;
+    	width: 16%;
+    }
+    #themeset{
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	right: 40%;
+    	width: 16%;
+    }
+  </style>
+
+</head>
+<body>
+
+<div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
+	<div class="panel-heading"><b>Code Area</b></div>
+		<div id="editor"></div>
+		<button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button>
+		<div class="form-group form-improve">
+			<select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
+				<option value="java">Java</option>
+				<option value="php">PhP</option>
+				<option value="python3">Python 3.6</option>
+				<option value="python2">Python 2.7</option>
+				<!--<option value="cpp14">C++14</option>-->
+			</select>
+		</div>
+
+		<div class="form-group form-improve" style="margin-right: 20px">
+			<select class="form-control" name="quantity" id="fontsize" onchange="changeFontSize()">
+				<option value="m">Medium</option>
+				<option value="s">Small</option>
+				<option value="l">Large</option>
+			</select>
+		</div>
+
+		<div class="form-group form-improve" style="margin-right: 20px">
+			<select class="form-control" name="quantity" id="themeset" onchange="changeTheme()">
+				<option value="ace/theme/eclipse">Eclipse</option>
+				<option value="ace/theme/solarized_light">Solarized Light</option>
+				<option value="ace/theme/solarized_dark">Solarized Dark</option>
+				<option value="ace/theme/twilight">Twilight</option>
+			</select>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+
+
+	var editor = ace.edit("editor");
+	editor.setTheme("ace/theme/eclipse");
+	editor.session.setMode("ace/mode/java");
+	editor.setFontSize(14);
+	editor.setValue("\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args){\n\n\t}\n}")
+
+	function changeTheme(){
+		var themeVal = document.getElementById("themeset").value;
+		editor.setTheme(themeVal);
+	}
+
+	function changeFontSize(){
+		var fontsize = document.getElementById("fontsize").value;
+		switch(fontsize){
+			case("s"):
+				editor.setFontSize(12);
+				break;
+			case("m"):
+				editor.setFontSize(15);
+				break;
+			case("l"):
+				editor.setFontSize(18);
+				break;
+		}
+	}
+
+	function changeLanguage(){
+		var language = document.getElementById("language").value;
+		var editor = ace.edit("editor");
+		editor.setValue("");
+		if(language == "python2" || language == "python3"){
+			editor.session.setMode("ace/mode/python");
+			return;
+		}
+		var mode = "ace/mode/" + language;
+		editor.session.setMode(mode);
+		if(language == "java"){
+			editor.setValue("\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}")
+			return;
+		}
+	}
+
+	function senddata(){
+		var textCode = editor.getValue();
+		var language = document.getElementById('language').value;
+		var objForm = document.createElement('FORM');
+		objForm.method = 'post';
+		objForm.action = 'result.php';
+		objForm.target = 'output';
+		var objLang = document.createElement('INPUT');
+		objLang.type = 'hidden';
+		objLang.name = 'language';
+		objLang.value = language;
+		objForm.appendChild(objLang);
+		var objInput = document.createElement('INPUT');
+		objInput.type = 'hidden';
+		objInput.name = 'code';
+		objInput.value = textCode;
+		objForm.appendChild(objInput);
+		document.body.appendChild(objForm);
+		objForm.submit();
+		document.body.removeChild(objForm);
+	}
+
+</script>
+
+</body>
