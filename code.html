@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Code Area | IIT Ropar</title>
+	<title>CodeArea | IIT Ropar</title>
 	<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	<script src="./bootstrap/js/jquery-3.2.1.min.js
@@ -53,16 +53,17 @@
 <body>
 
 <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
-	<div class="panel-heading"><b>Code Area</b></div>
+	<div class="panel-heading"><b>CodeArea</b></div>
 		<div id="editor"></div>
 		<button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button>
 		<div class="form-group form-improve">
 			<select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
+				<option value="C">C</option>
+				<option value="cpp14">C++14</option>
 				<option value="java">Java</option>
-				<option value="php">PhP</option>
+				<option value="php">PhP 7</option>
 				<option value="python3">Python 3.6</option>
 				<option value="python2">Python 2.7</option>
-				<!--<option value="cpp14">C++14</option>-->
 			</select>
 		</div>
 
@@ -91,9 +92,9 @@
 
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/eclipse");
-	editor.session.setMode("ace/mode/java");
+	editor.session.setMode("ace/mode/c_cpp");
 	editor.setFontSize(14);
-	editor.setValue("\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args){\n\n\t}\n}")
+	editor.setValue("//This is your CodeArea\n");
 
 	function changeTheme(){
 		var themeVal = document.getElementById("themeset").value;
@@ -110,7 +111,7 @@
 				editor.setFontSize(15);
 				break;
 			case("l"):
-				editor.setFontSize(18);
+				editor.setFontSize(17);
 				break;
 		}
 	}
@@ -118,16 +119,22 @@
 	function changeLanguage(){
 		var language = document.getElementById("language").value;
 		var editor = ace.edit("editor");
-		editor.setValue("");
+		editor.setValue("//This is your CodeArea\n");
 		if(language == "python2" || language == "python3"){
 			editor.session.setMode("ace/mode/python");
+			editor.setValue("# This is your CodeArea");
+			return;
+		}else if(language == "cpp14" || language == "C"){
+			editor.session.setMode("ace/mode/c_cpp");
 			return;
 		}
 		var mode = "ace/mode/" + language;
 		editor.session.setMode(mode);
 		if(language == "java"){
-			editor.setValue("\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}")
+			editor.setValue("//This is your CodeArea\n\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}")
 			return;
+		}else if(language == "php"){
+			editor.setValue("<?php\n\n//This is your CodeArea\n\n\n\n?>");
 		}
 	}
 

@@ -11,6 +11,8 @@ if(isset($_POST['code'])){
 		$file = $file.".py";
 	}else if($language == "cpp14"){
 		$file = $file.".cpp";
+	}else if($language == "C"){
+		$file = $file.".c";
 	}else if($language == "java"){
 		$file = $file.".java";
 	}
@@ -43,12 +45,19 @@ if(isset($_POST['code'])){
 		system($command);
 		$command = "java CodeArea 2>&1";
 		system($command);
+		unlink('CodeArea.class');
 	}else if($language == "cpp14"){
 		$command = "g++ CodeArea.cpp -O3 -o ans.out";
-		echo(exec($command));
+		system($command);
 		$command = "./ans.out";
 		$result = system($command);
-		echo($result);
+		unlink('ans.out');
+	}else if($language == "C"){
+		$command = "gcc CodeArea.c -O3 -o ans.out";
+		system($command);
+		$command = "./ans.out";
+		$result = system($command);
+		unlink('ans.out');
 	}
 	fclose($myfile);
 }else{

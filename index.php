@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Code Area | IIT Ropar</title>
+	<title>CodeArea | IIT Ropar</title>
 	<link rel="icon" href="./bootstrap/codelogo.png">
 	<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
 	<script src="./bootstrap/js/jquery-3.2.1.min.js
