@@ -2,7 +2,7 @@
 header('Content-Type: text/plain');
 if(isset($_POST['code'])){
 	$code = $_POST['code'];
-	$file = "CodeArea";
+	$file = "userCode/CodeArea";
 	$language = $_POST['language'];
 
 	if($language == "php"){
@@ -17,11 +17,8 @@ if(isset($_POST['code'])){
 		$file = $file.".java";
 	}
 	$myfile = fopen($file, "w") or die("Unable to process");
-	//$i = 0;
-	while (! flock($myfile, LOCK_EX | LOCK_NB)){
-		//if($i % 240 == 0) echo ".";
-		//$i++;
-	}
+
+	while (! flock($myfile, LOCK_EX | LOCK_NB));
 
 	if(flock($myfile, LOCK_EX | LOCK_NB)){
 		fwrite($myfile, $code);
@@ -29,29 +26,30 @@ if(isset($_POST['code'])){
 		echo "Please try again later\n";
 		exit();
 	}
+
+	$command = "chmod 774 userCode/*";
+	system($command);
+
 	if($language == "php"){
-		$command = "php ".$file." 2>&1";
+		$command = "php ".$file." >Output/resultCode 2>&1";
 		$result = system($command);
-		if(! $result) echo $php_errormsg;
 	}else if($language == "python3"){
-		$command = "python3 CodeArea.py 2>&1";
+		$command = "python3 userCode/CodeArea.py >Output/resultCode 2>&1";
 		$result = system($command);
 	}else if($language == "python2"){
-		$command = "python2 CodeArea.py 2>&1";
+		$command = "python2 userCode/CodeArea.py >Output/resultCode 2>&1";
 		$result = system($command);
-		if(! $result) echo $php_errormsg;
 	}else if($language == "java"){
-		$command = "javac CodeArea.java 2>&1";
+		$command = "javac userCode/CodeArea.java 2>&1";
 		system($command);
-		$command = "java CodeArea 2>&1";
+		$command = "java userCode/CodeArea >Output/resultCode 2>&1";
 		system($command);
-		unlink('CodeArea.class');
 	}else if($language == "cpp14"){
-		$command = "g++ CodeArea.cpp -O3 -o ans.out";
+		$command = "g++ userCode/CodeArea.cpp -O3 -o userCode/ans.out";
 		system($command);
-		$command = "./ans.out";
+		$command = "userCode/ans.out >Output/resultCode 2>&1";
 		$result = system($command);
-		unlink('ans.out');
+		unlink('userCode/ans.out');
 	}else if($language == "C"){
 		$command = "gcc CodeArea.c -O3 -o ans.out";
 		system($command);
