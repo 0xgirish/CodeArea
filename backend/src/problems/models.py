@@ -21,15 +21,26 @@ class Problem(models.Model):
 		ordering = ["-timestamp"]
 
 
+
+def upload_input(instance, filename):
+	return "%s/%s.in" %(instance.problem_id.problem_code, instance.testcase_number())
+
+def upload_output(instance, filename):
+	return "%s/%s.out" %(instance.problem_id.problem_code, instance.testcase_number())
+
 class TestCase(models.Model):
 
 	problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE) # A problem has many test cases
-	input = models.FileField(upload_to = "%s/%s.in"%("testcase", id))
-	output = models.FileField(upload_to = "%s/%s.out"%("testcase", id))
+	input = models.FileField(upload_to = upload_input)
+	output = models.FileField(upload_to = upload_output)
 	sample = models.BooleanField() 
 
 	def __str__(self):
-		return "%s-%s"%(self.problem_id.problem_code, self.id);
+		return "%s-%s"%(self.problem_id.problem_code, self.testcase_number());
+
+	def testcase_number(self):
+		count = TestCase.objects.filter(problem_id = self.problem_id).count()
+		return count
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	slug = slugify(instance.problem_code)
