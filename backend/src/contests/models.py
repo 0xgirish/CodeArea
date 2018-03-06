@@ -37,6 +37,8 @@ class ContestsHaveProblems(models.Model):
 	contest = models.ForeignKey(Contest, on_delete = models.CASCADE)
 	weight = models.IntegerField(null = False, blank = False, default = 0)
 
+	def __str__(self):
+		return "%s-%s" %(self.contest.contest_code, self.problem.problem_code)
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	slug = slugify(instance.contest_code)
