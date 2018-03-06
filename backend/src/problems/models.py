@@ -33,7 +33,8 @@ class TestCase(models.Model):
 	problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE) # A problem has many test cases
 	input = models.FileField(upload_to = upload_input)
 	output = models.FileField(upload_to = upload_output)
-	sample = models.BooleanField() 
+	sample = models.BooleanField()
+	weight = models.IntegerField(null = False, blank = False, default = 0)
 
 	def __str__(self):
 		return "%s-%s"%(self.problem_id.problem_code, self.testcase_number());

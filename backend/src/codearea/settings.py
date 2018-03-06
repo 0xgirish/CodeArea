@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'problems',
     'accounts',
     'oauth',
+    'contests',
 ]
 
 MIDDLEWARE = [
