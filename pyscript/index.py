@@ -29,7 +29,7 @@ def code_processing(language):
     command = ''
     compil = False
     if language == 'java':
-        command = 'javac /home/girish/web/practice/userCode/CodeArea.java > ../Output/resultCode 2>&1'
+        command = 'javac ../userCode/CodeArea.java > ../Output/resultCode 2>&1'
         compil = True
     elif language == 'cpp14':
         command = 'g++ -std=c++14 ../userCode/CodeArea.cpp -o ../userCode/CodeArea.out > ../Output/resultCode 2>&1'
@@ -51,7 +51,7 @@ def code_processing(language):
                 status2 = os.system('timeout 2.0 ../userCode/CodeArea.out >../Output/resultCode 2>&1')
                 os.system('rm -f ../userCode/CodeArea.out')
             elif language == 'java':
-                status2 = os.system('timeout 2.0 java -cp /home/girish/web/practice/userCode/ CodeArea >../Output/resultCode 2>&1')
+                status2 = os.system('timeout 2.0 java -cp ../userCode/ CodeArea >../Output/resultCode 2>&1')
                 os.system('rm -f ../userCode/CodeArea.class')
             if(status2 == 124):
                 print("TIMEOUT")
