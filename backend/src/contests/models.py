@@ -15,12 +15,13 @@ class Contest(models.Model):
 	description = models.TextField()
 	contest_code = models.CharField(max_length = 100, unique = True)
 	slug = models.SlugField(unique = True)
-	creator = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL)
+	creator = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL, related_name='creator')
 	
 	problems = models.ManyToManyField(Problem, through = 'ContestsHaveProblems')
 	creation_date = models.DateField(auto_now = False, auto_now_add = True)
 	start_contest = models.DateTimeField(auto_now = False, auto_now_add = False)
 	end_contest = models.DateTimeField(auto_now = False, auto_now_add = False)
+	participants = models.ManyToManyField(Profile)
 
 	def __str__(self):
 		return self.contest_code;
@@ -50,3 +51,4 @@ def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	instance.slug = slug
 
 pre_save.connect(pre_save_post_receiver, sender = Contest)
+
