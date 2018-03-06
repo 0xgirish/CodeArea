@@ -1,0 +1,90 @@
+<html>
+<head>
+	<title>Try PhP</title>
+	<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+	<link rel="stylesheet" href="./bootstrap/line/jquery-linedtextarea.css">
+	<script src="./bootstrap/js/jquery-3.2.1.min.js
+"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<script src="./bootstrap/line/jquery-linedtextarea.js"></script>
+
+</head>
+<body>
+
+<div class="panel panel-primary" style="height: 100%;font-family: 'Ubuntu', sans-serif">
+	<div class="panel-heading">Code Area</div>
+		<textarea autocomplete="true" spellcheck="false" class="lined" id="code" style="width: 100%; height: 535px;border-color: #FFF; overflow-y: scroll;" placeholder="Enter code here" autofocus="true"></textarea>
+		<div class="container">
+			<div class="row" style="margin-top: 20px">
+				<div class="col-xs-9">
+					<button class="btn btn-primary" onclick="senddata()" style="margin-left: 20px">Run Code</button>
+				</div>
+				<div class="col-xs-3">
+					<div class="form-group form-improve" style="margin-right: 20px">
+						<select class="form-control" name="quantity" id="language">
+							<option value="php">PhP</option>
+							<option value="python3">Python 3.6</option>
+							<option value="python2">Python 2.7</option>
+							<!--<option value="cpp14">C++14</option>-->
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var textareas = document.getElementsByTagName('textarea');
+	var count = textareas.length;
+	for(var i=0;i<count;i++){
+	    textareas[i].onkeydown = function(e){
+	        if(e.keyCode==9 || e.which==9){
+	            e.preventDefault();
+	            var s = this.selectionStart;
+	            this.value = this.value.substring(0,this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
+	            this.selectionEnd = s+1; 
+	        }
+	    }
+	}
+
+	$(function() {
+
+	  // Target all classed with ".lined"
+	  $(".lined").linedtextarea(
+	    {selectedLine: 1}
+	  );
+
+	  // Target a single one
+	  $("#mytextarea").linedtextarea();
+
+	});
+
+	function senddata(){
+		var textCode = document.getElementById('code').value;
+		var language = document.getElementById('language').value;
+		var objForm = document.createElement('FORM');
+		console.log(language);
+		objForm.method = 'post';
+		objForm.action = 'result.php';
+		objForm.target = 'output';
+		var objLang = document.createElement('INPUT');
+		objLang.type = 'hidden';
+		objLang.name = 'language';
+		objLang.value = language;
+		objForm.appendChild(objLang);
+		var objInput = document.createElement('INPUT');
+		objInput.type = 'hidden';
+		objInput.name = 'code';
+		objInput.value = textCode;
+		objForm.appendChild(objInput);
+		document.body.appendChild(objForm);
+		objForm.submit();
+		document.body.removeChild(objForm);
+	}
+
+</script>
+
+</body>
