@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Contest, ContestsHaveProblems
+from .models import Contest, ContestsHaveProblems, Participant
 
 class ContestModelAdmin(admin.ModelAdmin):
 	""" Problem Admin Model """
@@ -25,3 +25,12 @@ class ContestsHaveProblemsModelAdmin(admin.ModelAdmin):
 		model = ContestsHaveProblems
 
 admin.site.register(ContestsHaveProblems, ContestsHaveProblemsModelAdmin)
+
+
+class ParticipantModelAdmin(admin.ModelAdmin):
+	""" TestCase Admin Model """
+	list_display = ["contest", "user", "points"]
+	class Meta:
+		model = Participant
+
+admin.site.register(Participant, ParticipantModelAdmin)

@@ -42,10 +42,13 @@ class TestCase(models.Model):
 	output = models.FileField(upload_to = upload_output, storage=OverwriteStorage())
 	sample = models.BooleanField()
 	weight = models.IntegerField(null = False, blank = False, default = 0)
-	testcase = models.IntegerField(unique = True);
+	testcase = models.IntegerField();
 
 	def __str__(self):
 		return "%s-%s"%(self.problem_id.problem_code, self.testcase);
+
+	class Meta:
+		unique_together = ('problem_id', 'testcase')
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	slug = slugify(instance.problem_code)

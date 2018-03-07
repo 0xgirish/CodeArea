@@ -21,7 +21,7 @@ class Contest(models.Model):
 	creation_date = models.DateField(auto_now = False, auto_now_add = True)
 	start_contest = models.DateTimeField(auto_now = False, auto_now_add = False)
 	end_contest = models.DateTimeField(auto_now = False, auto_now_add = False)
-	participants = models.ManyToManyField(Profile)
+	participants = models.ManyToManyField(Profile, through = 'Participant')
 
 	def __str__(self):
 		return self.contest_code;
@@ -41,6 +41,23 @@ class ContestsHaveProblems(models.Model):
 	def __str__(self):
 		return "%s-%s" %(self.contest.contest_code, self.problem.problem_code)
 
+	class Meta:
+		verbose_name = 'Contest Problem'
+		unique_together = ('problem', 'contest')
+
+
+class Participant(models.Model):
+	""" A participant of a contest """
+	user = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = 'participant')
+	contest = models.ForeignKey(Contest, on_delete = models.CASCADE)
+	points = models.IntegerField(null = False, blank = False, default = 0)
+
+	def __str__(self):
+		return "%s: %s" %(self.contest.contest_code, self.user.user.username)
+
+	class Meta:
+		unique_together = ('user', 'contest')
+
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	slug = slugify(instance.contest_code)
 	exists = Contest.objects.filter(slug = slug).exists()
@@ -51,4 +68,5 @@ def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	instance.slug = slug
 
 pre_save.connect(pre_save_post_receiver, sender = Contest)
+
 

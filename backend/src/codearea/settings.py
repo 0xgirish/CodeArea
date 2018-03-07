@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'oauth',
     'contests',
+    'submissions',
 ]
 
 MIDDLEWARE = [

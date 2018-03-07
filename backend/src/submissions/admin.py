@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Submission, ContestSubmission
+from .models import Submission, ContestSubmission, Language
 
 class SubmissionModelAdmin(admin.ModelAdmin):
 	""" Problem Admin Model """
@@ -32,3 +32,11 @@ class ContestSubmissionModelAdmin(admin.ModelAdmin):
 		model = ContestSubmission
 
 admin.site.register(ContestSubmission, ContestSubmissionModelAdmin)
+
+class LanguageModelAdmin(admin.ModelAdmin):
+	""" TestCase Admin Model """
+
+	class Meta:
+		model = Language
+
+admin.site.register(Language, LanguageModelAdmin)
