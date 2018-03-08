@@ -31,7 +31,7 @@
          Girish Kumar  & 2016csb1040@iitrpr.ac.in \\
          Karan Seghal & 2016csb1080@iitrpr.ac.in\\
          Chirag Khurana & --change here--\\
-         Arunaksha Talukadar & --change here--
+         Arunaksha Talukdar & 2016csb1032@iitrpr.ac.in
     \end{tabular}
     }
     \end{center}
@@ -96,7 +96,59 @@ On submission the language and the code is send to a python script which save th
 In case of submission against some test cases the content of the file is compared with right output for the problem.
 
 
-%-----------------------------------------------------------
+%----------------------------------------------------------
+%                    Arunaksha Talukdar
+%----------------------------------------------------------
+
+\newpage
+
+\section{Front-end of Code-Area}
+The aim of the module is to develop the Frontend User Interaction module of Code-Area.
+
+\section{Schema}
+The website consist of hierarchical structure of linking of webpages as follow:
+homepage , login page + about or Website Description , contestlist , contesthost , contest page , problem page , Rankboard.
+
+\subsection{Homepage}
+\begin{itemize}
+
+\item Login region: Which verifies the user’s identification and grant’s further functionalities of the system.
+\item About region: Describes a brief intro of the platform ,functionalities and suppotable code Formats.
+\item Loginbox: Consist of userID, password entry box and Submit button handled by user authentication Module.
+
+\end{itemize}
+
+\subsection{Contestlist}
+The ongoing contest at the moment or about to happen (With countdown time)
+
+\subsection{Contesthost}
+Raising a problem and Describing about it with the following functionalities supportable:
+\begin{itemize}
+\item Problem name 
+\item Problem Description
+\item Scores Description
+\item Note box : regarding time limit , input limit
+\item Save button: To Confirm and proceed.
+\item Sample input , expected output with description
+\end{itemize}
+
+\subsection{Contestpage}
+The main Contest page includes : Countdown timer till completion , Complete Problem Description ,Test cases with expected output. 
+
+\subsection{Problem page}
+\begin{itemize}
+\item Short Problem descrition with Sample input ,expected output dialog box
+\item Code input Submission Frame output managed by JUDGE module. With a management of
+Code sumbimtted and rank in rankboard by DATABASE module.
+\item Submit box: Link to Rankboard , and final submission of code.
+\end{itemize}
+
+\subsection{Rankboard}
+\begin{itemize}
+\item Shows rank of Coders (On basis of JUDGE module)
+\item Resubmit Button: Option to revisit the problem and Modify it and submit without altering the previous Submit{No limit to Submissions }.
+\end{itemize}
+%----------------------------------------------------------
 
 \input{modules/models.tex}
 
