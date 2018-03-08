@@ -45,111 +45,12 @@
 \end{figure}
 
 
-%----------------------------------------------------------
-%                       Girish Kumar
-%----------------------------------------------------------
-
-
-
 \newpage
 
-\section{Judge}
 
-\subsection{introduction}
-This is the important part of the CodeArea (competitive programming site name).
-Main work of the judge is to execute user's codes and give them results of the execution e.g output for corresponding input or errors, compile time or run time errors. The judge take care of security and checks if the user program is not going to read or write other files on the server and executing other programs on the server.
-
-
-\subsection{Supported languages}
-In initial phase of the CodeArea we are supporting following programming languages:
-\begin{enumerate}
-    \item C
-    \item C++14
-    \item C++11
-    \item JAVA 8
-    \item Python 3.5
-    \item Python 2.6
-\end{enumerate}
-
-\vspace{1cm}
-
-\subsection{Facilities}
-\vspace{0.3cm}
-\subsubsection{Custom input-output}
-To test the code we are providing custom input-output facility so user can test there code for corresponding input and output. Custom input-output will be implemented in the web-page using iframe.
-\newpage
-\subsubsection{Code Editor}
-To make writing code easier, we are providing a code editor which can be implemented in the web-page using iframe. The editor provides basic functionalities of syntax highlighting, smart indenting, bracket completion, editor themes, fonts(small, medium, large).
-All of these functionalities are powered by \href{https://ace.c9.io/}{ACE}, an open source library for code editor.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\linewidth]{sample_code_editor.png}
-    \caption{ACE code editor}
-    \label{fig:code_editor}
-\end{figure}
-
-
-\vspace{1.4cm}
-
-\subsection{Submission}
-On submission the language and the code is send to a python script which save the code to a temporary file with proper extension and we run the code on the server using os.system(command) and the program execution is killed if it takes more than the specified time. The output of the stdout and stderr is passed to a file and the content of the file is given to the user. Which contain errors in case of compile-time or run-time errors or output of program in case of successful completion of user program.
-In case of submission against some test cases the content of the file is compared with right output for the problem.
-
-
-%----------------------------------------------------------
-%                    Arunaksha Talukdar
-%----------------------------------------------------------
-
-\newpage
-
-\section{Front-end of Code-Area}
-The aim of the module is to develop the Frontend User Interaction module of Code-Area.
-
-\section{Schema}
-The website consist of hierarchical structure of linking of webpages as follow:
-homepage , login page + about or Website Description , contestlist , contesthost , contest page , problem page , Rankboard.
-
-\subsection{Homepage}
-\begin{itemize}
-
-\item Login region: Which verifies the user’s identification and grant’s further functionalities of the system.
-\item About region: Describes a brief intro of the platform ,functionalities and suppotable code Formats.
-\item Loginbox: Consist of userID, password entry box and Submit button handled by user authentication Module.
-
-\end{itemize}
-
-\subsection{Contestlist}
-The ongoing contest at the moment or about to happen (With countdown time)
-
-\subsection{Contesthost}
-Raising a problem and Describing about it with the following functionalities supportable:
-\begin{itemize}
-\item Problem name 
-\item Problem Description
-\item Scores Description
-\item Note box : regarding time limit , input limit
-\item Save button: To Confirm and proceed.
-\item Sample input , expected output with description
-\end{itemize}
-
-\subsection{Contestpage}
-The main Contest page includes : Countdown timer till completion , Complete Problem Description ,Test cases with expected output. 
-
-\subsection{Problem page}
-\begin{itemize}
-\item Short Problem descrition with Sample input ,expected output dialog box
-\item Code input Submission Frame output managed by JUDGE module. With a management of
-Code sumbimtted and rank in rankboard by DATABASE module.
-\item Submit box: Link to Rankboard , and final submission of code.
-\end{itemize}
-
-\subsection{Rankboard}
-\begin{itemize}
-\item Shows rank of Coders (On basis of JUDGE module)
-\item Resubmit Button: Option to revisit the problem and Modify it and submit without altering the previous Submit{No limit to Submissions }.
-\end{itemize}
-%----------------------------------------------------------
 
 \input{modules/models.tex}
+
+\input{modules/anuraksha_module.tex}
 
 \end{document}
