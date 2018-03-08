@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.29)  8 MAR 2018 17:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.29)  8 MAR 2018 17:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -627,7 +627,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 37.
-<rpr_logo.jpg, id=84, 227.8914pt x 250.2951pt>
+<rpr_logo.jpg, id=172, 227.8914pt x 250.2951pt>
 File: rpr_logo.jpg Graphic file (type jpg)
  <use rpr_logo.jpg>
 Package pdftex.def Info: rpr_logo.jpg used on input line 45.
@@ -635,85 +635,69 @@ Package pdftex.def Info: rpr_logo.jpg used on input line 45.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./rpr_logo.jpg>]
-(./modules/models.tex
+(./modules/girish_module.tex [2]
+<sample_code_editor.png, id=197, 746.79pt x 400.49625pt>
+File: sample_code_editor.png Graphic file (type png)
+
+<use sample_code_editor.png>
+Package pdftex.def Info: sample_code_editor.png used on input line 29.
+(pdftex.def)             Requested size: 375.80544pt x 201.53706pt.
+) (./modules/models.tex [3 <./sample_code_editor.png>]
 
 pdfTeX warning: pdflatex (file ./modules/schema.pdf): PDF inclusion: found PDF 
 version <1.7>, but at most version <1.5> allowed
-<modules/schema.pdf, id=95, 1198.4775pt x 847.165pt>
+<modules/schema.pdf, id=203, 1198.4775pt x 847.165pt>
 File: modules/schema.pdf Graphic file (type pdf)
  <use modules/schema.pdf>
 Package pdftex.def Info: modules/schema.pdf used on input line 14.
 (pdftex.def)             Requested size: 469.75502pt x 332.04762pt.
 
-[2 <./modules/schema.pdf>]) (./modules/views.tex [3]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 6.
+[4 <./modules/schema.pdf>]) (./modules/anuraksha_module.tex [5]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 18.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 6.
-)
-(./modules/widgets.tex [4]) (./modules/anuraksha_module.tex [5] [6])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
-
-(./design.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
-
-
-Package rerunfilecheck Warning: File `design.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `design.out':
-(rerunfilecheck)             Before: 9FB62C2C3173B2FF9D3752F465868ABB;1295
-(rerunfilecheck)             After:  8860F113F55601E96B91117EC139F4C8;2055.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 18.
+) (./modules/views.tex
+[6]) (./modules/widgets.tex [7]
+<markdown.png, id=230, 831.105pt x 665.48625pt>
+File: markdown.png Graphic file (type png)
+ <use markdown.png>
+Package pdftex.def Info: markdown.png used on input line 28.
+(pdftex.def)             Requested size: 469.75502pt x 376.1426pt.
+ [8 <./markdown.png>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 79.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 79.
+ (./design.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 79.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 79.
+Package rerunfilecheck Info: File `design.out' has not changed.
+(rerunfilecheck)             Checksum: 834749FC17A0B03D2D326F168E4B5414;2608.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 79.
  ) 
 Here is how much of TeX's memory you used:
- 6319 strings out of 493029
- 91029 string characters out of 6136233
- 188659 words of memory out of 5000000
- 9746 multiletter control sequences out of 15000+600000
+ 6369 strings out of 493029
+ 91736 string characters out of 6136233
+ 189762 words of memory out of 5000000
+ 9778 multiletter control sequences out of 15000+600000
  8241 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,9n,32p,560b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{subsubsection.2.1.6} has been referenced but does
- not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.1.5} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.1.4} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.1.3} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.1.2} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.1.1} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.1} has been referenced but does not ex
-ist, replaced by a fixed one
-
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmti10.pfb>
-Output written on design.pdf (7 pages, 295893 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmti10.pfb>
+Output written on design.pdf (9 pages, 359600 bytes).
 PDF statistics:
- 194 PDF objects out of 1000 (max. 8388607)
- 172 compressed objects within 2 object streams
- 49 named destinations out of 1000 (max. 500000)
- 171 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 285 PDF objects out of 1000 (max. 8388607)
+ 257 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 357 words of extra memory for PDF output out of 10000 (max. 10000000)
 
