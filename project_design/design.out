@@ -1,14 +1,27 @@
 \BOOKMARK [1][-]{section.1}{Judge}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{introduction}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Supported\040languages}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.2}{Supported languages}{section.1}% 3
 \BOOKMARK [2][-]{subsection.1.3}{Facilities}{section.1}% 4
-\BOOKMARK [3][-]{subsubsection.1.3.1}{Custom\040input-output}{subsection.1.3}% 5
-\BOOKMARK [3][-]{subsubsection.1.3.2}{Code\040Editor}{subsection.1.3}% 6
+\BOOKMARK [3][-]{subsubsection.1.3.1}{Custom input-output}{subsection.1.3}% 5
+\BOOKMARK [3][-]{subsubsection.1.3.2}{Code Editor}{subsection.1.3}% 6
 \BOOKMARK [2][-]{subsection.1.4}{Submission}{section.1}% 7
-\BOOKMARK [1][-]{section.2}{Judge}{}% 8
-\BOOKMARK [2][-]{subsection.2.1}{introduction}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.2}{Supported\040languages}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{Facilities}{section.2}% 11
-\BOOKMARK [3][-]{subsubsection.2.3.1}{Custom\040input-output}{subsection.2.3}% 12
-\BOOKMARK [3][-]{subsubsection.2.3.2}{Code\040Editor}{subsection.2.3}% 13
-\BOOKMARK [2][-]{subsection.2.4}{Submission}{section.2}% 14
+\BOOKMARK [1][-]{section.2}{Front-end of Code-Area}{}% 8
+\BOOKMARK [1][-]{section.3}{Schema}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Homepage}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Contestlist}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Contesthost}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.4}{Contestpage}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.5}{Problem page}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.6}{Rankboard}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Models}{}% 16
+\BOOKMARK [2][-]{subsection.4.1}{Introduction}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.2}{Schema}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Problem}{subsection.4.2}% 19
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Test Case}{subsection.4.2}% 20
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Contest}{subsection.4.2}% 21
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Contest Problem}{subsection.4.2}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.5}{Participant}{subsection.4.2}% 23
+\BOOKMARK [3][-]{subsubsection.4.2.6}{Submission}{subsection.4.2}% 24
+\BOOKMARK [2][-]{subsection.4.3}{Future Plans}{section.4}% 25
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Post}{subsection.4.3}% 26
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Tag}{subsection.4.3}% 27

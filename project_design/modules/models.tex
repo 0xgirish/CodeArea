@@ -1,44 +1,50 @@
 
 \newpage
 
-\section{Judge}
+\section{Models}
 
-\subsection{introduction}
-This is the important part of the CodeArea (competitive programming site name).
-Main work of the judge is to execute user's codes and give them results of the execution e.g output for corresponding input or errors, compile time or run time errors. The judge take care of security and checks if the user program is not going to read or write other files on the server and executing other programs on the server.
+\subsection{Introduction}
+A model is the single, definitive source of information about one’s data. It contains the essential fields and behaviors of the data one is storing. Generally, each model maps to a single database table. The Models module manages the data, logic and rules of the database.
 
 
-\subsection{Supported languages}
-In initial phase of the CodeArea we are supporting following programming languages:
-\begin{enumerate}
-    \item C
-    \item C++14
-    \item C++11
-    \item JAVA 8
-    \item Python 3.5
-    \item Python 2.6
-\end{enumerate}
+\subsection{Schema}
+Apart from the User Model, mentioned in the Social Auth Module, the major entities of the application are, Problem, Contest, Participant, Submission, Tag and Post.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{modules/schema.pdf}
+    \caption{ER Diagram}
+    \label{fig:schema}
+\end{figure}
 
 \vspace{1cm}
 
-\subsection{Facilities}
-\vspace{0.3cm}
-\subsubsection{Custom input-output}
-To test the code we are providing custom input-output facility so user can test there code for corresponding input and output. Custom input-output will be implemented in the web-page using iframe.
-\newpage
-\subsubsection{Code Editor}
-To make writing code easier, we are providing a code editor which can be implemented in the web-page using iframe. The editor provides basic functionalities of syntax highlighting, smart indenting, bracket completion, editor themes, fonts(small, medium, large).
-All of these functionalities are powered by \href{https://ace.c9.io/}{ACE}, an open source library for code editor.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\linewidth]{sample_code_editor.png}
-    \caption{ACE code editor}
-    \label{fig:code_editor}
-\end{figure}
+\subsubsection{Problem}
+Consisting of a title, problem statement, level of difficulty, problem setter and test cases, the problem model represents a problem in the application. The model has a one-many relationship with Test Case, a many-one relationship with User and a many-many relationship with Contest. The model also contains problem code, which is a unique code given to the problem, as well as a slug field which is derived from the problem code. A slug field is used to store and generate valid URLs for dynamically created web pages. 
 
+A \textit{pre\_save signal}, a signal (set of instructions) sent before the instance of a model is saved in the database, is used to generate a slug from the problem code.
 
-\vspace{1.4cm}
+\subsubsection{Test Case}
+Consisting of an input file, an output file, test case number and weight, the Test Case Model represents a test case of a problem. The test case number attribute stores the value of the test case and the weight attribute representing the weight that specific test case has in the problem. There is a boolean attribute sample, which checks whether the test case is a sample test case.
 
-\subsection{Submission}
-On submission the language and the code is send to a python script which save the code to a temporary file with proper extension and we run the code on the server using os.system(command) and the program execution is killed if it takes more than the specified time. The output of the stdout and stderr is passed to a file and the content of the file is given to the user. Which contain errors in case of compile-time or run-time errors or output of program in case of successful completion of user program.
-In case of submission against some test cases the content of the file is compared with right output for the problem.
+The input and output files are stored in a folder named with the unique problem code, having names $<$test case number$>$.in and $<$test case number$>$.out, respectively.
+
+\subsubsection{Contest}
+Consisting of a title, description, starting time, ending time, and contest creator, the contest model represents a contest in the application. The model has a many-one relationship with User (creator of the contest), a many-many relationship with Problem and a many-many relationship with User (participants of the contest). The model also contains contest code, which is a unique code given to the problem, as well as a slug field, similar to the one in the Problem Model, which is derived from the problem code. 
+
+\subsubsection{Contest Problem}
+The many-many relationship between the Problem and Contest model is through the model Contest Problem, which represents a problem in the contest. Apart from foreign keys from both the models, it has a weight attribute representing the weight that specific problem has in the Contest.
+
+\subsubsection{Participant}
+The many-many relationship between the User and Contest model is through the model Participant, which represents a participant in a contest. Apart from foreign keys from both the models, it has a score attribute representing the total score of the user in the contest.
+
+\subsubsection{Submission}
+Consisting of a submitter, code, language, problem and status, the submission model represents a user submission. A user submission is sent to the Judge Module to get back the status of the submission. The current languages supported and status options are mentioned in the judge module.
+
+\subsection{Future Plans}
+Outside the contest environment, the application aims to extend its functionality by introducing two new models, Post and Tag, if time permits.
+
+\subsubsection{Post}
+Consisting of a title, description, optional attachment and creator, the post model represents a post. A post might be an article about some algorithm or some latest updates in the world of computer science. Various posts can be seen by a user on their homepage.
+
+\subsubsection{Tag}
+A tag is helpful in filtering out various posts and problems for a user. It has a many-many relationship with Post and Problem. Users can subscribe to specific tags to get updates on their feed.
