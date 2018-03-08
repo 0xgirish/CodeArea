@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+from accounts.views import isworking
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'$', isworking)
 ]
 
 

@@ -5,7 +5,7 @@ from accounts.models import Profile
 
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
-# Create your models here.
+# Create your models here
 
 
 class Contest(models.Model):

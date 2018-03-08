@@ -3,7 +3,7 @@ from django.db import models
 from problems.models import Problem
 from accounts.models import Profile
 from contests.models import ContestsHaveProblems, Participant
-# Create your models here.
+# Create your models here
 
 
 class Language(models.Model):

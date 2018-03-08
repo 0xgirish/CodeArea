@@ -5,7 +5,7 @@ from django.db.models import Max
 from django.dispatch import receiver
 
 from problems.storage import OverwriteStorage
-
+from accounts.models import Profile
 
 
 
@@ -20,6 +20,7 @@ class Problem(models.Model):
 	slug = models.SlugField(unique = True) # Slug Field
 	statement = models.TextField() #Problem statement
 	timestamp = models.DateTimeField(auto_now = False, auto_now_add = True)
+	setter = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL, related_name='setter')
 
 	def __str__(self):
 		return self.problem_code
