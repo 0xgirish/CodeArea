@@ -44,7 +44,28 @@ INSTALLED_APPS = [
     'oauth',
     'contests',
     'submissions',
+
+    #third party
+    'social.apps.django_app.default',
+    'social_django',
+
 ]
+
+# OAUTH
+import json
+with open('google_oauth.key') as keyfile: oauthkey = json.load(keyfile)
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = oauthkey['key']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = oauthkey['secret']
+AUTHENTICATION_BACKENDS = (
+    'social.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/oauth/login/'
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +75,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
+
 ]
 
 ROOT_URLCONF = 'codearea.urls'
@@ -69,6 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <- Here
+                'social_django.context_processors.login_redirect', # <- Here
             ],
         },
     },
