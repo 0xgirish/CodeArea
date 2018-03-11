@@ -13,17 +13,35 @@ import cgi
 print('Content-Type: text/plain;charset=utf-8\r\n')
 print()
 
-#TODO: Code security checks
-
 get = cgi.FieldStorage()   #get variables from url 
 
-language = get['lang'].value  #language of the source code submitted by user
+language = get['language'].value  #language of the source code submitted by user
+code = get['code'].value # program submitted by the user
+
+
+def file_saving(language, code):
+    file_name = '../userCode/CodeArea'
+    if language == 'python3' or language == 'python2':
+        file_name += '.py'
+    elif language == 'cpp14':
+        file_name += '.cpp'
+    elif language == 'C':
+        file_name += '.c'
+    elif language == 'java':
+        file_name += '.java'
+    else:
+        return False
+    
+    with open(file_name, 'w') as userCode:
+        userCode.write(code)
+        return True
+
+
 
 #statrting code processing 
 #NOTE: skipping code security checks
-
-# code processing function
-
+#TODO: Code security checks
+#Adding file saving
 
 def code_processing(language):
     command = ''
@@ -53,17 +71,33 @@ def code_processing(language):
             elif language == 'java':
                 status2 = os.system('timeout 2.0 java -cp ../userCode/ CodeArea >../Output/resultCode 2>&1')
                 os.system('rm -f ../userCode/CodeArea.class')
-            if(status2 == 124):
+            if(status2>>8 == 124):
                 print("TIMEOUT")
-            elif status2 == 125:
+                return
+            elif status2>>8 == 125:
                 print("INTERNAL ERROR")
-            elif status2 == 126:
+                return
+            elif status2>>8 == 126:
                 print("ERROR EXECUTING PROGRAM")
-            elif status2 == 127:
+                return
+            elif status2>>8 == 127:
                 print("ERROR CAN'T EXECUTE PROGRAM")
-
-        with open('../Output/resultCode', 'r') as result:
-            for line in result:
-                print(line)
-
+                return
+        if status>>8 == 124:
+            print("TIMEOUT")
+            return
+        elif status>>8 == 125:
+            print("INTERNAL ERROR")
+            return
+        elif status>>126:
+            print("ERROR IN EXECUTING PROGRAM")
+            return
+        elif status>>8 == 127:
+            print("ERROR: CAN'T EXECUTE PROGRAM")
+            return
+        else:
+            with open('../Output/resultCode', 'r') as result:
+                for line in result:
+                    print(line)
+file_saving(language, code)
 code_processing(language)
