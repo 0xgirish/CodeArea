@@ -7,5 +7,6 @@ class ProblemForm(forms.ModelForm):
 		model = Problem
 		fields = [
 			"title", 
-			"problem_code"
+			"problem_code",
+			"statement",
 		]

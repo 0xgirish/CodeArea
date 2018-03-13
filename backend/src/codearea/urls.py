@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^oauth/', include('oauth.urls')),
     url(r'^problems/', include('problems.urls')),
+    url(r'^contests/', include('contests.urls')),
     url('',include('social.apps.django_app.urls', namespace='social')),
     url(r'$', isworking)
 ]
