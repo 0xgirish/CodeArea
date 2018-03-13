@@ -18,9 +18,18 @@ get = cgi.FieldStorage()   #get variables from url
 language = get['language'].value  #language of the source code submitted by user
 code = get['code'].value # program submitted by the user
 
+#TODO: Code security checks
 
-def file_saving(language, code):
-    file_name = '../userCode/CodeArea'
+
+def is_program_scure(language, code):
+    #security check of the user program
+    if language == 'python2' or langauge == 'python3':
+        pass
+        
+
+
+def file_saving(language, code):        # function to save user program
+    file_name = '../userCode/CodeArea'  # change path according to user-id of the user e.g. ../users/$user-id$/CodeArea
     if language == 'python3' or language == 'python2':
         file_name += '.py'
     elif language == 'cpp14':
@@ -37,13 +46,7 @@ def file_saving(language, code):
         return True
 
 
-
-#statrting code processing 
-#NOTE: skipping code security checks
-#TODO: Code security checks
-#Adding file saving
-
-def code_processing(language):
+def code_processing(language):      # function to run user program
     command = ''
     compil = False
     if language == 'java':
@@ -99,5 +102,7 @@ def code_processing(language):
             with open('../Output/resultCode', 'r') as result:
                 for line in result:
                     print(line)
-file_saving(language, code)
-code_processing(language)
+if file_saving(language, code):
+    code_processing(language)
+else:
+    print("Sorry, Unable to recognize language or langauge is not supported")

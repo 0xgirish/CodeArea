@@ -60,8 +60,7 @@
 			<select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
 				<option value="C">C</option>
 				<option value="cpp14">C++14</option>
-				<option value="java">Java</option>
-				<option value="php">PhP 7</option>
+				<option value="java">Java 8</option>
 				<option value="python3">Python 3.6</option>
 				<option value="python2">Python 2.7</option>
 			</select>
@@ -133,8 +132,6 @@
 		if(language == "java"){
 			editor.setValue("//This is your CodeArea\n\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}")
 			return;
-		}else if(language == "php"){
-			editor.setValue("<?php\n\n//This is your CodeArea\n\n\n\n?>");
 		}
 	}
 
