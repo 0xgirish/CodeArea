@@ -24,6 +24,7 @@ from accounts.views import isworking
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^oauth/', include('oauth.urls')),
+    url(r'^problems/', include('problems.urls')),
     url('',include('social.apps.django_app.urls', namespace='social')),
     url(r'$', isworking)
 ]
