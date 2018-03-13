@@ -73,5 +73,5 @@ class ContestSubmission(models.Model):
 	def clean(self):
 		exist = Participant.objects.filter(contest = self.problem.contest).exists()
 		if not exist:
-			raise ValidationError(_('User is not a Participant in the Contest'))
+			raise ValidationError(_('User is not a Participant in the Contest'), code='user_not_participant')
 

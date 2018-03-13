@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from problems.storage import OverwriteStorage
 from accounts.models import Profile
 
+from django.core.urlresolvers import reverse
 
 
 
@@ -24,6 +25,9 @@ class Problem(models.Model):
 
 	def __str__(self):
 		return self.problem_code
+
+	def get_absolute_url(self):
+		return reverse("problem", kwargs={"slug": self.slug})
 
 	class Meta:
 		ordering = ["-timestamp"]
