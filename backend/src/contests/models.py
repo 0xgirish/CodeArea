@@ -6,6 +6,8 @@ from accounts.models import Profile
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 # Create your models here
+from django.core.urlresolvers import reverse
+
 
 
 class Contest(models.Model):
@@ -26,6 +28,10 @@ class Contest(models.Model):
 	def __str__(self):
 		return self.contest_code;
 
+	def get_absolute_url(self):
+		return reverse("contest_problem_list", kwargs={"slug": self.slug})
+
+
 	class Meta:
 		ordering = ["-creation_date"]
 
@@ -40,6 +46,10 @@ class ContestsHaveProblems(models.Model):
 
 	def __str__(self):
 		return "%s-%s" %(self.contest.contest_code, self.problem.problem_code)
+
+	def get_absolute_url(self):
+		return reverse("contest_problem", kwargs={"slug1": self.contest.slug, "slug2": self.problem.slug})
+
 
 	class Meta:
 		verbose_name = 'Contest Problem'
