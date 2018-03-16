@@ -1,1 +1,133 @@
-hello
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <!-- Resource style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <title> Home </title>
+</head>
+
+<body>
+    <header class="cd-main-header">
+		<a href="#0" class="cd-logo"><img src= {% static "img/cd-logo.svg" %} alt="Logo"></a>
+		
+		<div class="cd-search is-hidden">
+			<form action="#0">
+				<input type="search" placeholder="Search...">
+			</form>
+		</div> <!-- cd-search -->
+
+		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+
+		<nav class="cd-nav">
+			<ul class="cd-top-nav">
+				<li><a href="#0">Tour</a></li>
+				<li><a href="#0">Support</a></li>
+				<li class="has-children account">
+					<a href="#0">
+						<img src= {% static "img/cd-avatar.png" %}  alt="avatar">
+						Account
+					</a>
+
+					<ul>
+
+						<li><a href="#0">My Account</a></li>
+						<li><a href="#0">Edit Account</a></li>
+						<li><a href="#0">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</header> <!-- .cd-main-header -->
+
+	<main class="cd-main-content">
+		<nav class="cd-side-nav">
+			<ul>
+				<li class="cd-label">Main</li>
+				<li class="has-children overview">
+					<a href="#0">Overview</a>
+					
+					<ul>
+						<li><a href="#0">All Data</a></li>
+						<li><a href="#0">Category 1</a></li>
+						<li><a href="#0">Category 2</a></li>
+					</ul>
+				</li>
+				<li class="has-children notifications active">
+					<a href="#0">Notifications<span class="count">3</span></a>
+					
+					<ul>
+						<li><a href="#0">All Notifications</a></li>
+						<li><a href="#0">Friends</a></li>
+						<li><a href="#0">Other</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children comments">
+					<a href="#0">Comments</a>
+					
+					<ul>
+						<li><a href="#0">All Comments</a></li>
+						<li><a href="#0">Edit Comment</a></li>
+						<li><a href="#0">Delete Comment</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="cd-label">Secondary</li>
+				<li class="has-children bookmarks">
+					<a href="#0">Bookmarks</a>
+					
+					<ul>
+						<li><a href="#0">All Bookmarks</a></li>
+						<li><a href="#0">Edit Bookmark</a></li>
+						<li><a href="#0">Import Bookmark</a></li>
+					</ul>
+				</li>
+				<li class="has-children images">
+					<a href="#0">Images</a>
+					
+					<ul>
+						<li><a href="#0">All Images</a></li>
+						<li><a href="#0">Edit Image</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children users">
+					<a href="#0">Users</a>
+					
+					<ul>
+						<li><a href="#0">All Users</a></li>
+						<li><a href="#0">Edit User</a></li>
+						<li><a href="#0">Add User</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			
+		</nav>
+
+		<div class="content-wrapper">
+			<h1>Responsive Sidebar Navigation</h1>
+			
+
+		</div> <!-- .content-wrapper -->
+	</main> <!-- .cd-main-content -->
+    <!-- .cd-main-content -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src={% static "js/jquery.menu-aim.js" %}></script>
+	<script src={% static "js/main.js" %}></script>
+
+
+</body>
+
+</html>

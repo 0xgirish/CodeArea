@@ -17,7 +17,6 @@ def create(request):
 
 def problem(request, slug1, slug2):
 	cproblem = get_object_or_404(ContestsHaveProblems, problem__slug = slug2, contest__slug = slug1)
-	print(contest)
 	context = {
 		'title': cproblem.problem.title,
 		'statement': cproblem.problem.statement,
