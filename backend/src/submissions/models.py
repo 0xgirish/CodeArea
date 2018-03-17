@@ -70,8 +70,4 @@ class ContestSubmission(models.Model):
 	status = models.CharField(max_length=3, choices= STATUS_CHOICES, default = RUNNING)
 	timestamp = models.DateTimeField(auto_now_add = True, auto_now = False)
 
-	def clean(self):
-		exist = Participant.objects.filter(contest = self.problem.contest).exists()
-		if not exist:
-			raise ValidationError(_('User is not a Participant in the Contest'), code='user_not_participant')
-
+	

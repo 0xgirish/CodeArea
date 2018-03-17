@@ -10,7 +10,7 @@ class SubmissionForm(forms.ModelForm):
 			"language",
 		]
 
-class SubmissionForm(forms.ModelForm):
+class ContestSubmissionForm(forms.ModelForm):
 	class Meta:
 		model = ContestSubmission
 		fields = [
