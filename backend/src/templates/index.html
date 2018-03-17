@@ -29,24 +29,29 @@
 			<ul class="cd-top-nav">
 				<li><a href="#0">Tour</a></li>
 				<li><a href="#0">Support</a></li>
+    			{% if user.is_authenticated %}
 				<li class="has-children account">
 					<a href="#0">
 						<img src= {% static "img/cd-avatar.png" %}  alt="avatar">
-						Account
+						{{user.username}}
 					</a>
 
 					<ul>
-
 						<li><a href="#0">My Account</a></li>
 						<li><a href="#0">Edit Account</a></li>
-						<li><a href="#0">Logout</a></li>
+						<li><a href="/accounts/logout/">Logout</a></li>
 					</ul>
 				</li>
+				{% else %}
+				<li><a href="/accounts/login/">Login</a></li>
+					{% endif %}
 			</ul>
 		</nav>
 	</header> <!-- .cd-main-header -->
 
 	<main class="cd-main-content">
+		{% if user.is_authenticated %}
+
 		<nav class="cd-side-nav">
 			<ul>
 				<li class="cd-label">Main</li>
@@ -113,6 +118,7 @@
 
 			
 		</nav>
+		{% endif %}
 
 		<div class="content-wrapper">
 			<h1>Responsive Sidebar Navigation</h1>

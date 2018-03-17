@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -45,26 +46,28 @@ INSTALLED_APPS = [
     'contests',
     'submissions',
 
-    #third party
-    'social.apps.django_app.default',
-    'social_django',
-
+    # #third party
+    # 'social.apps.django_app.default',
+    # 'social_django',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
-
-# OAUTH
-import json
-with open('google_oauth.key') as keyfile: oauthkey = json.load(keyfile)
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = oauthkey['key']
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = oauthkey['secret']
-AUTHENTICATION_BACKENDS = (
-    'social.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/oauth/login/'
-
-
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/"
+# # OAUTH
+# import json
+# with open('google_oauth.key') as keyfile: oauthkey = json.load(keyfile)
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = oauthkey['key']
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = oauthkey['secret']
+# AUTHENTICATION_BACKENDS = (
+#     'social.backends.google.GoogleOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
+# SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/oauth/login/'
 
 
 MIDDLEWARE = [
@@ -76,7 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
 
 ]
 
@@ -93,12 +96,22 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',  # <- Here
-                'social_django.context_processors.login_redirect', # <- Here
+                # 'social_django.context_processors.backends',  # <- Here
+                # 'social_django.context_processors.login_redirect', # <- Here
             ],
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 
 WSGI_APPLICATION = 'codearea.wsgi.application'
 
