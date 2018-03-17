@@ -39,7 +39,7 @@
 					<ul>
 						<li><a href="#0">My Account</a></li>
 						<li><a href="#0">Edit Account</a></li>
-						<li><a href="/accounts/logout/">Logout</a></li>
+						<li><a href={% url 'account_logout' %}>Logout</a></li>
 					</ul>
 				</li>
 				{% else %}
@@ -121,7 +121,7 @@
 		{% endif %}
 
 		<div class="content-wrapper">
-			<h1>Responsive Sidebar Navigation</h1>
+            {% block content %} {%endblock%}
 			
 
 		</div> <!-- .content-wrapper -->
