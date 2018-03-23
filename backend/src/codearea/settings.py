@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'oauth',
     'contests',
     'submissions',
+    'posts',
+    'tags',
 
     # #third party
     # 'social.apps.django_app.default',

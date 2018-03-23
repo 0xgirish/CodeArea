@@ -1,14 +1,37 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
-<link rel="stylesheet" href={% static "css/feed.css" %}> 
-
+<link rel="stylesheet" href={% static "css/feed.css" %}>
 <h1 class="feed-title"> Contests </h1>
 <hr>
-
-{% for obj in contest_list %}
-<div class="card feed-item">
-    <div class="card-body">
-    	<h3 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h3>
-        <p class="card-text"> {{obj.description | truncatewords:10}} </p>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {% for obj in contest_list %}
+            <div class="card feed-item">
+                <div class="card-body">
+                    <h3 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="card-text"> {{obj.description | truncatewords:10}} </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card-text text-right"> {{obj.creator.user.username}} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <div class="card feed-item">
+                <div class="card-body">
+                    <h2 class="card-title text-center"> Ongoing Contests </h2> {% for obj in contest_list %}
+                    <div class="card-text"> {{obj.title}} </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-{% endfor %} {% endblock %}
+{% endblock %}

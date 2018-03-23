@@ -15,7 +15,7 @@ body {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
   color: #3e454c;
-  background-color: #fefdfd;
+  background-color: #f4f4f4;
 }
 body::after {
   clear: both;
