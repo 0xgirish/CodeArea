@@ -15,7 +15,7 @@ body {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
   color: #3e454c;
-  background-color: #ffffff;
+  background-color: #fefdfd;
 }
 body::after {
   clear: both;
@@ -57,11 +57,7 @@ Main Page Content
 .cd-main-content .content-wrapper {
   padding: 45px 5% 3em;
 }
-.cd-main-content .content-wrapper h1 {
-  text-align: center;
-  padding: 3em 0;
-  font-size: 2rem;
-}
+
 .cd-main-content::before {
   /* never visible - used to check MQ in jQuery */
   display: none;
@@ -72,11 +68,7 @@ Main Page Content
     margin-left: 110px;
     padding-top: 55px;
   }
-  .cd-main-content .content-wrapper h1 {
-    padding: 4em 0;
-    font-size: 3.2rem;
-    font-weight: 300;
-  }
+  
   .cd-main-content::before {
     content: 'tablet';
   }

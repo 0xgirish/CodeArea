@@ -38,4 +38,4 @@ def contest_list(request):
 	context = {
 		'contest_list' : queryset
 	}
-	return render(request, "contest_list.html", context)
+	return render(request, "contests/contests.html", context)

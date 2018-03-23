@@ -1,0 +1,14 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}> 
+
+<h1 class="feed-title"> Contests </h1>
+<hr>
+
+{% for obj in contest_list %}
+<div class="card feed-item">
+    <div class="card-body">
+    	<h3 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h3>
+        <p class="card-text"> {{obj.description | truncatewords:10}} </p>
+    </div>
+</div>
+{% endfor %} {% endblock %}
