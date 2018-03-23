@@ -56,7 +56,6 @@
 
 	<main class="cd-main-content">
 		{% if user.is_authenticated %}
-
 		<nav class="cd-side-nav">
 			<ul>
 				<li class="cd-label">Main</li>
@@ -120,9 +119,14 @@
 					</ul>
 				</li>
 			</ul>
-
-			
 		</nav>
+		{% else %}
+		<style type="text/css">
+			.cd-main-content .content-wrapper{
+				margin-left: 0;
+			}
+		</style>
+
 		{% endif %}
 
 		<div class="content-wrapper">

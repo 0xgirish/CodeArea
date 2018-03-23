@@ -55,7 +55,7 @@ Main Page Content
 
 -------------------------------- */
 .cd-main-content .content-wrapper {
-  padding: 45px 5% 3em;
+  padding-top: 10px;
 }
 
 .cd-main-content::before {
@@ -743,3 +743,4 @@ Sidebar
   bottom: auto;
   background: url();
 }
+

@@ -1,9 +1,19 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 <link rel="stylesheet" href={% static "css/feed.css" %}>
-<h1 class="feed-title"> Contests </h1>
-<hr>
+
+
 <div class="container">
     <div class="row">
+        <div class="col-6 text-left">
+            <div class="feed-heading">
+            Contest List
+        </div>
+        </div>
+        <div class="col-6 text-right">
+            <div class="feed-heading">
+            Filter By
+        </div>
+        </div>
         <div class="col-8">
             {% for obj in contest_list %}
             <div class="card feed-item">
@@ -22,16 +32,37 @@
                 </div>
             </div>
             {% endfor %}
+
         </div>
         <div class="col-4">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h2 class="card-title text-center"> Ongoing Contests </h2> {% for obj in contest_list %}
-                    <div class="card-text"> {{obj.title}} </div>
-                    {% endfor %}
+                    <h2 class="card-title text-center"> Ongoing Contests </h2>
+                    <hr>
+                    <!--Table-->
+                    <table class="table table-hover text-center ongoing table-sm">
+                        <!--Table head-->
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Ends at</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in contest_list %}
+                            <tr>
+                                <td>{{obj.title}}</td>
+                                <td>{{obj.end_contest|date:"g:i a"}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <!--Table body-->
+                    </table>
+                    <!--Table-->
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
