@@ -653,6 +653,7 @@ Sidebar
   transform: translateY(-50%);
   background: url(../img/cd-arrow.svg);
 }
+
 .has-children.selected > ul {
   display: block;
 }
@@ -737,4 +738,16 @@ Sidebar
     opacity: 1;
     visibility: visible;
   }
+}
+
+.login > a::after {
+  /* arrow icon */
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  right: 5%;
+  top: 50%;
+  bottom: auto;
+  background: url();
 }

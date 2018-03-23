@@ -27,8 +27,8 @@
 
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
-				<li><a href="#0">Tour</a></li>
-				<li><a href="#0">Support</a></li>
+				<li><a href="#0">Contests</a></li>
+				<li><a href="#0">Problems</a></li>
     			{% if user.is_authenticated %}
 				<li class="has-children account">
 					<a href="#0">
@@ -43,7 +43,7 @@
 					</ul>
 				</li>
 				{% else %}
-				<li><a href="/accounts/login/">Login</a></li>
+				<li class="has-children login"><a href="/accounts/login/">Login</a></li>
 					{% endif %}
 			</ul>
 		</nav>
