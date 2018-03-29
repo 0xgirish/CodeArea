@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'rest_framework',
     'pagedown',
 ]
 
@@ -84,6 +85,15 @@ EMAIL_PORT = 25
 # SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/oauth/login/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 
 MIDDLEWARE = [

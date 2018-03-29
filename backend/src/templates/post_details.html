@@ -1,0 +1,41 @@
+{% load staticfiles %} 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    	function updateLike(btn, newCount, verb){
+    		if(verb){
+    			btn.text(newCount + " " + "Unlike");
+    		}
+    		else{
+    			btn.text(newCount + " " + "Like");
+    		}
+    	}
+		$(".like-btn").click(function(e){
+			e.preventDefault();
+			var this_ = $(this);
+			var likeUrl = this_.attr("data-href");
+			console.log(likeUrl)
+			$.ajax({
+				url: likeUrl,
+				method: "GET",
+				data: {},
+				success: function(data){
+					console.log(data)
+					updateLike(this_, data.count, data.liked)
+
+				}, error: function(error){
+					console.log(error)
+				}
+
+			});
+		});
+	});
+	
+
+</script>
+{{obj.title}}
+<br>
+{{obj.content}}
+<br>
+<a class="like-btn" data-href="{{obj.get_likes_api_url}}" href="{{obj.get_likes_url}}">{{obj.likes.count}} {% if user.profile in obj.likes.all %} Unlike {% else %} Like {% endif %} </a> 
