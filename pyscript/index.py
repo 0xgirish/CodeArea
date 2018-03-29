@@ -106,5 +106,3 @@ if file_saving(language, code):
     code_processing(language)
 else:
     print("Sorry, Unable to recognize language or langauge is not supported")
-    # this is to check conflict
-    print("")
