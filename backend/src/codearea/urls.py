@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^contests/', include('contests.urls')),
     url(r'^submissions/', include('submissions.urls')),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^posts/', include('posts.urls')),
+    url(r'^api/', include('rest_framework.urls')),
     url(r'$', isworking),
 
 ]
