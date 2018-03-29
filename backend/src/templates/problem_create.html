@@ -1,0 +1,9 @@
+{% block head_extra %}
+{{ form.media }}
+{% endblock head_extra %}
+
+<form method = 'POST'>
+    {% csrf_token %}
+	{{form.as_p}}
+<input type="submit" name="" value="Submit">
+</form>

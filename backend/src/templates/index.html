@@ -1,0 +1,158 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+  
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+
+
+
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <title> Home </title>
+</head>
+
+<body>
+    <header class="cd-main-header">
+		<a href="#0" class="cd-logo"><img src= {% static "img/cd-logo.svg" %} alt="Logo"></a>
+		
+		<div class="cd-search is-hidden">
+			<form action="#0">
+				<input type="search" placeholder="Search...">
+			</form>
+		</div> <!-- cd-search -->
+
+		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+
+		<nav class="cd-nav">
+			<ul class="cd-top-nav">
+				<li><a href="/contests/">Contests</a></li>
+				<li><a href="#0">Problems</a></li>
+    			{% if user.is_authenticated %}
+				<li class="has-children account">
+					<a href="#0">
+						<img src= {% static "img/cd-avatar.png" %}  alt="avatar">
+						{{user.username}}
+					</a>
+
+					<ul>
+						<li><a href="#0">My Account</a></li>
+						<li><a href="#0">Edit Account</a></li>
+						<li><a href={% url 'account_logout' %}>Logout</a></li>
+					</ul>
+				</li>
+				{% else %}
+				<li class="has-children login"><a href="/accounts/login/">Login</a></li>
+					{% endif %}
+			</ul>
+		</nav>
+	</header> <!-- .cd-main-header -->
+
+	<main class="cd-main-content">
+		{% if user.is_authenticated %}
+		<nav class="cd-side-nav">
+			<ul>
+				<li class="cd-label">Main</li>
+				<li class="has-children overview">
+					<a href="#0">Overview</a>
+					
+					<ul>
+						<li><a href="#0">All Data</a></li>
+						<li><a href="#0">Category 1</a></li>
+						<li><a href="#0">Category 2</a></li>
+					</ul>
+				</li>
+				<li class="has-children notifications active">
+					<a href="#0">Notifications<span class="count">3</span></a>
+					
+					<ul>
+						<li><a href="#0">All Notifications</a></li>
+						<li><a href="#0">Friends</a></li>
+						<li><a href="#0">Other</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children comments">
+					<a href="#0">Comments</a>
+					
+					<ul>
+						<li><a href="#0">All Comments</a></li>
+						<li><a href="#0">Edit Comment</a></li>
+						<li><a href="#0">Delete Comment</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="cd-label">Secondary</li>
+				<li class="has-children bookmarks">
+					<a href="#0">Bookmarks</a>
+					
+					<ul>
+						<li><a href="#0">All Bookmarks</a></li>
+						<li><a href="#0">Edit Bookmark</a></li>
+						<li><a href="#0">Import Bookmark</a></li>
+					</ul>
+				</li>
+				<li class="has-children images">
+					<a href="#0">Images</a>
+					
+					<ul>
+						<li><a href="#0">All Images</a></li>
+						<li><a href="#0">Edit Image</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children users">
+					<a href="#0">Users</a>
+					
+					<ul>
+						<li><a href="#0">All Users</a></li>
+						<li><a href="#0">Edit User</a></li>
+						<li><a href="#0">Add User</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		{% else %}
+		<style type="text/css">
+			.cd-main-content .content-wrapper{
+				margin-left: 0;
+			}
+		</style>
+
+		{% endif %}
+
+		<div class="content-wrapper">
+            {% block content %} {%endblock%}
+			
+
+		</div> <!-- .content-wrapper -->
+	</main> <!-- .cd-main-content -->
+    <!-- .cd-main-content -->
+ 
+    <!-- Latest compiled and minified JavaScript -->
+    
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+            
+
+    <script src={% static "js/jquery.menu-aim.js" %}></script>
+	<script src={% static "js/main.js" %}></script>
+
+
+</body>
+
+</html>
