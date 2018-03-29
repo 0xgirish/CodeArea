@@ -46,7 +46,7 @@ def file_saving(language, code):        # function to save user program
         return True
 
 
-def code_processing(language):      # function to run user program
+def code_processing(language, input_file):      # function to run user program
     command = ''
     compil = False
     if language == 'java':
@@ -59,9 +59,9 @@ def code_processing(language):      # function to run user program
         command = 'gcc ../userCode/CodeArea.c -o ../userCode/CodeArea.out > ../Output/resultCode 2>&1'
         compil = True
     elif language == 'python3':
-        command = 'timeout 2.0 python3 ../userCode/CodeArea.py >../Output/resultCode 2>&1'
+        command = 'timeout 2.0 python3 ../userCode/CodeArea.py <../{} >../Output/resultCode 2>&1'.format(input_file)
     elif language == 'python2':
-        command = 'timeout 2.0 python2 ../userCode/CodeArea.py >../Output/resultCode 2>&1'
+        command = 'timeout 2.0 python2 ../userCode/CodeArea.py <../{} >../Output/resultCode 2>&1'.format(input_file)
     else:
         command = False
 
@@ -69,10 +69,10 @@ def code_processing(language):      # function to run user program
         status = os.system(command)
         if compil and status == 0:
             if language == 'C' or language == 'cpp14':
-                status2 = os.system('timeout 2.0 ../userCode/CodeArea.out >../Output/resultCode 2>&1')
+                status2 = os.system('timeout 2.0 ../userCode/CodeArea.out <../{} >../Output/resultCode 2>&1'.format(input_file))
                 os.system('rm -f ../userCode/CodeArea.out')
             elif language == 'java':
-                status2 = os.system('timeout 2.0 java -cp ../userCode/ CodeArea >../Output/resultCode 2>&1')
+                status2 = os.system('timeout 2.0 java -cp ../userCode/ CodeArea <../{} >../Output/resultCode 2>&1'.format(input_file))
                 os.system('rm -f ../userCode/CodeArea.class')
             if(status2>>8 == 124):
                 print("TIMEOUT")
