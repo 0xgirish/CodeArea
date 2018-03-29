@@ -1,4 +1,6 @@
-
+{% block head_extra %}
+{{ form.media }}
+{% endblock head_extra %}
 
 <form method = 'POST'>
     {% csrf_token %}
