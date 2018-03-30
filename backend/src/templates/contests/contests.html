@@ -1,6 +1,6 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 <link rel="stylesheet" href={% static "css/feed.css" %}>
-
+<script src={% static "js/contest_signup.js" %}></script>
 
 <div class="container">
     <div class="row">
@@ -26,6 +26,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="card-text text-right"> {{obj.creator.user.username}} </div>
+                                <div class="signup-btn"></div>
                             </div>
                         </div>
                     </div>
