@@ -1,67 +1,56 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
+<div class="page-header header-filter" data-parallax="true" style="background-color: #212121;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ml-auto mr-auto text-center">
+                <h1 class="title">{{contest.title}}</h1>
+                <h4>{{contest.description}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container feed-container">
     <div class="row">
-        <div class="col-12">
-            <div class="card contest-main">
-                <div class="section text-center">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <h2 class="title">{{contest.title}}</h2>
-                        <h5 class="description">{{contest.description}}</h5>
+        <div class="col-md-7 col-sm-12">
+            <div class="card">
+                <div class="container">
+                    <div class="section">
+                        <div class="row">
+                            <div class="col-md-8 ml-auto mr-auto text-center">
+                                <h2 class="title">Problems</h2>
+                            </div>
+                        </div>
+                        {% for obj in problem_list %}
+                        <div class="col-12">
+                            <h3> <strong>
+                                <a href="{{obj.get_absolute_url}}">
+                            {{obj.problem.title}}</a></strong>
+                        </h3>
+                        {{obj.problem.statement | truncatewords:40}}
+                        </div>
+                        <hr>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-12 col-md-12 col-lg-8">
-            {% for obj in problem_list %}
-            <div class="card feed-item">
-                <div class="card-body">
-                    <div class="container">
+        <div class="col-md-5 col-sm-12">
+            <div class="card">
+                <div class="container">
+                    <div class="section text-center">
                         <div class="row">
-                            <div class="col-8 feed-title">
-                                <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.problem.title}} </a> </h4>
+                            <div class="col-md-8 ml-auto mr-auto">
+                                <h2 class="title">Leaderboard</h2>
                             </div>
-                            <div class="col-4 text-right contest-sign">
-                               {# Done or not #}
+                        </div>
+                        <div class="features">
+                            <div class="row">
                             </div>
-                            <div class="col-12">
-                                <div class="card-text"> {{obj.problem.statement | truncatewords:30}} </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="card feed-item">
-                <div class="card-body">
-                    <h3 class="card-title text-center"> Leaderboard </h3>
-                    <!--Table-->
-                    <table class="table table-hover text-center ongoing table-sm">
-                        <!--Table head-->
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Ends at</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for obj in contest_list %}
-                            <tr>
-                                <td>{{obj.title}}</td>
-                                <td>{{obj.start_contest|timeuntil:obj.end_contest}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        <!--Table body-->
-                    </table>
-                    <!--Table-->
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 {% endblock %}
