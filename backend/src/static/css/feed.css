@@ -20,6 +20,11 @@
 	border-color: #ef5350 ;
 }
 
+.btn-unlike{
+	background-color: transparent; ;
+	border-color: #eeeeee ;
+}
+
 .contest-sign{
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -31,4 +36,8 @@
 
 .i-sm{
 	font-size: 18px;
+}
+
+.count{
+	display: inline-block;
 }

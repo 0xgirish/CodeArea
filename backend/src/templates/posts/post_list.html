@@ -1,0 +1,49 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}>
+<div class="container">
+    <div class="row">
+        <!--  <div class="col-sm-6 text-left">
+            <div class="feed-heading">
+            Contest List
+        </div>
+        </div>
+        <div class="col-6 text-right">
+            <div class="feed-heading">
+            Filter By
+        </div>
+        </div> -->
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            {% for obj in post_list %}
+            <div class="card feed-item">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-8 feed-title">
+                                <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h4>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                            <div class="col-12">
+                                <div class="card-text"> {{obj.content | truncatewords:50}} </div>
+                            </div>
+                            <small class="col-8">
+                                <div class="card-text part-count"> author: {{obj.author.user.username}} </div>
+                            </small>
+                            <div class="col-4 feed-time text-right">
+                                <button class="btn btn-fab btn-fab-mini btn-round btn-link like-btn {% if user.profile in obj.likes.all %} btn-rose {% else %} btn-unlike {% endif %} " data-href="{{obj.get_likes_api_url}}">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                                <div class="count">
+                                {{obj.likes.count}}
+                            </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
