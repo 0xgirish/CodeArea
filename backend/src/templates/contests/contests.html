@@ -1,6 +1,5 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 <link rel="stylesheet" href={% static "css/feed.css" %}>
-<script src={% static "js/contest_signup.js" %}></script>
 
 <div class="container">
     <div class="row">
@@ -26,7 +25,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="card-text text-right"> {{obj.creator.user.username}} </div>
-                                <div class="signup-btn"></div>
+                                <a class="signup-btn" data-href="{{obj.get_signup_url}}" href="#">{% if user.profile in obj.participants.all %} Signed Up {% else %} Sign Up {% endif %} </a>  
                             </div>
                         </div>
                     </div>
