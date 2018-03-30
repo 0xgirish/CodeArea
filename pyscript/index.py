@@ -17,6 +17,11 @@ get = cgi.FieldStorage()   #get variables from url
 
 language = get['language'].value  #language of the source code submitted by user
 code = get['code'].value # program submitted by the user
+problem_code = get['pcode'].value # pcode from url
+contest_code = get['ccode'].value # contest code from url
+input_file = "../backend/"+str(contest_code)+"/"+str(problem_code)+".in"    # path to problem test cases
+output_file = "../backend/"+str(contest_code)+"/"+str(problem_code)+".out"  # path to problem test cases output
+
 
 #TODO: Code security checks
 
@@ -26,6 +31,9 @@ def is_program_scure(language, code):
     if language == 'python2' or langauge == 'python3':
         pass
         
+
+def check_against_testcases(language, output_file):
+    pass
 
 
 def file_saving(language, code):        # function to save user program
@@ -103,6 +111,6 @@ def code_processing(language, input_file):      # function to run user program
                 for line in result:
                     print(line)
 if file_saving(language, code):
-    code_processing(language)
+    code_processing(language, input_file)
 else:
     print("Sorry, Unable to recognize language or langauge is not supported")
