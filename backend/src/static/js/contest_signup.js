@@ -2,6 +2,8 @@ $(document).ready(function(){
     	function updateStatus(btn, verb){
     		if(verb){
     			btn.text("Signed Up");
+    			btn.addClass("disabled btn-success");
+    			btn.removeClass("btn-col");
     		}
     	}
 		$(".signup-btn").click(function(e){
