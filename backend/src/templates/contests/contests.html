@@ -33,6 +33,25 @@
             </div>
             {% endfor %}
 
+              {% for obj in contest_list %}
+            <div class="card feed-item">
+                <div class="card-body">
+                    <h3 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="card-text"> {{obj.description | truncatewords:10}} </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card-text text-right"> {{obj.creator.user.username}} </div>
+                                <a class="signup-btn" data-href="{{obj.get_signup_url}}" href="#">{% if user.profile in obj.participants.all %} Signed Up {% else %} Sign Up {% endif %} </a>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
         </div>
         <div class="col-4">
             <div class="card feed-item">
