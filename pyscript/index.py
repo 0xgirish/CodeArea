@@ -24,7 +24,6 @@ output_file = "../backend/"+str(contest_code)+"/"+str(problem_code)+".out"  # pa
 
 
 #TODO: Code security checks
-#TODO: cheeck against test case output
 
 
 def is_program_scure(language, code):
@@ -33,8 +32,27 @@ def is_program_scure(language, code):
         pass
         
 
-def check_against_testcases(language, output_file):
-    pass
+def check_against_testcases(output_file):
+    output_real = []
+    with open(output_file, 'r') as out:
+        for line in out:
+            output_real.append(line)
+    
+    user_out = []
+    with open('../Output/resultCode','r') as user:
+        for line in user:
+            user_out.append(line)
+
+    if len(output_real) is len(user_out):
+        for (real, user) in zip(output_real, user_out):
+            if real != user:
+                return False
+        else:
+            return True
+    else:
+        return False
+
+
 
 
 def file_saving(language, code):        # function to save user program
