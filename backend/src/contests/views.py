@@ -28,10 +28,11 @@ def problem_list(request, slug):
 	contest = get_object_or_404(Contest, slug = slug)
 	queryset = ContestsHaveProblems.objects.filter(contest = contest) 
 	context = {
+		'contest': contest,
 		'problem_list' : queryset
 	}
 
-	return render(request, "contest_problem_list.html", context)
+	return render(request, "contests/contest_details.html", context)
 
 def contest_list(request):
 	queryset = Contest.objects.all()

@@ -1,7 +1,5 @@
-.feed-item{
-	padding: 0;
-	margin: 10px;
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05), 0 1px 1px 0 rgba(0,0,0,.05);
+.feed-container{
+	margin-top: 20px;
 }
 
 .feed-author{
