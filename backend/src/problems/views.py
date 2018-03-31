@@ -32,5 +32,5 @@ def problem_list(request):
 		'problem_list' : queryset
 	}
 
-	return render(request, "problem_list.html", context)
+	return render(request, "problems/problem_list.html", context)
 

@@ -1,0 +1,71 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}>
+<link rel="stylesheet" href={% static "filter/css/style.css" %}>
+<!-- Resource style -->
+<script src={% static "filter/js/modernizr.js" %}></script>
+<!-- Modernizr -->
+<div class="container">
+    <div class="row">
+        <!--  <div class="col-sm-6 text-left">
+            <div class="feed-heading">
+            Contest List
+        </div>
+        </div>
+        <div class="col-6 text-right">
+            <div class="feed-heading">
+            Filter By
+        </div>
+        </div> -->
+        <div id="cd-nav" class="is-fixed">
+            <a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+            <div id="cd-main-nav">
+                <form>
+                    <ul>
+                        <li>
+                            <div class="form-group">
+                                <label for="search">Search</label>
+                                <input type="text" class="form-control" id="search" placeholder="Enter a tag">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <label for="Difficulty">Select Difficulty</label>
+                                <select class="form-control" id="Difficulty">
+                                    <option>Easy</option>
+                                    <option>Medium</option>
+                                    <option>Hard</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            {% for obj in problem_list %}
+            <div class="card feed-item">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 feed-title">
+                                <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h4>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-text"> {{obj.statement | truncatewords:30}} </div>
+                            </div>
+                            <small class="col-8">
+                                <div class="card-text part-count"> creator: {{obj.creator.user.username}} </div>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src={% static "filter/js/main.js" %}></script>
+    <!-- Resource jQuery -->
+    {% endblock %}
