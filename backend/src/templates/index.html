@@ -47,8 +47,8 @@
                     {% if user.is_authenticated %}
                     <li class="dropdown nav-item">
                         <a href="#" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
-                            <div class="profile-photo-small">
-                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="rounded-circle img-fluid">
+                            <div class="profile-photo-small text-center" style="padding-top:5px;">
+                                <i class="material-icons">face</i>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
