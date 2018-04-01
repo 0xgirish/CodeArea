@@ -31,7 +31,7 @@ def post_list(request):
 		'post_list' : queryset
 	}
 
-	return render(request, "post_list.html", context)
+	return render(request, "posts/post_list.html", context)
 
 
 class PostLikeToggleView(RedirectView):

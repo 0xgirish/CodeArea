@@ -31,6 +31,9 @@ class Contest(models.Model):
 	def get_absolute_url(self):
 		return reverse("contest_problem_list", kwargs={"slug": self.slug})
 
+	def get_signup_url(self):
+		return reverse("contest_signup_api", kwargs={"slug": self.slug})
+
 
 	class Meta:
 		ordering = ["-creation_date"]

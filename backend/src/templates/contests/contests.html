@@ -1,10 +1,8 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 <link rel="stylesheet" href={% static "css/feed.css" %}>
-<script src={% static "js/contest_signup.js" %}></script>
-
-<div class="container">
+<div class="container feed-container">
     <div class="row">
-        <div class="col-6 text-left">
+        <!--  <div class="col-sm-6 text-left">
             <div class="feed-heading">
             Contest List
         </div>
@@ -13,33 +11,38 @@
             <div class="feed-heading">
             Filter By
         </div>
-        </div>
-        <div class="col-8">
+        </div> -->
+        <div class="col-sm-12 col-md-12 col-lg-8">
             {% for obj in contest_list %}
             <div class="card feed-item">
                 <div class="card-body">
-                    <h3 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h3>
                     <div class="container">
                         <div class="row">
-                            <div class="col-8">
-                                <div class="card-text"> {{obj.description | truncatewords:10}} </div>
+                            <div class="col-8 feed-title">
+                                <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h4>
                             </div>
-                            <div class="col-4">
-                                <div class="card-text text-right"> {{obj.creator.user.username}} </div>
-                                <div class="signup-btn"></div>
+                            <div class="col-4 text-right contest-sign">
+                                <button class="btn  btn-round btn-sm signup-btn {% if user.profile in obj.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{obj.get_signup_url}}">{% if user.profile in obj.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-text"> {{obj.description | truncatewords:30}} </div>
+                            </div>
+                            <small class="col-8">
+                                <div class="card-text part-count"> creator: {{obj.creator.user.username}} </div>
+                            </small>
+                            <div class="col-4 feed-time text-right">
+                                <i class="material-icons i-sm" data-toggle="tooltip" data-placement="left" title="{{obj.start_contest|date:" D, d M | H:i "}}">date_range</i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-12">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h2 class="card-title text-center"> Ongoing Contests </h2>
-                    <hr>
+                    <h3 class="card-title text-center"> Ongoing Contests </h3>
                     <!--Table-->
                     <table class="table table-hover text-center ongoing table-sm">
                         <!--Table head-->
@@ -53,7 +56,7 @@
                             {% for obj in contest_list %}
                             <tr>
                                 <td>{{obj.title}}</td>
-                                <td>{{obj.end_contest|date:"g:i a"}}</td>
+                                <td>{{obj.start_contest|timeuntil:obj.end_contest}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -63,7 +66,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 {% endblock %}

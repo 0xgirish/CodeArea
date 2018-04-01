@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^(?P<slug1>[-\w]{1,100})/problems/(?P<slug2>[-\w]+)/submit/', submit_contest_problem, name='contest_problem_submission'),
 	url(r'^(?P<slug>[-\w]+)/$', views.problem_list, name='contest_problem_list'),
 	url(r'^$', views.contest_list, name='contest_list'),
+	url(r'^api/(?P<slug>[-\w]+)/$', views.ContestSignUpAPI.as_view(), name='contest_signup_api'),
 ]

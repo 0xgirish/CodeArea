@@ -1,10 +1,13 @@
 $(document).ready(function(){
     	function updateLike(btn, newCount, verb){
+    		btn.parent().children(".count").text(newCount);
     		if(verb){
-    			btn.text(newCount + " " + "Unlike");
+    			btn.removeClass("btn-unlike");
+    			btn.addClass("btn-rose");
     		}
     		else{
-    			btn.text(newCount + " " + "Like");
+    			btn.removeClass("btn-rose");
+    			btn.addClass("btn-unlike")
     		}
     	}
 		$(".like-btn").click(function(e){

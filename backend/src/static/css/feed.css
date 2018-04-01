@@ -1,31 +1,47 @@
-.feed-item{
-	padding: 1rem;
-	margin: 0.5rem;
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05), 0 1px 1px 0 rgba(0,0,0,.05);
-	background-color: #fff;
+.feed-container{
+	margin-top: 20px;
 }
 
-.feed-heading{
-	padding: 0.5rem 1rem 0rem 1rem;
-	font-size: 1.5rem;
-	font-weight: 700;
-	text-transform: uppercase;
-}
-.card .card-body .card-text{
-	font-size: 1.5rem;
+.feed-author{
+	font-size: 1rem;
 }
 
-.ongoing{
-	margin-top: 10px;
+.feed-time{
+	padding-top: 5px;
+	cursor: pointer;
+	opacity: 0.75;
+	padding-right: 20px;
 }
 
-.ongoing th{
-	font-size: 1.5rem;
-	font-weight: 500;
-	color: #222;
+.btn-col{
+	background-color: #ef5350 ;
+	border-color: #ef5350 ;
 }
 
-.ongoing td{
-	font-size: 1.4rem;
-	color: #455A64;
+.btn-unlike{
+	background-color: transparent; ;
+	border-color: #eeeeee ;
+}
+
+.contest-sign{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.part-count{
+	padding-top: 5px;
+}
+
+.count{
+	display: inline-block;
+}
+
+.btn-red{
+	background-color: #ef5350;
+	border-color: #ef5350;
+}
+
+.btn-red:hover, .btn-red:focus{
+	background-color: #b71c1c;
+	border-color: #b71c1c;
 }

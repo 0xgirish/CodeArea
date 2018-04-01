@@ -1,13 +1,12 @@
 $(document).ready(function(){
-    	function updateLike(btn, newCount, verb){
+    	function updateStatus(btn, verb){
     		if(verb){
-    			btn.text(newCount + " " + "Unlike");
-    		}
-    		else{
-    			btn.text(newCount + " " + "Like");
+    			btn.text("Signed Up");
+    			btn.addClass("disabled btn-success");
+    			btn.removeClass("btn-col");
     		}
     	}
-		$(".like-btn").click(function(e){
+		$(".signup-btn").click(function(e){
 			e.preventDefault();
 			var this_ = $(this);
 			var likeUrl = this_.attr("data-href");
@@ -18,7 +17,7 @@ $(document).ready(function(){
 				data: {},
 				success: function(data){
 					console.log(data)
-					updateLike(this_, data.count, data.liked)
+					updateStatus(this_, data.signup)
 
 				}, error: function(error){
 					console.log(error)
