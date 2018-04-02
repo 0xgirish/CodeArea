@@ -14,7 +14,7 @@ def create(request):
 	context = {
 		'form': form,
 	}
-	return render(request, 'problem_create.html', context)
+	return render(request, 'problems/problem_create.html', context)
 
 def problem(request, slug):
 	instance = get_object_or_404(Problem, slug = slug)
