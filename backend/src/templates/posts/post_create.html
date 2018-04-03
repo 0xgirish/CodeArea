@@ -13,13 +13,17 @@
 }
 
 .wmd-input {
-    min-height: 300px;
+    min-height: 350px;
+}
+
+.modal-dialog{
+    max-width: 1000px;
 }
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#preview").click(function(){
-        var marktext = $("#id_statement").val();
+        var marktext = $("#id_content").val();
         var markedContent = marked(marktext);
         console.log(marktext);
         $(".modal-body").html(markedContent);

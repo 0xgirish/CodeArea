@@ -9,6 +9,7 @@ def create(request):
 	form = ProblemForm(request.POST or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		instance.setter = request.user.profile
 		instance.save()
 
 	context = {

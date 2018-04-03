@@ -3,6 +3,7 @@ from django import forms
 from pagedown.widgets import PagedownWidget
 
 from .models import Problem, TestCase
+from tags.models import Tag
 
 class ProblemForm(forms.ModelForm):
 	statement = forms.CharField(widget=PagedownWidget(show_preview=False))
@@ -12,6 +13,7 @@ class ProblemForm(forms.ModelForm):
 			"title", 
 			"problem_code",
 			"statement",
+			"tags",
 		]
 
 	def __init__(self, *args, **kwargs):
