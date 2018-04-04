@@ -24,6 +24,7 @@ output_file = "../backend/"+str(contest_code)+"/"+str(problem_code)+".out"  # pa
 
 
 #TODO: Code security checks
+#TODO: Dockerize the system
 
 
 def is_program_scure(language, code):
