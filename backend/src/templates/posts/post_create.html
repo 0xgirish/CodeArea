@@ -35,7 +35,7 @@ $(document).ready(function() {
         <div class="col-12">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h3 class="card-title text-center"> create a new problem </h3>
+                    <h3 class="card-title text-center"> create a new post </h3>
                     <form method='POST'>
                         {% csrf_token %} {{form.as_p}}
                         <input type="submit" class="btn btn-primary" name="" value="Submit">

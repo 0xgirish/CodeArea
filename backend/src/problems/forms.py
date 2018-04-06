@@ -20,3 +20,19 @@ class ProblemForm(forms.ModelForm):
 		super(ProblemForm, self).__init__(*args, **kwargs)
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+
+class TestCaseForm(forms.ModelForm):
+	class Meta:
+		model = TestCase
+		fields = [
+			"input", 
+			"output",
+			"sample",
+			"weight",
+			"explanation",
+		]
+
+	def __init__(self, *args, **kwargs):
+		super(TestCaseForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'form-control'

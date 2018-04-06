@@ -48,6 +48,7 @@ class TestCase(models.Model):
 	input = models.FileField(upload_to = upload_input, storage=OverwriteStorage())
 	output = models.FileField(upload_to = upload_output, storage=OverwriteStorage())
 	sample = models.BooleanField()
+	explanation = models.CharField(max_length=255, blank=True, null=True)
 	weight = models.IntegerField(null = False, blank = False, default = 0)
 	testcase = models.IntegerField();
 
