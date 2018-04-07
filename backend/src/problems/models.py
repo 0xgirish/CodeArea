@@ -59,13 +59,10 @@ class TestCase(models.Model):
 		unique_together = ('problem_id', 'testcase')
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
-	slug = slugify(instance.problem_code)
-	exists = Problem.objects.filter(slug = slug).exists()
-	if exists:
-		# Won't exist because problem_code is unique but just in case
-		slug = "%s-%s"%(slug, instance.id)
-
-	instance.slug = slug
+	exists = Problem.objects.filter(problem_code = instance.problem_code).exists()
+	if not exists:
+		slug = slugify(instance.problem_code)
+		instance.slug = slug
 
 @receiver(pre_save, sender=TestCase)
 def pre_save_testcase_number(sender, instance, *args, **kwagrs):

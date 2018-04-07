@@ -74,13 +74,11 @@ class Participant(models.Model):
 		unique_together = ('user', 'contest')
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
-	slug = slugify(instance.contest_code)
-	exists = Contest.objects.filter(slug = slug).exists()
-	if exists:
-		# Won't exist because problem_code is unique but just in case
-		slug = "%s-%s"%(slug, instance.id)
 
-	instance.slug = slug
+	exists = Contest.objects.filter(contest_code = instance.contest_code).exists()
+	if not exists:
+		slug = slugify(instance.contest_code)
+		instance.slug = slug
 
 pre_save.connect(pre_save_post_receiver, sender = Contest)
 

@@ -20,10 +20,24 @@ class ProblemForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ProblemForm, self).__init__(*args, **kwargs)
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			self.fields['problem_code'].required = False
+			self.fields['problem_code'].widget.attrs['disabled'] = True
+
+
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
 
 		self.fields['datetime'].widget.attrs.update({'class': 'form-group form-control datetimepicker', 'value':'10/05/2016'})
+
+
+	def clean_problem_code(self):
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			return instance.problem_code
+		else:
+			return self.cleaned_data['problem_code']
 
 class TestCaseForm(forms.ModelForm):
 	class Meta:
