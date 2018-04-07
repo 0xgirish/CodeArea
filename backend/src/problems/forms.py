@@ -7,10 +7,7 @@ from tags.models import Tag
 
 class ProblemForm(forms.ModelForm):
 	statement = forms.CharField(widget=PagedownWidget(show_preview=False))
-	datetime = forms.DateField(widget=forms.TextInput(attrs=
-                                {
-                                    'class':'datepicker'
-                                }))
+	datetime = forms.DateField(widget=forms.DateTimeInput())
 	class Meta:
 		model = Problem
 		fields = [
@@ -18,13 +15,15 @@ class ProblemForm(forms.ModelForm):
 			"problem_code",
 			"statement",
 			"tags",
-			"datetime"
+			"datetime",
 		]
 
 	def __init__(self, *args, **kwargs):
 		super(ProblemForm, self).__init__(*args, **kwargs)
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+
+		self.fields['datetime'].widget.attrs.update({'class': 'form-group form-control datetimepicker', 'value':'10/05/2016'})
 
 class TestCaseForm(forms.ModelForm):
 	class Meta:
