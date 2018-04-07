@@ -42,6 +42,22 @@ def contest_list(request):
 	return render(request, "contests/contests.html", context)
 
 
+def manage_contest(request, slug):
+	instance = get_object_or_404(Contest, slug = slug)
+
+	form = ContestForm(request.POST or None, instance = instance)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+
+	context = {
+		'contest': instance,
+		'form': form,
+	}
+
+	return render(request, "contests/manage_contest.html",context)
+
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions

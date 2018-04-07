@@ -13,48 +13,29 @@
 }
 
 .wmd-input {
-    min-height: 300px;
-    background-color: #fafafa;
+    min-height: 350px;
 }
-body{
-    background-color: #E5E5E5;
+
+.modal-dialog{
+    max-width: 1000px;
 }
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#preview").click(function(){
-        var marktext = $("#id_statement").val();
+        var marktext = $("#id_content").val();
         var markedContent = marked(marktext);
         console.log(marktext);
         $(".modal-body").html(markedContent);
     });
 });
 </script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-$('.datetimepicker').datetimepicker({
-    icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove'
-    }
-});
-});
-</script>
-
 <div class="container feed-container">
     <div class="row">
         <div class="col-12">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h3 class="card-title text-center"> create a new problem </h3>
+                    <h3 class="card-title text-center"> create a new post </h3>
                     <form method='POST'>
                         {% csrf_token %} {{form.as_p}}
                         <input type="submit" class="btn btn-primary" name="" value="Submit">
@@ -91,4 +72,5 @@ $('.datetimepicker').datetimepicker({
         $('.select-tags').select2();
     });
     </script>
+    <!-- Resour
 {% endblock %}

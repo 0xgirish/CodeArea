@@ -25,6 +25,8 @@ class Contest(models.Model):
 	end_contest = models.DateTimeField(auto_now = False, auto_now_add = False)
 	participants = models.ManyToManyField(Profile, through = 'Participant')
 
+	private = models.BooleanField(default=False)
+
 	def __str__(self):
 		return self.contest_code;
 
