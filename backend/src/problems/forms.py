@@ -7,6 +7,10 @@ from tags.models import Tag
 
 class ProblemForm(forms.ModelForm):
 	statement = forms.CharField(widget=PagedownWidget(show_preview=False))
+	datetime = forms.DateField(widget=forms.TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
 	class Meta:
 		model = Problem
 		fields = [
@@ -14,6 +18,7 @@ class ProblemForm(forms.ModelForm):
 			"problem_code",
 			"statement",
 			"tags",
+			"datetime"
 		]
 
 	def __init__(self, *args, **kwargs):
