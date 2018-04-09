@@ -28,8 +28,24 @@ $(document).ready(function() {
         console.log(marktext);
         $(".modal-body").html(markedContent);
     });
+    moment.updateLocale ('en', {
+    longDateFormat : {
+        LT: "hh:mm A",
+        L: "YYYY-MM-DD",
+        l: "M-D-YYYY",
+        LL: "MMMM Do YYYY",
+        ll: "MMM D YYYY",
+        LLL: "MMMM Do YYYY LT",
+        lll: "MMM D YYYY LT",
+        LLLL: "dddd, MMMM Do YYYY LT",
+        llll: "ddd, MMM D YYYY LT"
+    }
+    });
+
 });
 </script>
+
+
 
 
 <script type="text/javascript">
