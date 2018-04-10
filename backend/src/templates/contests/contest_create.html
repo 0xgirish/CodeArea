@@ -13,11 +13,11 @@
 }
 
 .wmd-input {
-    min-height: 350px;
+    min-height: 300px;
+    background-color: #fafafa;
 }
-
-.modal-dialog{
-    max-width: 1000px;
+body{
+    background-color: #E5E5E5;
 }
 </style>
 <script type="text/javascript">
@@ -45,9 +45,6 @@ $(document).ready(function() {
 });
 </script>
 
-
-
-
 <script type="text/javascript">
 $(document).ready(function() {
 $('.datetimepicker').datetimepicker({
@@ -71,7 +68,7 @@ $('.datetimepicker').datetimepicker({
         <div class="col-12">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h3 class="card-title text-center"> edit contest </h3>
+                    <h3 class="card-title text-center"> Create a new Contest </h3>
                     <form method='POST'>
                         {% csrf_token %} {{form.as_p}}
                         <input type="submit" class="btn btn-primary" name="" value="Submit">
@@ -108,5 +105,4 @@ $('.datetimepicker').datetimepicker({
         $('.select-tags').select2();
     });
     </script>
-    <!-- Resour
 {% endblock %}

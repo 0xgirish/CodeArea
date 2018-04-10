@@ -29,7 +29,7 @@ class ProblemForm(forms.ModelForm):
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
 
-		self.fields['datetime'].widget.attrs.update({'class': 'form-group form-control datetimepicker', 'value':'10/05/2016'})
+		self.fields['datetime'].widget.attrs.update({'class': 'form-group form-control datetimepicker'})
 
 
 	def clean_problem_code(self):

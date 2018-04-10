@@ -8,12 +8,13 @@ def create(request):
 	form = ContestForm(request.POST or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		instance.setter = request.user.profile
 		instance.save()
 
 	context = {
 		'form': form,
 	}
-	return render(request, 'problem_create.html', context)
+	return render(request, 'contests/contest_create.html', context)
 
 def problem(request, slug1, slug2):
 	cproblem = get_object_or_404(ContestsHaveProblems, problem__slug = slug2, contest__slug = slug1)

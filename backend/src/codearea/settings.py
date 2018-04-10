@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     #my apps
     'problems',
     'accounts',
-    'oauth',
     'contests',
     'submissions',
     'posts',
