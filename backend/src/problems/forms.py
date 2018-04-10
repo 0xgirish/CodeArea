@@ -7,7 +7,7 @@ from tags.models import Tag
 
 class ProblemForm(forms.ModelForm):
 	statement = forms.CharField(widget=PagedownWidget(show_preview=False))
-	datetime = forms.DateField(widget=forms.DateTimeInput())
+	datetime = forms.DateField(widget=forms.DateTimeInput(),input_formats=['%Y-%m-%d %I:%M %p'])
 	class Meta:
 		model = Problem
 		fields = [
