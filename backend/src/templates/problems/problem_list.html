@@ -1,9 +1,6 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript" ></script>
-<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
-<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'js/infinite.min.js' %}"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -57,12 +54,12 @@ $(document).ready(function() {
             </div>
         </div>
         <div class="col-lg-8 col-md-12">
-            <div class="infinite-container">
+            <div class="container">
             {% for obj in problem_list %}
             <div class="card feed-item">
                 <div class="card-body">
                     <div class="container">
-                        <div class="infinte-item row">
+                        <div class="row">
                             <div class="col-12 feed-title">
                                 <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h4>
                             </div>
@@ -77,27 +74,16 @@ $(document).ready(function() {
                 </div>
             </div>
             {% endfor %}
+            <div class="container">
+            {% if problem_list.has_previous %}
+                <a href="?page={{ problem_list.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% if problem_list.has_next %}
+                <a href="?page={{ problem_list.next_page_number }}">Next</a>
+            {% endif %}
             </div>
-            <div class="card feed-item">
-                <div class="card-body">
-                    <div class="container">
-                        <div class="row">
-                        <div class="col-8 feed-title">
-                                <h4 class="card-title">
-                                <center>
-                                {% if problem_list.has_previous %}
-                                    <a href="?page={{ problem_list.previous_page_number }}">Previous</a>
-                                {% endif %}
-                                {% if problem_list.has_next %}
-                                    <a href="?page={{ problem_list.next_page_number }}">Next</a>
-                                {% endif %}
-                                </center>
-                                </h4>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
         </div>
 
         <div class="col-lg-4 col-md-12">
@@ -142,11 +128,6 @@ $(document).ready(function() {
         </div>
     </div>
 
-    <script type="text/javascript">
-        var infinite = new Waypoint.Infinite({
-          element: $('.infinite-container')[0]
-        });
-    </script>
     <script src={% static "filter/js/main.js" %}></script>
     <script type="text/javascript">
     // In your Javascript (external .js resource or <script> tag)

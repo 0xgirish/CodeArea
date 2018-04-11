@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import ContestForm
 # Create your views here.
@@ -36,7 +37,17 @@ def problem_list(request, slug):
 	return render(request, "contests/contest_details.html", context)
 
 def contest_list(request):
-	queryset = Contest.objects.all()
+	contest_list = Contest.objects.all()
+	paginator = Paginator(contest_list,1)
+
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+
 	context = {
 		'contest_list' : queryset
 	}

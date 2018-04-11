@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post
 from .forms import PostForm
@@ -26,7 +27,17 @@ def post(request, slug):
 	return render(request, "post_details.html", context)
 
 def post_list(request):
-	queryset = Post.objects.all() 
+	post_list = Post.objects.all()
+	paginator = Paginator(post_list,1)
+
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+
 	context = {
 		'post_list' : queryset
 	}

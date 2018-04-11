@@ -30,7 +30,7 @@ def problem(request, slug):
 
 def problem_list(request):
 	problem_list = Problem.objects.all()
-	paginator = Paginator(problem_list,4)
+	paginator = Paginator(problem_list,1)
 
 	page = request.GET.get('page',1)
 	try:
