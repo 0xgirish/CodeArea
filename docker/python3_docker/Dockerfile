@@ -4,6 +4,8 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/
 
 RUN apt-get -y update
 
+# installing languages supported by judge | c, cpp, python2, python3, java  |  will add go later
+
 RUN apt-get install -y gcc
 RUN apt-get install -y g++
 RUN apt-get install -y python
