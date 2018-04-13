@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'submissions',
     'posts',
     'tags',
+    'oauth',
 
     # #third party
     # 'social.apps.django_app.default',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'pagedown',
+    'crispy_forms',
 ]
 
 
@@ -67,6 +69,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_FORMS = {'login': 'oauth.forms.AuthLoginForm'}
+
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #EMAIL_HOST = 'localhost'
