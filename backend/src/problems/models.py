@@ -23,7 +23,7 @@ class Problem(models.Model):
 	statement = models.TextField() #Problem statement
 	timestamp = models.DateTimeField(auto_now = False, auto_now_add = True)
 	setter = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL, related_name='setter')
-	tags = models.ManyToManyField(Tag)
+	tags = models.ManyToManyField(Tag, blank=True)
 
 	def __str__(self):
 		return self.problem_code
