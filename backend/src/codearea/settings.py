@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'pagedown',
     'crispy_forms',
+    'django_extensions',
 ]
 
 
