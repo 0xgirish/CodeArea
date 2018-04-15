@@ -7,7 +7,6 @@ from tags.models import Tag
 
 class ProblemForm(forms.ModelForm):
 	statement = forms.CharField(widget=PagedownWidget(show_preview=False))
-	datetime = forms.DateField(widget=forms.DateTimeInput(),input_formats=['%Y-%m-%d %I:%M %p'])
 	class Meta:
 		model = Problem
 		fields = [
@@ -15,7 +14,6 @@ class ProblemForm(forms.ModelForm):
 			"problem_code",
 			"statement",
 			"tags",
-			"datetime",
 		]
 
 	def __init__(self, *args, **kwargs):
@@ -23,13 +21,11 @@ class ProblemForm(forms.ModelForm):
 		instance = getattr(self, 'instance', None)
 		if instance and instance.pk:
 			self.fields['problem_code'].required = False
-			self.fields['problem_code'].widget.attrs['disabled'] = True
+			self.fields['problem_code'].widget = forms.HiddenInput()
 
 
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
-
-		self.fields['datetime'].widget.attrs.update({'class': 'form-group form-control datetimepicker'})
 
 
 	def clean_problem_code(self):
@@ -54,3 +50,5 @@ class TestCaseForm(forms.ModelForm):
 		super(TestCaseForm, self).__init__(*args, **kwargs)
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+
+		self.fields['sample'].widget.attrs['class'] = 'form-check-input'

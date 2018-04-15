@@ -65,3 +65,16 @@ def add_testcase(request, slug):
 	}
 	return render(request,"problems/add_testcase.html", context)
 
+def problem_manage(request, slug):
+	instance = get_object_or_404(Problem, slug = slug)
+	form = ProblemForm(request.POST or None, instance = instance)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+
+	context = {
+		'form': form,
+		'obj': instance,
+	}
+	return render(request, 'problems/problem_manage.html', context)
+

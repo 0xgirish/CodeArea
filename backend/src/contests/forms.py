@@ -27,8 +27,6 @@ class ContestForm(forms.ModelForm):
 			self.fields['contest_code'].required = False
 			self.fields['contest_code'].widget.attrs['disabled'] = True
 
-			self.fields['start_contest'].widget.attrs.update({'value':'02/02/2018'});
-
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
 
@@ -44,5 +42,4 @@ class ContestForm(forms.ModelForm):
 
 
 	def clean_start_contest(self):
-		print(self.cleaned_data['start_contest'])
 		return self.cleaned_data['start_contest']
