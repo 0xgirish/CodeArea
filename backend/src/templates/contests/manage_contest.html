@@ -121,7 +121,7 @@ $('.datetimepicker').datetimepicker({
                     </ul>
                 </div>
                     <div class="card-body">
-                    <form method='POST'>
+                    <form method='POST' action="">
                         {% csrf_token %} {{form.as_p}}
                         <input type="submit" class="btn btn-primary" name="" value="Submit">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#htmlpreview" type="button" id="preview"> Preview </button>

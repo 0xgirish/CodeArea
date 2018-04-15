@@ -1,13 +1,13 @@
 from django.conf.urls import url, include
 from . import views
-from .api import TestCaseForm
+from .api import TestCaseViewSet
 
 from submissions.views import submit_problem
 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'testcase', TestCaseForm)
+router.register(r'testcase', TestCaseViewSet)
 
 
 urlpatterns = [

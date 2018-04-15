@@ -44,3 +44,8 @@ class ContestForm(forms.ModelForm):
 
 	def clean_start_contest(self):
 		return self.cleaned_data['start_contest']
+
+	def clean_problems(self):
+		print(self.cleaned_data['problems'])
+		
+		return self.cleaned_data['problems']

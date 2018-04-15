@@ -18,7 +18,7 @@ from .permissions import IsOwnerOrReadOnly
 from .serializers import TestCaseSerializer
 
 
-class TestCaseForm(viewsets.ModelViewSet):
+class TestCaseViewSet(viewsets.ModelViewSet):
 	
 	queryset = TestCase.objects.all()
 	serializer_class = TestCaseSerializer

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'pagedown',
     'crispy_forms',
     'django_extensions',
+    'django_filters',
 ]
 
 
@@ -101,7 +102,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+
 }
 
 
