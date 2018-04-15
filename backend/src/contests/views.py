@@ -63,7 +63,7 @@ def manage_contest(request, slug):
 		instance.save()
 
 	context = {
-		'contest': instance,
+		'obj': instance,
 		'form': form,
 	}
 
