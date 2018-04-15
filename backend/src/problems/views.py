@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 
 from .forms import ProblemForm, TestCaseForm
-from .models import Problem
+from .models import Problem, TestCase
 # Create your views here.
 
 def create(request):
@@ -49,14 +49,18 @@ def problem_list(request):
 
 def add_testcase(request, slug):
 	form = TestCaseForm(request.POST or None)
+	problem = get_object_or_404(Problem, slug = slug)
+	testcases = TestCase.objects.filter(problem_id = problem)
 	if form.is_valid():
 		instance = form.save(commit=False)
-		problem = get_object_or_404(Problem, slug = slug)
 		instance.problem_id = problem
 		instance.save()
 
 	context = {
 		'form':form,
+		'obj': problem,
+		'testcases': testcases,
+
 	}
 	return render(request,"problems/add_testcase.html", context)
 
