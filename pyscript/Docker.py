@@ -85,8 +85,7 @@ class Docker:
                     .format(command1=LANGUAGE[self.language_id]['command1'].format(path),
                             output=output_path)
                 docker_command = "docker exec {name} {command}".format(name=self.name, command=compile_command)
-                status = os.system(docker_command)
-                # TODO: CHECK FOR STATUS VALUE | IF SUCESS EXECUTE OUT FILE
+                os.system(docker_command)
                 if os.path.isfile('userData/{}/{}'.format(self.folder, LANGUAGE[self.language_id]['binary'])):
                     execute_command = "{command2} <{input_file} >{output} 2>&1"\
                         .format(command2=LANGUAGE[self.language_id]['command2'].format(path), input_file=input_path,
@@ -96,7 +95,7 @@ class Docker:
                     status = os.system(docker_command)
                     if status is 0:
                         return_val = Status.SUCCESS
-                    elif status>>8 is 124:
+                    elif status >> 8 is 124:
                         return_val = Status.TIMEOUT
                     else:
                         return_val = Status.RUNTIME_ERROR

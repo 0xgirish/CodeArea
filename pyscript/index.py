@@ -81,6 +81,10 @@ class Judge:
         else:
             return 404
 
+    def remove_directory(self):
+        #TODO: REMOVE MD5 DIRECTORIES IN docker/userData/
+        pass
+
     def get_submission(self):
         return self.contest, self.problem
 
@@ -94,6 +98,8 @@ if judge.prepare_envior(PATH_CONTEST):
     res = judge.run()
 else:
     res = 404
+
+judge.remove_directory()
 
 if res == 403:
     get_subm = judge.get_submission()
