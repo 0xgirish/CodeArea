@@ -107,7 +107,7 @@ REST_FRAMEWORK = {
 
 }
 
-
+CSRF_USE_SESSIONS = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

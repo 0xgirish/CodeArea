@@ -70,4 +70,17 @@ def manage_contest(request, slug):
 	return render(request, "contests/manage_contest.html",context)
 
 
+def add_problems(request, slug):
+	instance = get_object_or_404(Contest, slug = slug)
+	queryset = ContestsHaveProblems.objects.filter(contest = instance) 
+
+	context = {
+		'obj': instance,
+		'queryset': queryset,
+	}
+
+	return render(request, "contests/add_problems.html",context)
+
+
+
 

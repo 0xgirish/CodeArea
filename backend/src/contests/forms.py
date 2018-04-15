@@ -26,7 +26,7 @@ class ContestForm(forms.ModelForm):
 		instance = getattr(self, 'instance', None)
 		if instance and instance.pk:
 			self.fields['contest_code'].required = False
-			self.fields['contest_code'].widget.attrs['disabled'] = True
+			self.fields['contest_code'].widget = forms.HiddenInput()
 
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'

@@ -112,10 +112,10 @@ $('.datetimepicker').datetimepicker({
                             <a class="nav-link active" href={% url "manage_contest" obj.slug %} >Details</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" >Problems</a>
+                            <a class="nav-link" href={% url "add_problems" obj.slug %} >Problems</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#messages" >Settings</a>
+                            <a class="nav-link" href="" >Settings</a>
                         </li>
                         
                     </ul>
