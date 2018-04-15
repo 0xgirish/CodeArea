@@ -29,7 +29,11 @@ def problem(request, slug):
 	return render(request, "problem_details.html", context)
 
 def problem_list(request):
-	problem_list = Problem.objects.all()
+	if request.GET.get('title'):
+		problem_list = Problem.objects.filter(title__contains=request.GET.get('title'))
+	else:
+		problem_list = Problem.objects.all()
+	problem_list1 = Problem.objects.all()
 	paginator = Paginator(problem_list,1)
 
 	page = request.GET.get('page',1)
@@ -41,7 +45,8 @@ def problem_list(request):
 		queryset = paginator.page(paginator.num_pages)
 
 	context = {
-		'problem_list' : queryset
+		'problem_list' : queryset,
+		'problems' : problem_list1,
 	}
 
 	return render(request, "problems/problem_list.html", context)
