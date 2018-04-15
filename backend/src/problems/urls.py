@@ -1,7 +1,14 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
+from .api import TestCaseForm
 
 from submissions.views import submit_problem
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'testcase', TestCaseForm)
+
 
 urlpatterns = [
 	url(r'^create/', views.create, name='create_problem'),
@@ -10,4 +17,5 @@ urlpatterns = [
 	url(r'^(?P<slug>[-\w]+)/manage/$', views.problem_manage, name='problem_manage'),
 	url(r'^(?P<slug>[-\w]+)/manage/testcase/$', views.add_testcase, name='problem_testcase'),
 	url(r'^$', views.problem_list, name='problem_list'),
+	url(r'^api/', include(router.urls)),
 ]

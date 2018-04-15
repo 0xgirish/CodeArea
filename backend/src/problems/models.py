@@ -37,14 +37,14 @@ class Problem(models.Model):
 
 
 def upload_input(instance, filename):
-	return "%s/%s.in" %(instance.problem_id.problem_code, instance.testcase)
+	return "%s/%s.in" %(instance.problem.problem_code, instance.testcase)
 
 def upload_output(instance, filename):
-	return "%s/%s.out" %(instance.problem_id.problem_code, instance.testcase)
+	return "%s/%s.out" %(instance.problem.problem_code, instance.testcase)
 
 class TestCase(models.Model):
 
-	problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE) # A problem has many test cases
+	problem = models.ForeignKey(Problem, on_delete=models.CASCADE) # A problem has many test cases
 	input = models.FileField(upload_to = upload_input, storage=OverwriteStorage())
 	output = models.FileField(upload_to = upload_output, storage=OverwriteStorage())
 	sample = models.BooleanField()
@@ -53,10 +53,13 @@ class TestCase(models.Model):
 	testcase = models.IntegerField();
 
 	def __str__(self):
-		return "%s-%s"%(self.problem_id.problem_code, self.testcase);
+		return "%s-%s"%(self.problem.problem_code, self.testcase);
+
+	def get_api_url(self):
+		return reverse("testcase-detail", kwargs={"pk": self.pk})
 
 	class Meta:
-		unique_together = ('problem_id', 'testcase')
+		unique_together = ('problem', 'testcase')
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 	exists = Problem.objects.filter(problem_code = instance.problem_code).exists()
@@ -66,9 +69,9 @@ def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 
 @receiver(pre_save, sender=TestCase)
 def pre_save_testcase_number(sender, instance, *args, **kwagrs):
-	exists = TestCase.objects.filter(problem_id = instance.problem_id).exists()
+	exists = TestCase.objects.filter(problem = instance.problem).exists()
 	instance.testcase = 1
 	if exists:
-		instance.testcase = 1 + TestCase.objects.filter(problem_id = instance.problem_id).aggregate(Max('testcase'))["testcase__max"]
+		instance.testcase = 1 + TestCase.objects.filter(problem = instance.problem).aggregate(Max('testcase'))["testcase__max"]
 
 pre_save.connect(pre_save_post_receiver, sender = Problem)
