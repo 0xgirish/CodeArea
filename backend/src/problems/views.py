@@ -22,11 +22,10 @@ def problem(request, slug):
 	instance = get_object_or_404(Problem, slug = slug)
 
 	context = {
-		'title': instance.title,
-		'statement': instance.statement,
+		'obj' : instance,
 	}
 
-	return render(request, "problem_details.html", context)
+	return render(request, "problems/problem_details.html", context)
 
 def problem_list(request):
 	if request.GET.get('title'):
