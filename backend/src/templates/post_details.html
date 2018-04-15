@@ -1,0 +1,10 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+
+
+{{obj.title}}
+<br>
+{{obj.content}}
+<br>
+<a class="like-btn" data-href="{{obj.get_likes_api_url}}" href="{{obj.get_likes_url}}">{{obj.likes.count}} {% if user.profile in obj.likes.all %} Unlike {% else %} Like {% endif %} </a> 
+
+{% endblock %}

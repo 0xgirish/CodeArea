@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<script
+  src="http://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript" ></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".content-markdown").each(function() {
+		var statement = $(this).text()
+		console.log(statement)
+		var markedContent = marked(statement)
+		console.log(markedContent)
+		$(this).html(markedContent)
+	})
+})
+</script>
+
+{% for obj in problem_list %}
+
+<div class="content-markdown">
+- # ** {{obj.title}} **
+{{obj.statement}}
+</div>
+{% endfor %}
+{% endblock %}

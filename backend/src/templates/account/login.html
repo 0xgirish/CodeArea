@@ -1,0 +1,39 @@
+{% extends "index.html" %} {% load i18n %} {% load account socialaccount %} {% block head_title %}{% trans "Sign In" %}{% endblock %} {% block content %}
+<center>
+    <div class="container">
+        <div class="rows">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card feed-item">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1>{% trans "Sign In" %}</h1> {% get_providers as socialaccount_providers %} {% if socialaccount_providers %}
+                                    <p>{% blocktrans with site.name as site_name %}Please sign in with one of your existing third party accounts. Or, <a href="{{ signup_url }}">Sign up</a> for a CodeArea account and sign in below:{% endblocktrans %}</p>
+                                    {% include "socialaccount/snippets/login_extra.html" %} {% else %}
+                                    <p>{% blocktrans %}If you have not created an account yet, then please
+                                        <a href="{{ signup_url }}">Sign up</a> first.{% endblocktrans %}</p>
+                                    {% endif %}
+                                    <form class="login" method="POST" action="{% url 'account_login' %}">
+                                        {% csrf_token %} {{ form }} {% if redirect_field_value %}
+                                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> {% endif %}
+                                        <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+                                        </br>
+                                        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                                    </form>
+                                    <div class="login-or">{% trans 'or' %}</div>
+                                    <div class="socialaccount_ballot">
+                                        <ul class="socialaccount_providers">
+                                            {% include "./snippets/provider_list.html" with process="login" %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock %}
