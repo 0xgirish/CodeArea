@@ -15,6 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import status
 
+from rest_framework.parsers import FormParser, MultiPartParser
 
 
 from .permissions import IsOwnerOrReadOnly
@@ -28,6 +29,9 @@ class TestCaseViewSet(viewsets.ModelViewSet):
 	serializer_class = TestCaseSerializer
 	authentication_classes = (authentication.SessionAuthentication,)
 	permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+	parser_classes = (MultiPartParser, FormParser,)
+
+
 
 class ProblemViewSet(viewsets.ModelViewSet):
 

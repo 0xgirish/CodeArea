@@ -142,10 +142,10 @@ a:hover {
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-12">
                                 <center>
-                                    <button class="btn btn-col btn-round" data-toggle="modal" data-target="#editTestCase">Add Testcase</button>
+                                    <button class="btn btn-col btn-round" data-toggle="modal" data-target="#addTestCase">Add Testcase</button>
                                 </center>
                             </div>
-                            <div class="modal fade" id="editTestCase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal fade" id="addTestCase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -155,59 +155,28 @@ a:hover {
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form id="add-form" method="POST" enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                                <div class="select">
-                                                    <div class="form-check form-check-radio form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="text" value="option1" checked> text
-                                                            <span class="circle">
-                                                        <span class="check"></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-radio form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="file" value="option2"> file
-                                                            <span class="circle">
-                                                        <span class="check"></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <br>
-
                                                 <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlTextarea1">Input</label>
-                                                                <textarea class="form-control" id="input_text" rows="5"></textarea>
-                                                               
-                                                            </div>
-                                                             <input type="file" name="file" id="input_file" class="form-control">
+                                                            <label for="input_file">Input</label>
+                                                            <input type="file" name="input" id="input_file" class="form-control">
                                                         </div>
                                                         <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlTextarea1">Output</label>
-                                                                <textarea class="form-control" id="output_text" rows="5"></textarea>
-                                                                
-                                                            </div>
-                                                            <input type="file" name="file" id="output_file" class="form-control">
+                                                            <label for="output_file">Output</label>
+                                                            <input type="file" name="output" id="output_file" class="form-control">
                                                         </div>
-                                                        
-                                               
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">Weight</label>
-                                                                <input type="number" class="form-control" id="weight" placeholder="0">
+                                                                <input type="number" class="form-control" id="weight" name="weight" placeholder="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
-                                                                    <input class="form-check-input" type="checkbox" value=""> Sample
+                                                                    <input class="form-check-input" type="checkbox" value="" name="sample"> Sample
                                                                     <span class="form-check-sign">
             <span class="check"></span>
                                                                     </span>
@@ -217,20 +186,17 @@ a:hover {
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlTextarea1">Explanation</label>
-                                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                <textarea name="explanation" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                                             </div>
-
+                                                            <input type="hidden" name="problem" value="{{obj.id}}">
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                
+                                                <button type="submit">Submit</button>
                                             </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -240,23 +206,58 @@ a:hover {
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-         $(document).ready(function() {
-            $("#input_file").hide();
-            $("#output_file").hide();
-            $("#file").click(function(){
-                $("#input_text").hide();
-                $("#input_file").show();
-                $("#output_text").hide();
-                $("#output_file").show();
-            });
-            $("#text").click(function(){
-                $("#input_text").show();
-                $("#input_file").hide();
-                $("#output_text").show();
-                $("#output_file").hide();
-            });
-         });
-        </script>
-       
-        {% endblock %}
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $("#add-form").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+    var url = "/problems/api/testcase/"; // the script where you handle the form input.
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            alert(data)
+        },
+        error: function(error) {
+            console.log(error)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+});
+</script>
+{% endblock %}
