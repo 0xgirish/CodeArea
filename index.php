@@ -10,7 +10,7 @@
 </head>
 <frameset cols="55%, 45%">
 	<frame frameborder="0" scrolling="no" noresize name="phpcode" src="code.html" />
-	<frame frameborder="0" scrolling="no" noresize name="result" src="output.php" /> 
+	<frame frameborder="0" scrolling="no" noresize name="result" id="output" src="output.php" /> 
 </frameset>
 
 </html>

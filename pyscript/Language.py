@@ -9,14 +9,14 @@ LANGUAGE = {0: {"title": "python 2.6", "extension": "py",  "command1": "python2 
             #############################
             # two step languages
             #############################
-            2: {"title": "golang",     "extension": "go",  "command1": "go build -o {1}/CodeArea.out {1}/CodeArea.go",
+            2: {"title": "golang",     "extension": "go",  "command1": "go build -o {0}/CodeArea.out {0}/CodeArea.go",
                 "binary": "CodeArea.out", "command2": "{}/CodeArea.out"},
-            3: {"title": "C",          "extension": "c",   "command1": "gcc -O3 {1}/CodeArea.c -o {1}/CodeArea.out",
+            3: {"title": "C",          "extension": "c",   "command1": "gcc -O3 {0}/CodeArea.c -o {0}/CodeArea.out",
                 "binary": "CodeArea.out", "command2": "{}/CodeArea.out"},
-            4: {"title": "Cpp",        "extension": "cpp", "command1": "g++ -O3 {1}/CodeArea.cpp -o {1}/CodeArea.out",
+            4: {"title": "Cpp",        "extension": "cpp", "command1": "g++ -O3 {0}/CodeArea.cpp -o {0}/CodeArea.out",
                 "binary": "CodeArea.out", "command2": "{}/CodeArea.out"},
-            5: {"title": "java",       "extension": "cpp", "command1": "javac {1}/CodeArea.java",
-                "binary": "CodeArea.class", "command2": "java {}/CodeArea"}
+            5: {"title": "java",       "extension": "java", "command1": "javac {0}/CodeArea.java",
+                "binary": "CodeArea.class", "command2": "java -cp /{}/ CodeArea"}
             }
 
 
