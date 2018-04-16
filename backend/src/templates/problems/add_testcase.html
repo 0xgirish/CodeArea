@@ -190,13 +190,12 @@ a:hover {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit">Submit</button>
+                                                <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
+                                                                            </div>
                                 </div>
                             </div>
                         </div>
@@ -238,8 +237,21 @@ $(document).ready(function() {
     });
 
     function addCase(data) {
-        console.log(data.input);
-        $("#testcase-table > tbody:last-child").after('Added');
+        console.log(data['id']);
+        $("#testcase-table > tbody:last-child").append('<tr> \
+                                            <td><a href="' + data['input'] + '">Input File</a></td> \
+                                            <td><a href="'+ data['output'] + '">Output File</a></td> \
+                                            <td>'+ data['weight'] + ' </td> \
+                                            <td> \
+                                                '+ data['sample'] + ' \
+                                            </td> \
+                                            <td> \
+                                                <a class="test-update" href="#" data-toggle="modal" data-target="#editTestCase" data-key="'+ data['id'] + '"> \
+                                    <i class="material-icons i-sm">edit</i></a> \
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="'+ data['id'] + '"> \
+                                    <i class="material-icons i-sm">delete</i></button> \
+                                            </td> \
+                                        </tr>');
     }
 
     $("#add-form").submit(function(e) {
@@ -252,7 +264,8 @@ $(document).ready(function() {
             type: 'POST',
             data: formData,
             success: function(data) {
-                addCase(this_);
+                console.log(data);
+                addCase(data);
             },
             error: function(error) {
                 console.log(error)
