@@ -1,0 +1,81 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}>
+<div class="container feed-container">
+    <div class="row">
+        <!--  <div class="col-sm-6 text-left">
+            <div class="feed-heading">
+            Contest List
+        </div>
+        </div>
+        <div class="col-6 text-right">
+            <div class="feed-heading">
+            Filter By
+        </div>
+        </div> -->
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            {% for obj in contest_list %}
+            <div class="card feed-item">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-8 feed-title">
+                                <h4 class="card-title"> <a href="{{obj.get_absolute_url}}"> {{obj.title}} </a> </h4>
+                            </div>
+                            <div class="col-4 text-right contest-sign">
+                                <button class="btn  btn-round btn-sm signup-btn {% if user.profile in obj.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{obj.get_signup_url}}">{% if user.profile in obj.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-text"> {{obj.description | truncatewords:30}} </div>
+                            </div>
+                            <small class="col-8">
+                                <div class="card-text part-count"> creator: {{obj.creator.user.username}} </div>
+                            </small>
+                            <div class="col-4 feed-time text-right">
+                                <i class="material-icons i-sm" data-toggle="tooltip" data-placement="left" title="{{obj.start_contest|date:" D, d M | H:i "}}">date_range</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="container">
+            {% if contest_list.has_previous %}
+                <a href="?page={{ contest_list.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% if contest_list.has_next %}
+                <a href="?page={{ contest_list.next_page_number }}">Next</a>
+            {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card feed-item">
+                <div class="card-body">
+                    <h3 class="card-title text-center"> Ongoing Contests </h3>
+                    <!--Table-->
+                    <table class="table table-hover text-center ongoing table-sm">
+                        <!--Table head-->
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Ends at</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in contest_list %}
+                            <tr>
+                                <td>{{obj.title}}</td>
+                                <td>{{obj.start_contest|timeuntil:obj.end_contest}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <!--Table body-->
+                    </table>
+                    <!--Table-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

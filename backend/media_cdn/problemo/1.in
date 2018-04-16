@@ -1,0 +1,28 @@
+Download the database from : https://dev.mysql.com/doc/index-other.html
+
+The sakila-schema.sql file contains all the CREATE statements required to create the structure of the Sakila database including tables, views, stored procedures, and triggers.
+
+The sakila-data.sql file contains the INSERT statements required to populate the structure created by the sakila-schema.sql file, along with definitions for triggers that must be created after the initial data load.
+
+Connect to MySQL:
+	$ mysql -u root -p
+
+Create the database:
+	mysql> SOURCE sakila-schema.sql;
+
+Insert the Values:
+	mysql> SOURCE sakila-data.sql;
+
+To run the queries, first switch to the databse:
+	mysql> USE sakila;
+
+Then run each query on the mysql cli for the output.
+
+Assumptions:
+	1. Average sales include the sales with payment amount = 0, to ignore we can use the where clause.
+	2. Revenue from late returns is calculated by sum of total paid amount - rental rate, provided the difference is positive. Since if its negative, it would give us the wrong output.
+	3. The answer to question 5 in form of cases, which are:
+		a. case 1: staff member which processes the rental 
+		b. case 2: staff member that processes the payment
+		c. case 3: list of top peforming employees grouped by months
+	4. User has to manually change the month for queries which require a given month
