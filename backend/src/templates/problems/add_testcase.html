@@ -2,6 +2,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript"></script>
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
+<script type="text/javascript" src={% static "js/csrf.js" %}></script>
 <style type="text/css">
 .wmd-panel {
     margin: 0;
@@ -120,7 +121,7 @@ a:hover {
                                     </thead>
                                     <tbody>
                                         {% for testcase in testcases %}
-                                        <tr>
+                                        <tr id="{{testcase.id}}">
                                             <td><a href={{testcase.input.url}}>Input File</a></td>
                                             <td><a href={{testcase.output.url}}>Output File</a></td>
                                             <td>{{testcase.weight}} </td>
@@ -128,10 +129,10 @@ a:hover {
                                                 {{testcase.sample}}
                                             </td>
                                             <td>
-                                                <a class="test-update" href="#" data-toggle="modal" data-target="#editTestCase" data-key="{{testcase.pk}}">
-                                    <i class="material-icons i-sm">edit</i></a>
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-update" data-toggle="modal" data-target="#editTestCase" data-id="{{testcase.pk}}">
+                                                    <i class="material-icons i-sm">edit</i></button>
                                                 <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="{{testcase.pk}}">
-                                    <i class="material-icons i-sm">delete</i></button>
+                                                    <i class="material-icons i-sm">delete</i></button>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -143,11 +144,12 @@ a:hover {
                                     <button class="btn btn-col btn-round" data-toggle="modal" data-target="#addTestCase">Add Testcase</button>
                                 </center>
                             </div>
-                            <div class="modal fade" id="addTestCase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <!-- Add Modal -->
+                            <div class="modal fade" id="addTestCase" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">TestCase</h5>
+                                            <h3 class="modal-title">Add TestCase</h3>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -174,7 +176,7 @@ a:hover {
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
-                                                                    <input class="form-check-input" type="checkbox" value="" name="sample"> Sample
+                                                                    <input id="sample" class="form-check-input" type="checkbox" value="false" name="sample"> Sample
                                                                     <span class="form-check-sign">
             <span class="check"></span>
                                                                     </span>
@@ -184,18 +186,67 @@ a:hover {
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlTextarea1">Explanation</label>
-                                                                <textarea name="explanation" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                <textarea name="explanation" class="form-control" id="explanation" rows="3"></textarea>
                                                             </div>
                                                             <input type="hidden" name="problem" value="{{obj.id}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
                                             </form>
                                         </div>
-                                                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="editTestCase" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Edit TestCase</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-12">
+                                                        <form id="edit-form" method="PUT">
+                                                            <div class="row">
+                                                                <div class="col-md-6 col-12">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">Weight</label>
+                                                                        <input type="number" class="form-control" id="weight" name="weight" placeholder="0">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 col-12">
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                            <input id="sample" class="form-check-input" type="checkbox" value="" name="sample"> Sample
+                                                                            <span class="form-check-sign">
+            <span class="check"></span>
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlTextarea1">Explanation</label>
+                                                                        <textarea name="explanation" class="form-control" id="explanation" rows="3"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -207,48 +258,24 @@ a:hover {
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
+     $(document).on('change', '#sample', function(){
+     cb = $(this);
+     console.log("changed");
+     cb.val(cb.prop('checked'));
+ });
     function addCase(data) {
         console.log(data['id']);
-        $("#testcase-table > tbody:last-child").append('<tr> \
+        $("#testcase-table > tbody:last-child").append('<tr id="'+data['id']+'"> \
                                             <td><a href="' + data['input'] + '">Input File</a></td> \
-                                            <td><a href="'+ data['output'] + '">Output File</a></td> \
-                                            <td>'+ data['weight'] + ' </td> \
+                                            <td><a href="' + data['output'] + '">Output File</a></td> \
+                                            <td>' + data['weight'] + ' </td> \
                                             <td> \
-                                                '+ data['sample'] + ' \
+                                                ' + data['sample'] + ' \
                                             </td> \
                                             <td> \
-                                                <a class="test-update" href="#" data-toggle="modal" data-target="#editTestCase" data-key="'+ data['id'] + '"> \
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-update" data-toggle="modal" data-target="#editTestCase" data-id="' + data['id'] + '"> \
                                     <i class="material-icons i-sm">edit</i></a> \
-                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="'+ data['id'] + '"> \
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="' + data['id'] + '"> \
                                     <i class="material-icons i-sm">delete</i></button> \
                                             </td> \
                                         </tr>');
@@ -256,6 +283,8 @@ $(document).ready(function() {
 
     $("#add-form").submit(function(e) {
         e.preventDefault();
+
+        
         var formData = new FormData(this);
         var url = "/problems/api/testcase/"; // the script where you handle the form input.
         var this_ = this
@@ -266,6 +295,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 addCase(data);
+                $('#addTestCase').modal('toggle');
             },
             error: function(error) {
                 console.log(error)
@@ -276,30 +306,98 @@ $(document).ready(function() {
         });
     });
 
-        function update(btn) {
-            btn.closest('tr').remove();
-        }
-        $(".p-del").click(function(e) {
-            e.preventDefault();
-            var this_ = $(this);
-            var likeUrl = "/problems/api/testcase/" + this_.attr("data-id") + "/";
+    function update(btn) {
+        btn.closest('tr').remove();
+    }
+    $(document).on('click','.p-del',function(e) {
+        e.preventDefault();
+        var this_ = $(this);
+        var likeUrl = "/problems/api/testcase/" + this_.attr("data-id") + "/";
 
-            console.log(likeUrl)
-            $.ajax({
-                url: likeUrl,
-                method: "DELETE",
-                data: {},
-                success: function(data) {
-                    console.log(data)
-                    update(this_)
+        console.log(likeUrl)
+        $.ajax({
+            url: likeUrl,
+            method: "DELETE",
+            data: {},
+            success: function(data) {
+                console.log(data)
+                update(this_)
 
-                },
-                error: function(error) {
-                    console.log(error)
-                }
+            },
+            error: function(error) {
+                console.log(error)
+            }
 
-            });
         });
     });
+
+    function populate(data) {
+        $("input#weight").val(data['weight']);
+        $("textarea#explanation").val(data['explanation']);
+        if(data['sample'] == true){
+             $("input#sample").prop("checked", true);
+        }
+        $("#edit-form").attr("data-id", data['id']);
+    }
+
+    $(document).on('click','.p-update', function(e) {
+        e.preventDefault();
+        var this_ = $(this);
+        var geturl = "/problems/api/testcase/" + this_.attr("data-id") + "/";
+        $.ajax({
+            url: geturl,
+            method: "GET",
+            data: {},
+            success: function(data) {
+                console.log(data)
+                populate(data);
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+
+        });
+    });
+
+    function updateTr(data){
+        $("tr#"+data['id']).html('<td><a href="' + data['input'] + '">Input File</a></td> \
+                                            <td><a href="' + data['output'] + '">Output File</a></td> \
+                                            <td>' + data['weight'] + ' </td> \
+                                            <td> \
+                                                ' + data['sample'] + ' \
+                                            </td> \
+                                            <td> \
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-update" data-toggle="modal" data-target="#editTestCase" data-id="' + data['id'] + '"> \
+                                    <i class="material-icons i-sm">edit</i></a> \
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="' + data['id'] + '"> \
+                                    <i class="material-icons i-sm">delete</i></button> \
+                                            </td> ');
+    }
+
+    $("#edit-form").submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var this_ = $(this);
+        var url = "/problems/api/testcase/" + this_.attr("data-id") + "/"; // the script where you handle the form input.
+        console.log("Here");
+        $.ajax({
+            url: url,
+            type: 'PATCH',
+            data: formData,
+            success: function(data) {
+                console.log(data);
+                updateTr(data);
+
+            },
+            error: function(error) {
+                console.log(error)
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+});
 </script>
 {% endblock %}
