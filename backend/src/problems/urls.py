@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from . import views
-from .api import TestCaseViewSet
+from .api import TestCaseViewSet, ProblemViewSet
 
 from submissions.views import submit_problem
 
@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'testcase', TestCaseViewSet)
+router.register(r'problem', ProblemViewSet)
 
 
 urlpatterns = [

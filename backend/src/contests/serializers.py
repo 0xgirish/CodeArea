@@ -7,5 +7,11 @@ class ContestsHaveProblemsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.ContestsHaveProblems
 		fields = '__all__'
+
+class ContestSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = models.Contest
+		exclude = ('slug', 'creation_date', 'problems', )
 		
 

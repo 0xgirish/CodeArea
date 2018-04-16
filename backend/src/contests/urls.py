@@ -8,7 +8,8 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register(r'c', api.ContestProblemViewSet)
+router.register(r'c/p', api.ContestProblemViewSet)
+router.register(r'c', api.ContestViewSet)
 
 urlpatterns = [
 	url(r'^create/', views.create, name='create_contest'),
@@ -19,7 +20,7 @@ urlpatterns = [
 	url(r'^(?P<slug>[-\w]+)/manage/problems/$', views.add_problems, name='add_problems'),
 	url(r'^$', views.contest_list, name='contest_list'),
 	url(r'^api/(?P<slug>[-\w]+)/signup/$', api.ContestSignUpAPI.as_view(), name='contest_signup_api'),
-	url(r'^api/contest-problem/', include(router.urls)),
+	url(r'^api/contest/', include(router.urls)),
 
 	
 ]

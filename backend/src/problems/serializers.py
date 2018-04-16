@@ -7,3 +7,10 @@ class TestCaseSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.TestCase
 		exclude = ('testcase',)
+
+
+class ProblemSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = models.Problem
+		exclude = ('slug',)

@@ -179,7 +179,7 @@ a:hover {
             $(".p-del").click(function(e) {
                 e.preventDefault();
                 var this_ = $(this);
-                var likeUrl = "/contests/api/contest-problem/c/" + this_.attr("data-id") + "/";
+                var likeUrl = "/contests/api/contest/c/p/" + this_.attr("data-id") + "/";
 
                 console.log(likeUrl)
                 $.ajax({
