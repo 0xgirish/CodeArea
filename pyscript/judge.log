@@ -1,0 +1,2 @@
+CRITICAL:root:[Mon Apr 16 15:36:11 2018]
+	[/home/girishk/web/CodeArea/pyscript/index.py | 77] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/1f63f8d3caface25935152e1f8b4d33f/4db206057f9f46fa738745a910bfefa7.in'

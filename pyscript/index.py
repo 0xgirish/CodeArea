@@ -8,7 +8,6 @@ import time
 import os
 import filecmp
 from inspect import getframeinfo, currentframe
-from ast import literal_eval
 from Docker import Docker, random_md5, LOGFILE_NAME, Status
 
 
