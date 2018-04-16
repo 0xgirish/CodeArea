@@ -108,10 +108,9 @@ a:hover {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-9 col-md-9 col-sm-12 table-responsive">
-                                <table class="table table-hover text-center">
+                                <table class="table table-hover text-center" id="testcase-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col" style="width: 1%;">#</th>
                                             <th scope="col">Input</th>
                                             <th scope="col">Output</th>
                                             <th scope="col">Weight</th>
@@ -122,7 +121,6 @@ a:hover {
                                     <tbody>
                                         {% for testcase in testcases %}
                                         <tr>
-                                            <th scope="row"> {{ forloop.counter }}</th>
                                             <td><a href={{testcase.input.url}}>Input File</a></td>
                                             <td><a href={{testcase.output.url}}>Output File</a></td>
                                             <td>{{testcase.weight}} </td>
@@ -132,8 +130,8 @@ a:hover {
                                             <td>
                                                 <a class="test-update" href="#" data-toggle="modal" data-target="#editTestCase" data-key="{{testcase.pk}}">
                                     <i class="material-icons i-sm">edit</i></a>
-                                                <a class="test-update" href="#">
-                                    <i class="material-icons i-sm">delete</i></a>
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="{{testcase.pk}}">
+                                    <i class="material-icons i-sm">delete</i></button>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -238,26 +236,57 @@ $(document).ready(function() {
             }
         }
     });
-    $("#add-form").submit(function(e) {
-    e.preventDefault();    
-    var formData = new FormData(this);
-    var url = "/problems/api/testcase/"; // the script where you handle the form input.
 
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-            alert(data)
-        },
-        error: function(error) {
-            console.log(error)
-        },
-        cache: false,
-        contentType: false,
-        processData: false
+    function addCase(data) {
+        console.log(data.input);
+        $("#testcase-table > tbody:last-child").after('Added');
+    }
+
+    $("#add-form").submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var url = "/problems/api/testcase/"; // the script where you handle the form input.
+        var this_ = this
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                addCase(this_);
+            },
+            error: function(error) {
+                console.log(error)
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
     });
-});
-});
+
+        function update(btn) {
+            btn.closest('tr').remove();
+        }
+        $(".p-del").click(function(e) {
+            e.preventDefault();
+            var this_ = $(this);
+            var likeUrl = "/problems/api/testcase/" + this_.attr("data-id") + "/";
+
+            console.log(likeUrl)
+            $.ajax({
+                url: likeUrl,
+                method: "DELETE",
+                data: {},
+                success: function(data) {
+                    console.log(data)
+                    update(this_)
+
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+
+            });
+        });
+    });
 </script>
 {% endblock %}
