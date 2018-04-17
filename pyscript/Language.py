@@ -2,12 +2,34 @@
 # Date      :   15-april-2018
 # Info      :   Language information
 
+
+# TO add new language to judge change LANGUAGE list with proper entries
+
+# language      id
+# python 2      0
+# python 3      1
+# golang        2
+# C             3
+# Cpp           4
+# java          5
+
+
+
+# title : Name of the language (not necessary)| extension : language specific (necessary)
+# command1 : necessary
+# binary : necessary (in case of compiled language)
+# Interpeted Language : command1 -> execution command e.g. php CodeArea.php
+# Compiled Language: command1 -> command to compile program
+#                    command2 -> command to execute binary
+#                    binary   -> name of the binary file created after compilation
+
+
 # FORMAT =   "LANGUAGE"                "Extension"      "COMMAND 1"
 #               "BINARY"                "COMMAND 2"
 LANGUAGE = {0: {"title": "python 2.6", "extension": "py",  "command1": "python2 {}/CodeArea.py"},
             1: {"title": "python 3.5", "extension": "py",  "command1": "python3 {}/CodeArea.py"},
             #############################
-            # two step languages
+            #   Interpreted | compiled  #
             #############################
             2: {"title": "golang",     "extension": "go",  "command1": "go build -o {0}/CodeArea.out {0}/CodeArea.go",
                 "binary": "CodeArea.out", "command2": "{}/CodeArea.out"},
@@ -20,13 +42,8 @@ LANGUAGE = {0: {"title": "python 2.6", "extension": "py",  "command1": "python2 
             }
 
 
+
+# If there is an entry for interpreted language than chagen TWO_STEP value
+# TWO_STEP: --> index in the LANGUAGE after which all languages are compiled
 TWO_STEP = 1
 
-
-# language      id
-# python 2      0
-# python 3      1
-# golang        2
-# C             3
-# Cpp           4
-# java          5
