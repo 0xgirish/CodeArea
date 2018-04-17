@@ -1,0 +1,45 @@
+echo "Name: Karan Sehgal"
+echo "Entry Number: 2016csb1080"
+
+echo "Task 1.1, number of entries in the '/usr/include' directory"
+ls -a /usr/include | wc -l # -a means all files including the hidden ones. wc -l counts the number of lines.
+
+echo "Task 1.2, details of of the top 5 largest files + folders in the '/usr/include'"
+ls -lS /usr/include | head -6|tail -5 # Includes Directories, -lS lists in order of the largest files
+echo "Task 1.2, details of of the top 5 largest files in the '/usr/include'"
+ls -lSp /usr/include/ | grep -v / | head -6 | tail -5 #Only Files
+
+echo "Task 1.3, the number of “.h” files in the '/usr/include'"
+find /usr/include -maxdepth 1 -name "*.h" | wc -l #maxdepth 1 stops the find in the current directory
+
+echo "Task 1.4, number of '.h' which have size greater 100 blocks"
+find /usr/include -name "*.h" -size +100b | wc -l #100b is 100 blocks
+
+echo "Task 2.1, number of teams"
+cat mlb_players.csv | cut -d ',' -f2 | uniq | tail -n +3 | wc -l # Finds unique teams names, cut splits the csv with delimiter ',' -f2 means 2nd col, cat helps in viewing the csv
+
+echo "Task 2.2, players across BAL and BOS"
+cat mlb_players.csv | cut -d ',' -f2 | grep -E "BAL|BOS" | wc -l #grep searches for strings BAL or BOS
+
+echo "Task 2.3, tallest player"
+cat mlb_players.csv | sort -r -t ',' -k4 | head -n2 | tail -1 | cut -d ',' -f1 #sorts in reverse based on age, then returns the name, -k4 means 4th col
+
+
+echo "Task 3.1, copies CopyNew series to new"
+mkdir ~/Desktop/new | find ~/sample -iname "CaseNew*.c" | xargs cp -t ~/Desktop/new/ #Creates a new dir, the copies all CaseNew series files to new, iname ignores the case
+
+echo "Task 3.2, copies Case series to old"
+mkdir ~/Desktop/old | find ~/sample -iname "Case[1-9]*.c" | xargs cp -t ~/Desktop/old/ # Creates a new dir, the copies all Case series files to old
+
+echo "Task 3.3, finds the word cat"
+find ~/sample -iname "CaseNew*.c" | xargs grep -il "cat" # Finds the word cat in the CaseNew series
+
+echo "Task 3.4, stored in output.txt"
+find ~/sample -iname "CaseNew*.c" | xargs grep -il "cat" > output.txt # Finds the word cat in the CaseNew series and outputs it in output.txt
+
+
+
+
+
+
+

@@ -384,10 +384,13 @@ $(document).ready(function() {
 
     $("#edit-form").submit(function(e) {
         e.preventDefault();
+        if($("#sample-edit").val() == "false"){
+           $(this).append('<input type="hidden" name="sample" value="false" /> ');
+        }
         var formData = new FormData(this);
         var this_ = $(this);
         var url = "/problems/api/testcase/" + this_.attr("data-id") + "/"; // the script where you handle the form input.
-        console.log("Here");
+        
         $.ajax({
             url: url,
             type: 'PATCH',
