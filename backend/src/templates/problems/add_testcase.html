@@ -224,7 +224,7 @@ a:hover {
                                                                 <div class="col-md-6 col-12">
                                                                     <div class="form-check">
                                                                         <label class="form-check-label">
-                                                                            <input id="sample-edit" class="form-check-input" type="checkbox" value="" name="sample"> Sample
+                                                                            <input id="sample" class="form-check-input" type="checkbox" value="" name="sample"> Sample
                                                                             <span class="form-check-sign">
             <span class="check"></span>
                                                                             </span>
@@ -263,13 +263,6 @@ $(document).ready(function() {
      console.log("changed");
      cb.val(cb.prop('checked'));
  });
-
-     $(document).on('change', '#sample-edit', function(){
-     cb = $(this);
-     console.log("changed");
-     cb.val(cb.prop('checked'));
- });
-
     function addCase(data) {
         console.log(data['id']);
         $("#testcase-table > tbody:last-child").append('<tr id="'+data['id']+'"> \
@@ -342,7 +335,7 @@ $(document).ready(function() {
         $("input#weight").val(data['weight']);
         $("textarea#explanation").val(data['explanation']);
         if(data['sample'] == true){
-             $("input#sample-edit").prop("checked", true);
+             $("input#sample").prop("checked", true);
         }
         $("#edit-form").attr("data-id", data['id']);
     }
@@ -384,13 +377,10 @@ $(document).ready(function() {
 
     $("#edit-form").submit(function(e) {
         e.preventDefault();
-        if($("#sample-edit").val() == "false"){
-           $(this).append('<input type="hidden" name="sample" value="false" /> ');
-        }
         var formData = new FormData(this);
         var this_ = $(this);
         var url = "/problems/api/testcase/" + this_.attr("data-id") + "/"; // the script where you handle the form input.
-        
+        console.log("Here");
         $.ajax({
             url: url,
             type: 'PATCH',
@@ -398,7 +388,6 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 updateTr(data);
-                $('#editTestCase').modal('toggle');
 
             },
             error: function(error) {
