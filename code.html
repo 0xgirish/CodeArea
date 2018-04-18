@@ -6,7 +6,8 @@
 	<script src="./bootstrap/js/jquery-3.2.1.min.js
 "></script>
 	<script src="./bootstrap/js/bootstrap.min.js"></script>
-	<script src="./bootstrap/js/ace.js" charset="utf-8"></script>
+	<script src="./ace/src/ace.js" charset="utf-8"></script>
+	<script src="./ace/src/ext-language_tools.js"></script>
 	<style type="text/css" media="screen">
     body {
         overflow: hidden;
@@ -89,12 +90,17 @@
 
 <script type="text/javascript">
 
-
+	ace.require("ace/ext/language_tools");
 	var editor = ace.edit("editor");
 	editor.setTheme("ace/theme/eclipse");
 	editor.session.setMode("ace/mode/python");
 	editor.setFontSize(14);
 	editor.setValue("# This is your CodeArea\n");
+	editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+	});
 
 	function changeTheme(){
 		var themeVal = document.getElementById("themeset").value;
