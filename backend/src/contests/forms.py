@@ -17,8 +17,8 @@ class ContestForm(forms.ModelForm):
 			"description",
 			"start_contest",
 			"end_contest",
-			"private",
-			"problems",
+			# "private",
+			# "problems",
 		]
 
 	def __init__(self, *args, **kwargs):

@@ -187,11 +187,17 @@ a:hover {
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="autocomplete">Search</label>
                                     <input type="text" class="form-control" name="search" id="autocomplete" value="" />
+                                </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <form id="add-form">
-                                        <input class="form-control" type="number" name="weight" placeholder="0">
+                                        <div class="form-group">
+                                        <label for="weight">Weight</label>
+                                        <input id="weight" class="form-control" type="number" name="weight" placeholder="0">
+                                    </div>
                                         <input type="hidden" id = "problem" name="problem" value=""/>
                                         <input type="hidden" id ="contest" name="contest" value="{{obj.id}}"/>
                                         <div class="modal-footer">

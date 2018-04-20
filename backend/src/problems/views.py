@@ -33,7 +33,7 @@ def problem_list(request):
 	else:
 		problem_list = Problem.objects.all()
 	problem_list1 = Problem.objects.all()
-	paginator = Paginator(problem_list,1)
+	paginator = Paginator(problem_list,2)
 
 	page = request.GET.get('page',1)
 	try:

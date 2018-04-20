@@ -57,15 +57,31 @@ $(document).ready(function() {
                 </div>
             </div>
             {% endfor %}
-            <div class="container">
-            {% if post_list.has_previous %}
-                <a href="?page={{ post_list.previous_page_number }}">Previous</a>
-            {% endif %}
-
-            {% if post_list.has_next %}
-                <a href="?page={{ post_list.next_page_number }}">Next</a>
-            {% endif %}
-        </div>
+            <ul class="pagination">
+                {% if post_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ post_list.previous_page_number }}">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ post_list.previous_page_number }}">{{ post_list.previous_page_number }}</a></li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="#"> {{post_list.number}} <span class="sr-only">(current)</span></a>
+                </li>
+                {% if post_list.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ post_list.next_page_number }}">{{ post_list.next_page_number }}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ post_list.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
     </div>
 </div>
 {% endblock %}

@@ -38,15 +38,31 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="container">
-            {% if contest_list.has_previous %}
-                <a href="?page={{ contest_list.previous_page_number }}">Previous</a>
-            {% endif %}
-
-            {% if contest_list.has_next %}
-                <a href="?page={{ contest_list.next_page_number }}">Next</a>
-            {% endif %}
-            </div>
+            <ul class="pagination">
+                {% if contest_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contest_list.previous_page_number }}">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ contest_list.previous_page_number }}">{{ contest_list.previous_page_number }}</a></li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="#"> {{contest_list.number}} <span class="sr-only">(current)</span></a>
+                </li>
+                {% if contest_list.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ contest_list.next_page_number }}">{{ contest_list.next_page_number }}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contest_list.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
         </div>
         <div class="col-lg-4 col-md-12">
             <div class="card feed-item">
