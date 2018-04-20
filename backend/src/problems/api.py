@@ -16,6 +16,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.filters import SearchFilter
 
 
 from .permissions import IsOwnerOrReadOnly
@@ -39,4 +40,7 @@ class ProblemViewSet(viewsets.ModelViewSet):
 	authentication_classes = (authentication.SessionAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = ProblemSerializer
-	filter_backends = (DjangoFilterBackend,)
+	filter_backends = (DjangoFilterBackend, SearchFilter)
+	filter_fields = ('problem_code',)
+	search_fields = ('title', 'problem_code',)
+

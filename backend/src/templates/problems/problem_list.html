@@ -17,11 +17,26 @@ $(document).ready(function() {
 <script type="text/javascript">
   $( function() {
     var availableProblems = [];
-    {% for obj in problems %}
-    	availableProblems.push("{{obj.title}}");
-    {% endfor %}
+    // {% for obj in problems %}
+    // 	availableProblems.push("{{obj.title}}");
+    // {% endfor %}
     $( "#search" ).autocomplete({
-      source: availableProblems
+      source: function (request, response) {
+         $.ajax({
+             url: "/problems/api/problem/",
+             type: "GET",
+             data: request,
+             success: function (data) {
+                 response($.map(data, function (el) {
+                     return {
+                         label: el.title,
+                         value: el.id
+                     };
+                 }));
+             }
+         });
+    },
+
     });
   } );
   </script>
