@@ -56,7 +56,7 @@ class Judge:
             else:
                 self.target_folder = target_folder
             # logging info
-            #logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
+            logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}"
                                                  .format(filename, getframeinfo(currentframe()).lineno, str(e))))

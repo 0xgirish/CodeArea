@@ -75,7 +75,7 @@ class Docker:
 			container_command = Docker.container.format(name=self.name, source=self.path, target=self.target_folder,
 														devnull=Docker.CONTAINER_RUNTIME)
 			os.system(container_command)
-			#logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
+			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
 			logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
@@ -180,7 +180,7 @@ def random_md5(size):
 			rand_string += universe[randint(0, len(universe)-1)]
 		rand_string = rand_string.encode()
 
-		#logging.info('[{}]\n\trandom string of size {} = {}'.format(time.asctime(), size, rand_string))
+		logging.info('[{}]\n\trandom string of size {} = {}'.format(time.asctime(), size, rand_string))
 		hash = str(MD5(rand_string).hexdigest())
 		return hash
 	except Exception as e:
