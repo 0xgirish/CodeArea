@@ -4,7 +4,28 @@ from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
 from problems.models import Problem
 from contests.models import ContestsHaveProblems, Contest, Participant
+from .models import Submission, ContestSubmission
 # Create your views here.
+
+def submission_list(request):
+	
+	submission_list = Submission.objects.filter(user = request.user.profile)
+
+	context = {
+		'submission_list' : submission_list,
+	}
+
+	return render(request, "submissions/submission_list.html", context)
+
+def contest_submission_list(request):
+	
+	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile)
+
+	context = {
+		'contest_submission_list': contest_submission_list
+	}
+
+	return render(request, "submissions/contest_submission_list.html", context)
 
 def submit_problem(request, *args, **kwargs):
 	form = SubmissionForm(request.POST or None)
