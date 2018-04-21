@@ -1,4 +1,17 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript" ></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".content-markdown").each(function() {
+        var statement = $(this).text()
+        console.log(statement)
+        var markedContent = marked(statement)
+        console.log(markedContent)
+        $(this).html(markedContent)
+    })
+})
+</script>
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <div class="container feed-container">
     <div class="row">
@@ -25,7 +38,7 @@
                                 <button class="btn  btn-round btn-sm signup-btn {% if user.profile in obj.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{obj.get_signup_url}}">{% if user.profile in obj.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
                             </div>
                             <div class="col-12">
-                                <div class="card-text"> {{obj.description | truncatewords:30}} </div>
+                                <div class="card-text content-markdown"> {{obj.description | truncatewords:30}} </div>
                             </div>
                             <small class="col-8">
                                 <div class="card-text part-count"> creator: {{obj.creator.user.username}} </div>
