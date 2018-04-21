@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<center>
+    <div class="container">
+        <div class="rows">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card feed-item" style="background-color:yellow">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1 class="title">{% trans "Sign Up" %}</h1>
+                                    <br>
+                                    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+									  {% csrf_token %}
+									  {{ form.as_p }}
+									  {% if redirect_field_value %}
+									  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+									  {% endif %}
+									  <br>
+									  <button <button class="btn btn-rose btn-round">{% trans "Sign Up" %} &raquo;</button>
+									</form>
+									<br>
+									<p class="h5">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">Sign in</a>.{% endblocktrans %}</p>
+									<br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

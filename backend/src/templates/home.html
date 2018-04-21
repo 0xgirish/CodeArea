@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+</head>
+<body>
+    <form method="post" action="{% url 'home' %}">{% csrf_token %}
+        {% if uname %}
+            <center>
+            </br>
+            Hello, {{name}}<br>
+            <input type="submit" name="submit" value="sign-out">
+            </center>     
+        {% else %}
+            <center>
+            <a href="{% url 'social:begin' 'google-oauth2' %}"><img src="{% static "signin.png" %}" alt="Google Sign-in" style="width:250px; height: 50px;border: 0;" />
+            </a>
+            </center>
+        {% endif %}  
+    </form> 
+</body>
+</html>

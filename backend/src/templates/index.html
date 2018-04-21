@@ -1,0 +1,102 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- Font Awesome -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href={% static "material-kit/css/material-kit.css" %}>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <title> Home </title>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-expand-lg bg-dark sticky-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="#">Code Area</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href={% url "contest_list" %} class="nav-link">
+                                            Contests
+                                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={% url "problem_list" %} class="nav-link">
+                                            Problems
+                                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={% url "post_list" %} class="nav-link">
+                                            Posts
+                                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="dropdown nav-item">
+                        <a href="#" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                            <div class="profile-photo-small text-center" style="padding-top:5px;">
+                                <i class="material-icons">face</i>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <h6 class="dropdown-header">Account</h6>
+                            <a href="/" class="dropdown-item">{{user.username}}</a>
+                            <a href="/submissions/" class="dropdown-item">Submissions</a>
+                            <a href="/accounts/logout/" class="dropdown-item">Sign out</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/accounts/login/" class="btn btn-rose btn-raised btn-round ">
+                                            Register
+                                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-->
+    </nav>
+    <main>
+        {% block content %} {%endblock%}
+        <!-- .content-wrapper -->
+    </main>
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src={% static "material-kit/js/core/popper.min.js" %}></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <!--   Core JS Files   -->
+     <script type="text/javascript" src={% static "material-kit/js/bootstrap-material-design.min.js" %}></script>
+   
+    <script src={% static "/material-kit/js/plugins/moment.min.js" %}></script>
+    <!-- Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+    <script src={% static "/material-kit/js/plugins/bootstrap-datetimepicker.min.js" %}></script>
+    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+    <script src={% static "/material-kit/js/material-kit.js" %}></script>
+    <script src={% static "js/like.js" %}></script>
+    <script src={% static "js/contest_signup.js" %}></script>
+  
+</body>
+
+</html>

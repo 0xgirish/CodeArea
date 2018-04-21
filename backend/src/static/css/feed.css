@@ -1,0 +1,47 @@
+.feed-container{
+	margin-top: 20px;
+}
+
+.feed-author{
+	font-size: 1rem;
+}
+
+.feed-time{
+	padding-top: 5px;
+	cursor: pointer;
+	opacity: 0.75;
+	padding-right: 20px;
+}
+
+.btn-col{
+	background-color: #ef5350 ;
+	border-color: #ef5350 ;
+}
+
+.btn-unlike{
+	background-color: transparent; ;
+	border-color: #eeeeee ;
+}
+
+.contest-sign{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.part-count{
+	padding-top: 5px;
+}
+
+.count{
+	display: inline-block;
+}
+
+.btn-red{
+	background-color: #ef5350;
+	border-color: #ef5350;
+}
+
+.btn-red:hover, .btn-red:focus{
+	background-color: #b71c1c;
+	border-color: #b71c1c;
+}

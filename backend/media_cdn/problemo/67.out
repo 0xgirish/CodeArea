@@ -1,0 +1,588 @@
+/* 
+
+	To compile:
+	g++ a2_karan_2016csb1080.cpp -o output `pkg-config --cflags --libs opencv`
+	./output
+
+	variable triangle_image sets the image for triangulation
+	variable mask is true for morph using masking, false is for bruteforce
+
+	tie points in the txt file should according cartesion coordinates i.e. horizontal, vertical.
+	
+	Make sure to create a folder named "outputs" in the directory, all images would be saved in that folder
+	so as to make it easier to make gif
+	
+	install the image magick cli for gif
+
+	in the folder, enter in terminal:
+	convert -delay 10 -loop 0 *.png image.gif
+
+	To create the gif
+*/
+
+
+
+
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <iostream>
+#include<string>
+#include <cstring>
+#include <cmath>
+#include <fstream>
+#include <iomanip>
+
+
+#define PI 3.14159265358979323846
+
+using namespace cv;
+using namespace std;
+
+const int triangle_image = 0; // 0: original, 1: final, 2: intermediate.
+bool mask = 0;	// 0 for bruteforce
+
+
+
+class AffineTransformation{
+
+  int bilinearInterpolation(Mat &I, int r, int c, double dr, double dc, int k){
+    
+    int row = I.rows;
+    int col = I.cols;
+    double val = I.at<Vec3b>(r%row,c%col).val[k]*(1-dr)*(1-dc);
+    val += I.at<Vec3b>((r+1)%row,c%col).val[k]*(dr)*(1-dc);
+    val += I.at<Vec3b>(r%row,(c+1)%col).val[k]*(1-dr)*(dc);
+    val += I.at<Vec3b>((r+1)%row,(c+1)%col).val[k]*(dr)*dc;
+
+    int intensity = round(val);
+
+    return intensity;
+  }
+
+public:
+
+	Mat transformAffine(Mat &I, Mat &Matrix){
+		int rows = I.rows;
+		int cols = I.cols;
+
+		Vec3b *p, *q;
+
+		// Find new dimensions
+		int offset_x = 0;
+		int offset_y = 0;
+		int rowMax = 0;
+		int rowMin = 1e7;
+		int colMax = 0;
+		int colMin = 1e7;
+
+		for(int i=0;i<rows;i++){
+			p = I.ptr<Vec3b>(i);
+			for(int j=0;j<cols;j++){
+				if(I.at<Vec3b>(i,j).val[0] == 0 && I.at<Vec3b>(i,j).val[1] == 0 && I.at<Vec3b>(i,j).val[2] == 0 ) continue;
+				
+				Mat newVal(3,1,CV_64FC1);
+				Mat oldVal(3,1,CV_64FC1);
+
+				oldVal.at<double>(0) = i;
+				oldVal.at<double>(1) = j;
+				oldVal.at<double>(2) = 1;		
+
+				newVal = Matrix*oldVal;
+
+				int r = round(newVal.at<double>(0));
+				int c = round(newVal.at<double>(1));
+
+				rowMax = max(rowMax, r);
+				colMax = max(colMax, c);
+				rowMin = min(rowMin, r);
+				colMin = min(colMin, c);
+			}
+		}
+
+		int newRows = rowMax-rowMin;
+		int newCols = colMax-colMin;
+		offset_x = min(offset_x, rowMin);
+		offset_y = min(offset_y, colMin);
+		// Tranform
+		Mat matInv = Matrix.inv();
+
+		Mat output = Mat::zeros(newRows, newCols, CV_8UC3);
+	  	for(int i=0;i<newRows;i++){
+	    	p = output.ptr<Vec3b>(i);
+	    	for(int j=0;j<newCols;j++){
+	     		
+	     		Mat newVal(3,1,CV_64FC1);
+				Mat oldVal(3,1,CV_64FC1);
+
+				oldVal.at<double>(0) = i + offset_x;
+				oldVal.at<double>(1) = j + offset_y;
+				oldVal.at<double>(2) = 1;		
+
+				newVal = matInv*oldVal;
+
+				int r = floor(newVal.at<double>(0));
+				int c = floor(newVal.at<double>(1));
+
+			    if(r<0 || r>=rows || c<0 || c>=cols) continue;
+			    double dr = newVal.at<double>(0) - r;
+			    double dc = newVal.at<double>(1) - c ;
+
+			    for(int k=0;k<3;k++) p[j][k] = bilinearInterpolation(I, r,c,dr,dc,k);
+	    }
+	  }
+
+	  return output;
+	}
+
+	void framesAffine(Mat img, Mat trans, int number){
+
+		for(int i=0;i<number;i++){
+			double fract = i*1.0/(number-1);
+			Mat I = Mat::eye(3,3, CV_64FC1);
+			Mat fM = fract*trans + (1-fract)*I;
+			Mat output = transformAffine(img, fM);
+			string filename = "outputs/";
+			string s1;
+			stringstream out;
+			out << setfill('0') << setw(ceil(log10(number))) << i;
+			s1 = out.str();
+			filename.append(s1);
+			filename.append(".png");
+			imwrite(filename.c_str(), output);
+		}
+	}
+
+};
+
+class MorphImage{
+	int find(Point2f xy){
+		for(int i=0;i<points.size();i++){
+			if(points[i] == xy) return i;
+		}
+		return -1;
+	}
+public:
+	Mat image;
+	vector<Point2f> points;
+	MorphImage(){}
+	MorphImage(Mat I){
+		image = I.clone();
+	}
+
+	void fillPoints(string filename, bool flag=0){
+		ifstream fin(filename.c_str());
+	    int x,y;
+	    while(fin>>x>>y){
+	    	if(flag) points.push_back(Point2f(x,2*y));
+			else points.push_back(Point2f(x,y));
+	    }
+	}
+
+	vector<vector<int> > triangles(){
+		Rect rect(0, 0, image.cols, image.rows);
+		Subdiv2D subdiv(rect); 
+
+		subdiv.insert(points);
+		vector< Vec6f > v;
+		subdiv.getTriangleList(v);
+
+		vector<vector<int> > tri;
+
+		for(int i=0;i<v.size();i++){
+
+			vector<int> toAdd(3);
+			int j;
+			for(j=0;j<6;j+=2){
+				Point2f toSearch(v[i][j], v[i][j+1]);
+				int index = find(toSearch); 
+				if(index == -1) break;
+				toAdd[j/2] = index;
+			}	
+			if(j==6){
+				tri.push_back(toAdd);
+			}
+		}
+		return tri;
+	}
+
+};
+
+
+class Morph{
+
+	Mat bilinearConstants(int *arr_x, int *arr_y, int *arr_x_dist, int *arr_y_dist){
+	    Mat equations(6,6,CV_64FC1, double(0));
+	    Mat coordinate_distorted(6,1,CV_64FC1);
+	    Mat c_values(6,1, CV_64FC1);
+	    double *p;
+	    int *q;
+
+	    for(int i=0;i<6;i++){
+	      p = equations.ptr<double>(i);
+	      int offset = (i%2)*3;
+	      int entry = i/2;
+	      p[offset] = arr_x[entry];
+	      p[offset+1] = arr_y[entry];
+	      p[offset+2] = 1;  
+	    }
+
+	    for(int i=0;i<6;i++){
+	      p = coordinate_distorted.ptr<double>(i);
+	      int val = 0;
+	      if(i%2) val=arr_y_dist[i/2];
+	      else val=arr_x_dist[i/2];
+	      p[0] = val;
+	    }
+
+	    Mat eq_inv = equations.inv();
+	    c_values = eq_inv*coordinate_distorted;
+
+	    return c_values;
+  	}
+
+  	int bilinearInterpolation(Mat &I, int r, int c, double dr, double dc, int k){
+    
+	    int row = I.rows;
+	    int col = I.cols;
+	    double val = I.at<Vec3b>(r%row,c%col).val[k]*(1-dr)*(1-dc);
+	    val += I.at<Vec3b>((r+1)%row,c%col).val[k]*(dr)*(1-dc);
+	    val += I.at<Vec3b>(r%row,(c+1)%col).val[k]*(1-dr)*(dc);
+	    val += I.at<Vec3b>((r+1)%row,(c+1)%col).val[k]*(dr)*dc;
+
+	    int intensity = round(val);
+
+	    return intensity;
+  	}
+
+	Rect boundRect(Point2f p1, Point2f p2, Point2f p3){
+		int xMin = min(p1.x, min(p2.x,p3.x));
+		int yMin = min(p1.y, min(p2.y,p3.y));
+		int xMax = max(p1.x, max(p2.x,p3.x));
+		int yMax = max(p1.y, max(p2.y,p3.y));
+
+		Rect bound(xMin, yMin, xMax-xMin, yMax-yMin);
+		return bound;
+	}
+
+	Mat getTransform(vector<Point2f> orign, vector<Point2f> dist){
+
+		int arr_x_orig[3];
+		int arr_y_orig[3];
+		int arr_x_dist[3];
+		int arr_y_dist[3];
+
+		for(int i=0;i<3;i++){
+			arr_x_orig[i] = (int) orign[i].x;
+			arr_y_orig[i] = (int) orign[i].y;
+			arr_x_dist[i] = (int) dist[i].x;
+			arr_y_dist[i] = (int) dist[i].y;
+		}
+
+		Mat o2d = bilinearConstants(arr_x_orig, arr_y_orig, arr_x_dist, arr_y_dist);
+		Mat toRet(2,3,CV_64FC1, double(0));
+		double *d;
+		int k=0;
+		for(int i=0;i<2;i++){
+			d = toRet.ptr<double>(i);
+			for(int j=0;j<3;j++){
+				d[j] = o2d.at<double>(k);
+				k++;
+			}
+		}
+		return toRet;
+
+	}
+
+	double area(Point2f v1, Point2f v2, Point2f v3){
+		return abs((v1.x*(v2.y-v3.y) + v2.x*(v3.y-v1.y)+ v3.x*(v1.y-v2.y))/2.0);
+
+	}
+
+	bool isInside(Point2f v1, Point2f v2, Point2f v3, Point2f x){
+		double a1 = area(v1,v2,x);
+		double a2 = area(v1,v3,x);
+		double a3 = area(v2,v3,x);
+		double total = area(v1,v2,v3);
+
+		double error = 0.01;
+
+		return (abs(total - (a1 + a2 + a3))<error);
+
+	}
+
+	void morphTriangle(MorphImage &Im, MorphImage &Orig, MorphImage &Final, int v1, int v2, int v3, double alpha){
+
+		Point2f p1,p2,p3;
+		p1 = Im.points[v1];
+		p2 = Im.points[v2];
+		p3 = Im.points[v3];
+
+		Rect boundIm = boundRect(p1,p2,p3);
+
+		vector<Point2f> src(3);
+		vector <Point> mask_point(3);
+		src[0] = Point2f(p1.x - boundIm.x, p1.y - boundIm.y); 
+		src[1] = Point2f(p2.x - boundIm.x, p2.y - boundIm.y);
+		src[2] = Point2f(p3.x - boundIm.x, p3.y - boundIm.y);
+
+		mask_point[0] = Point(p1.x - boundIm.x, p1.y - boundIm.y); 
+		mask_point[1] = Point(p2.x - boundIm.x, p2.y - boundIm.y);
+		mask_point[2] = Point(p3.x - boundIm.x, p3.y - boundIm.y);
+		
+		// Orig
+		Point2f q1, q2, q3;
+		q1 = Orig.points[v1];
+		q2 = Orig.points[v2];
+		q3 = Orig.points[v3];
+
+		Rect boundOrig = boundRect(q1,q2,q3);
+		vector<Point2f> dist(3);
+		dist[0] = Point2f(q1.x - boundOrig.x, q1.y - boundOrig.y); 
+		dist[1] = Point2f(q2.x - boundOrig.x, q2.y - boundOrig.y);
+		dist[2] = Point2f(q3.x - boundOrig.x, q3.y - boundOrig.y);
+
+		Mat transOrig = getTransform(dist, src);
+
+		// Final
+		Point2f r1, r2, r3;
+		r1 = Final.points[v1];
+		r2 = Final.points[v2];
+		r3 = Final.points[v3];
+
+		Rect boundFinal = boundRect(r1,r2,r3);
+		dist[0] = Point2f(r1.x - boundFinal.x, r1.y - boundFinal.y); 
+		dist[1] = Point2f(r2.x - boundFinal.x, r2.y - boundFinal.y);
+		dist[2] = Point2f(r3.x - boundFinal.x, r3.y - boundFinal.y);
+
+		Mat transFinal = getTransform(dist, src);
+		
+
+		// Orig
+		Mat img_orig = Orig.image(boundOrig).clone();
+		Mat img_im = Im.image(boundIm).clone();
+
+		Mat wrappedImage;
+		warpAffine( img_orig, wrappedImage, transOrig, img_im.size(), INTER_LINEAR, BORDER_REFLECT_101);
+
+		Mat mask = Mat::zeros(boundIm.height, boundIm.width, Orig.image.type());
+		fillConvexPoly(mask, mask_point, Scalar(1,1,1));
+		Im.image(boundIm) = Im.image(boundIm).mul(Scalar(1,1,1) - mask); 
+
+		Mat mask_orig = mask.mul(wrappedImage);
+
+		Mat toAdd = Mat::zeros(Im.image.rows, Im.image.cols, Im.image.type());
+		mask_orig.copyTo(toAdd(boundIm));
+		//imwrite("test.png", toAdd(boundIm));
+		Im.image += (1-alpha)*toAdd;
+
+		// Final
+		Mat img_final = Final.image(boundFinal).clone();
+		
+		warpAffine( img_final, wrappedImage, transFinal, img_im.size(), INTER_LINEAR, BORDER_REFLECT_101);
+
+		Mat mask_final = mask.mul(wrappedImage);
+
+		toAdd = Mat::zeros(Im.image.rows, Im.image.cols, Im.image.type());
+		mask_final.copyTo(toAdd(boundIm));
+		//imwrite("test.png", toAdd(boundIm));
+		Im.image += alpha*toAdd;
+
+	}
+
+	void morphTriangleBrute(MorphImage &Im, MorphImage &Orig, MorphImage &Final, int v1, int v2, int v3, double alpha){
+
+		Point2f p1,p2,p3;
+		p1 = Point2f(Im.points[v1].y,Im.points[v1].x);
+		p2 = Point2f(Im.points[v2].y,Im.points[v2].x);
+		p3 = Point2f(Im.points[v3].y,Im.points[v3].x);
+
+		int xMin = min(p1.x, min(p2.x,p3.x));
+		int yMin = min(p1.y, min(p2.y,p3.y));
+		int xMax = max(p1.x, max(p2.x,p3.x));
+		int yMax = max(p1.y, max(p2.y,p3.y));
+
+		vector<Point2f> src(3);
+		src[0] = p1;
+		src[1] = p2;
+		src[2] = p3;
+
+		// Orig
+		Point2f q1, q2, q3;
+		q1 = Point2f(Orig.points[v1].y,Orig.points[v1].x);
+		q2 = Point2f(Orig.points[v2].y,Orig.points[v2].x);
+		q3 = Point2f(Orig.points[v3].y,Orig.points[v3].x);
+
+		vector<Point2f> dist(3);
+		dist[0] = q1;
+		dist[1] = q2;
+		dist[2] = q3;
+
+		Mat transOrig = getTransform(src, dist);
+
+		Mat addOrign = Mat::zeros(Im.image.rows, Im.image.cols, Im.image.type());
+
+		// Final
+		Point2f r1, r2, r3;
+		r1 = Point2f(Final.points[v1].y,Final.points[v1].x);
+		r2 = Point2f(Final.points[v2].y,Final.points[v2].x);
+		r3 = Point2f(Final.points[v3].y,Final.points[v3].x);
+
+		
+		dist[0] = r1;
+		dist[1] = r2;
+		dist[2] = r3;
+
+		Mat transFinal = getTransform(src, dist);
+		
+		Mat addFinal = Mat::zeros(Im.image.rows, Im.image.cols, Im.image.type());
+
+		for(int i=xMin;i<=xMax;i++){
+			for(int j=yMin;j<=yMax;j++){
+				Point2f p = Point2f(i,j);
+				double r_o, c_o, r_f, c_f;
+				if(isInside(p1,p2,p3,p)){
+
+					// Orig
+					r_o = i*transOrig.at<double>(0,0) + j*transOrig.at<double>(0,1) + transOrig.at<double>(0,2);
+					c_o = i*transOrig.at<double>(1,0) + j*transOrig.at<double>(1,1) + transOrig.at<double>(1,2);
+
+					int r_o_floor = floor(r_o);
+					int c_o_floor = floor(c_o);
+
+					double dr_o = r_o - r_o_floor; 
+					double dc_o = c_o - c_o_floor;
+
+					// Final
+					r_f = i*transFinal.at<double>(0,0) + j*transFinal.at<double>(0,1) + transFinal.at<double>(0,2);
+					c_f = i*transFinal.at<double>(1,0) + j*transFinal.at<double>(1,1) + transFinal.at<double>(1,2);
+
+					int r_f_floor = floor(r_f);
+					int c_f_floor = floor(c_f);
+
+					double dr_f = r_f - r_f_floor; 
+					double dc_f = c_f - c_f_floor;
+
+					if(r_o_floor < 0 || c_o_floor < 0 || r_o_floor >= Orig.image.rows || c_o_floor >= Orig.image.cols ) continue;
+					if(r_f_floor < 0 || c_f_floor < 0 || r_f_floor >= Final.image.rows || c_f_floor >= Final.image.cols ) continue;
+
+					for(int k=0;k<3;k++){
+						addOrign.at<Vec3b>(i,j).val[k] = bilinearInterpolation(Orig.image, r_o_floor, c_o_floor,dr_o, dc_o,k);
+						addFinal.at<Vec3b>(i,j).val[k] = bilinearInterpolation(Final.image,r_f_floor, c_f_floor,dr_f, dc_f,k);
+					} 
+
+					Im.image.at<Vec3b>(i,j) = alpha*addFinal.at<Vec3b>(i,j) + (1-alpha)*addOrign.at<Vec3b>(i,j);
+					
+				}
+			}
+					
+		}
+	}
+
+public:
+	void createImage(MorphImage Orig, MorphImage Final, int frames){
+
+		vector<vector<int> > triList;
+		if(triangle_image == 0){
+			 triList = Orig.triangles();
+		}
+		else if(triangle_image == 1){
+			triList = Final.triangles();
+		}
+
+		for(int index=0;index<frames;index++){
+			double alpha = index*1.0/(frames-1);
+			MorphImage im;
+			int pointNo = Orig.points.size();
+			im.points.resize(pointNo);
+			for(int i=0;i<pointNo;i++){
+				im.points[i] = alpha*Final.points[i] + (1-alpha)*Orig.points[i];
+				im.points[i].x = round(im.points[i].x);
+				im.points[i].y = round(im.points[i].y);
+			}
+
+			Size s;
+			s.width = round(alpha*(Final.image.cols) + (1-alpha)*(Orig.image.cols));
+			s.height = round(alpha*(Final.image.rows) + (1-alpha)*(Orig.image.rows));
+			im.image = Mat::zeros(s.height, s.width, Orig.image.type());
+
+			if(triangle_image!=0 && triangle_image!=1) triList = im.triangles();
+			for(int i=0;i<triList.size();i++){
+				if(mask) morphTriangle(im, Orig, Final, triList[i][0],triList[i][1],triList[i][2], alpha);
+				else morphTriangleBrute(im, Orig, Final, triList[i][0],triList[i][1],triList[i][2], alpha);
+			}
+			string filename = "outputs/";
+			string s1;
+			stringstream out;
+			out << setfill('0') << setw(ceil(log10(frames))) << index;
+			s1 = out.str();
+			filename.append(s1);
+			filename.append(".png");
+			imwrite(filename.c_str(), im.image);
+		}
+
+	}
+};
+
+int main(){
+
+	int choice;
+	cout<<"1. Morph on Affine Transform"<<endl;
+	cout<<"2. Morph on two images"<<endl;
+	cout<<"Enter your choice:"<<endl;
+	cin>>choice;
+
+	if(choice==1){
+
+		AffineTransformation at;
+
+		string file;
+		cout<<"Enter file name: ";
+		cin>>file;
+		Mat img = imread(file.c_str(),1);
+		if(!img.data){
+			cout<<"File cannot be read"<<endl;
+			return 0;
+		}
+		cout<<"Enter the transformation matrix (3x3)"<<endl;
+
+		double in;
+		Mat trans(3,3, CV_64FC1, double(0));
+
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				cin>>in;
+				trans.at<double>(i,j) = in;
+			}
+		}
+
+		cout<<"Number of images in total: "<<endl;
+		int frames;
+		cin>>frames;
+
+		at.framesAffine(img, trans, frames);
+		cout<<"Completed"<<endl;
+	}
+	else if(choice == 2){
+		string file1, file2, txt1, txt2;
+		cout<<"Enter file names of image 1, image 2, tie points of 1, tie points of 2"<<endl;
+		cin>>file1>>file2>>txt1>>txt2;
+		Mat img1 = imread(file1.c_str(),1);
+		Mat img2 = imread(file2.c_str(),1);
+
+		if(!img1.data || !img2.data){
+			cout<<"File cannot be read"<<endl;
+			return 0;
+		}
+		int frames;
+		cout<<"Number of frames"<<endl;
+		cin>>frames;
+		MorphImage I1(img1);
+		MorphImage I2(img2);
+		I1.fillPoints(txt1.c_str());
+		I2.fillPoints(txt2.c_str());
+
+		Morph M;
+		M.createImage(I1, I2, frames);
+	}
+
+}
