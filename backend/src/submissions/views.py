@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
@@ -10,6 +11,14 @@ from .models import Submission, ContestSubmission
 def submission_list(request):
 	
 	submission_list = Submission.objects.filter(user = request.user.profile)
+	paginator = Paginator(submission_list,1)
+	page = request.GET.get('page',1)
+	try:
+		submission_list = paginator.page(page)
+	except PageNotAnInteger:
+		submission_list = paginator.page(1)
+	except EmptyPage:
+		submission_list = paginator.page(paginator.num_pages)
 
 	context = {
 		'submission_list' : submission_list,
@@ -20,9 +29,17 @@ def submission_list(request):
 def contest_submission_list(request):
 	
 	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile)
+	paginator = Paginator(contest_submission_list,1)
+	page = request.GET.get('page',1)
+	try:
+		contest_submission_list = paginator.page(page)
+	except PageNotAnInteger:
+		contest_submission_list = paginator.page(1)
+	except EmptyPage:
+		contest_submission_list = paginator.page(paginator.num_pages)
 
 	context = {
-		'contest_submission_list': contest_submission_list
+		'contest_submission_list' : contest_submission_list,
 	}
 
 	return render(request, "submissions/contest_submission_list.html", context)
