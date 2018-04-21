@@ -6,7 +6,8 @@
 	<script src="./bootstrap/js/jquery-3.2.1.min.js
 "></script>
 	<script src="./bootstrap/js/bootstrap.min.js"></script>
-	<script src="./bootstrap/js/ace.js" charset="utf-8"></script>
+	<script src="./ace/src/ace.js" charset="utf-8"></script>
+	<script src="./ace/src/ext-language_tools.js"></script>
 	<style type="text/css" media="screen">
     body {
         overflow: hidden;
@@ -15,10 +16,10 @@
     #editor {
         margin: 0;
         position: absolute;
-        top: 42;
+        top: 0;
         bottom: 70;
-        left: 1;
-        right: 1;
+        left: 0;
+        right: 0;
     }
     #language {
     	margin: 0;
@@ -52,18 +53,19 @@
 </head>
 <body>
 
-<div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
-	<div class="panel-heading"><b>CodeArea</b></div>
+<!-- <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
+	<div class="panel-heading"><b>CodeArea</b></div> -->
+
 		<div id="editor"></div>
 		<button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button>
 		<div class="form-group form-improve">
 			<select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
+				<option value="python2">Python 2.7</option>
+				<option value="python3">Python 3.6</option>
+				<option value="golang">GO</option>
 				<option value="C">C</option>
 				<option value="cpp14">C++14</option>
-				<option value="java">Java</option>
-				<option value="php">PhP 7</option>
-				<option value="python3">Python 3.6</option>
-				<option value="python2">Python 2.7</option>
+				<option value="java">Java 8</option>
 			</select>
 		</div>
 
@@ -84,17 +86,28 @@
 			</select>
 		</div>
 
-	</div>
-</div>
+<!-- 	</div>
+</div> -->
 
 <script type="text/javascript">
 
-
-	var editor = ace.edit("editor");
+	ace.require("ace/ext/language_tools");
+	ace.require("ace/ext/searchbox");
+	ace.require("ace/ext/keybinding_menu");
+	//ace.require("ace/ext/linking");
+	//var beautify = ace.require("ace/ext/beautify"); // get reference to extension
+	var editor = ace.edit("editor"); // get reference to editor
+	//beautify.beautify(editor.session);
 	editor.setTheme("ace/theme/eclipse");
-	editor.session.setMode("ace/mode/c_cpp");
+	editor.session.setMode("ace/mode/python");
 	editor.setFontSize(14);
-	editor.setValue("//This is your CodeArea\n");
+	editor.setValue("# This is your CodeArea\n");
+	//editor.setKeyboardHandler("ace/keyboard/vim");
+	editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+	});
 
 	function changeTheme(){
 		var themeVal = document.getElementById("themeset").value;
@@ -126,39 +139,75 @@
 			return;
 		}else if(language == "cpp14" || language == "C"){
 			editor.session.setMode("ace/mode/c_cpp");
+			editor.setValue("// This is your CodeArea");
 			return;
 		}
 		var mode = "ace/mode/" + language;
 		editor.session.setMode(mode);
 		if(language == "java"){
-			editor.setValue("//This is your CodeArea\n\n/* Don't change public class name --CodeArea--*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}")
+			editor.setValue("// This is your CodeArea\n\n/*\n*  Don't change public class name --CodeArea--\n*  Don't add package name\n*/\n\npublic class CodeArea {\n\n\tpublic static void main (String[] args) {\n\n\t}\n}");
 			return;
-		}else if(language == "php"){
-			editor.setValue("<?php\n\n//This is your CodeArea\n\n\n\n?>");
+		}else if(language == "golang"){
+			editor.setValue("// This is your CodeArea\n\npackage main\nimport \"fmt\"\n\nfunc main(){\n\t// your code goes here\n\n}");
+			return;
+		}
+	}
+
+	function getLangId(lang){
+		switch(lang){
+			case "python2":
+				return 0;
+			case "python3":
+				return 1;
+			case "golang":
+				return 2;
+			case "C":
+				return 3;
+			case "cpp14":
+				return 4;
+			case "java":
+				return 5;
 		}
 	}
 
 	function senddata(){
 		var textCode = editor.getValue();
 		var language = document.getElementById('language').value;
+
+		var objct = {"code":textCode, "contest":"CHEP", "problem":"1", "type":"practice", "lang_id":getLangId(language), "custom_input":""};
+		var myJson = JSON.stringify(objct);
+		console.log(myJson);
+		
 		var objForm = document.createElement('FORM');
 		objForm.method = 'post';
-		objForm.action = 'result.php';
+		objForm.action = 'pyscript/index.py';
 		objForm.target = 'output';
-		var objLang = document.createElement('INPUT');
-		objLang.type = 'hidden';
-		objLang.name = 'language';
-		objLang.value = language;
-		objForm.appendChild(objLang);
-		var objInput = document.createElement('INPUT');
-		objInput.type = 'hidden';
-		objInput.name = 'code';
-		objInput.value = textCode;
-		objForm.appendChild(objInput);
+		var objJson = document.createElement('INPUT');
+		objJson.type = 'hidden';
+		objJson.name = 'query';
+		objJson.value = myJson;
+		objForm.appendChild(objJson);
 		document.body.appendChild(objForm);
 		objForm.submit();
 		document.body.removeChild(objForm);
+
+
+		// var dataExec;
+
+		// var request = $.ajax({
+		// 	type: "POST",
+		// 	url: "pyscript/index.py",
+		// 	data:{
+		// 		query: myJson
+		// 	},
+		// 	async: false,
+		// 	dataType: "json"
+		// });
+
+		//window.location.assign('pyscript/index.py?query=' + myJson);
+
 	}
+
 
 </script>
 
