@@ -21,8 +21,8 @@ $(document).ready(function() {
             var days = diff/(1000 * 3600 * 24)
             var hours = diff/(1000 * 3600)
             $("#ongoing tbody").append("<tr>\
-                                <td><a href='/contests/"+ data[i].contest_code + "/'>" + data[i].title + "</a></td>\
-                                <td>"+ Math.floor(days) + " Days " + Math.floor(hours) + "Hours" +"</td>\
+                                <td><a href='/contests/"+ data[i].slug + "/'>" + data[i].title + "</a></td>\
+                                <td>"+ Math.floor(days) + " Days " + Math.floor(hours) + " Hours" +"</td>\
                             </tr>")
         }
     }

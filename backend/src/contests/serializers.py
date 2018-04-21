@@ -12,6 +12,6 @@ class ContestSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = models.Contest
-		exclude = ('slug', 'creation_date', 'problems', )
+		exclude = ('creation_date', 'problems', )
 		
 
