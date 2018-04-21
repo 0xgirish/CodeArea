@@ -15,9 +15,14 @@ $(document).ready(function() {
         var i;
 
         for(i=0;i<data.length;++i){
+            var enddate = new Date(data[i].end_contest.split("T")[0] +" " + data[i].end_contest.split("T")[1].split("Z")[0])
+            var current = new Date(moment().format('YYYY/MM/DD HH:mm'))
+            var diff = enddate.getTime()-current.getTime()
+            var days = diff/(1000 * 3600 * 24)
+            var hours = diff/(1000 * 3600)
             $("#ongoing tbody").append("<tr>\
-                                <td><a href='/contests/"+ data[i].contest_code + "/'>" + data[i].contest_code + "</a></td>\
-                                <td>"+ data[i].end_contest +"</td>\
+                                <td><a href='/contests/"+ data[i].contest_code + "/'>" + data[i].title + "</a></td>\
+                                <td>"+ Math.floor(days) + " Days " + Math.floor(hours) + "Hours" +"</td>\
                             </tr>")
         }
     }
@@ -112,7 +117,7 @@ $(document).ready(function() {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Ends at</th>
+                                <th>Ends in</th>
                             </tr>
                         </thead>
                         <tbody>
