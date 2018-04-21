@@ -18,6 +18,7 @@ urlpatterns = [
 	url(r'^(?P<slug>[-\w]+)/$', views.problem_list, name='contest_problem_list'),
 	url(r'^(?P<slug>[-\w]+)/manage/$', views.manage_contest, name='manage_contest'),
 	url(r'^(?P<slug>[-\w]+)/manage/problems/$', views.add_problems, name='add_problems'),
+	url(r'^(?P<slug>[-\w]+)/manage/submissions/$', views.view_submissions, name='contest_submissions'),
 	url(r'^$', views.contest_list, name='contest_list'),
 	url(r'^api/(?P<slug>[-\w]+)/signup/$', api.ContestSignUpAPI.as_view(), name='contest_signup_api'),
 	url(r'^api/contest/', include(router.urls)),

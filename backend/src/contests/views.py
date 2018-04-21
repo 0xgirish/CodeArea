@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContestForm
 # Create your views here.
 from .models import Contest, ContestsHaveProblems, Participant
+from submissions.models import ContestSubmission
 
 def create(request):
 	form = ContestForm(request.POST or None)
@@ -80,6 +81,17 @@ def add_problems(request, slug):
 	}
 
 	return render(request, "contests/add_problems.html",context)
+
+def view_submissions(request, slug):
+	instance = get_object_or_404(Contest, slug = slug)
+	queryset = ContestSubmission.objects.filter(problem__contest = instance)
+
+	context = {
+		'obj': instance,
+		'queryset': queryset
+	}
+
+	return render(request, "contests/contest_submissions.html", context)
 
 
 
