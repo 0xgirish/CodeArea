@@ -24,7 +24,7 @@ class OnGoingContest(filters.BaseFilterBackend):
 	"""
 	def filter_queryset(self, request, queryset, view):
 		date = datetime.datetime.today()
-		return queryset.filter(end_contest__lt=date)
+		return queryset.filter(end_contest__gt=date)
 
 
 class ContestSignUpAPI(APIView):
