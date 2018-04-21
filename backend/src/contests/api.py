@@ -15,6 +15,16 @@ from problems.models import Problem
 from rest_framework import viewsets
 from rest_framework import status
 
+import datetime
+
+
+class OnGoingContest(filters.BaseFilterBackend):
+	"""
+	Filter that only allows users to see their own objects.
+	"""
+	def filter_queryset(self, request, queryset, view):
+		date = datetime.datetime.today()
+		return queryset.filter(end_contest__lt=date)
 
 
 class ContestSignUpAPI(APIView):
@@ -57,7 +67,17 @@ class ContestViewSet(viewsets.ModelViewSet):
 	authentication_classes = (authentication.SessionAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = ContestSerializer
-	filter_backends = (DjangoFilterBackend, SearchFilter)
+	filter_backends = (DjangoFilterBackend, SearchFilter, )
+	filter_fields = ('creator',)
+	search_fields = ('contest_code', 'title',)
+
+class OnGoingContestViewSet(viewsets.ModelViewSet):
+
+	queryset = Contest.objects.all()
+	authentication_classes = (authentication.SessionAuthentication,)
+	permission_classes = (permissions.IsAuthenticated,)
+	serializer_class = ContestSerializer
+	filter_backends = (DjangoFilterBackend, SearchFilter, OnGoingContest)
 	filter_fields = ('creator',)
 	search_fields = ('contest_code', 'title',)
 

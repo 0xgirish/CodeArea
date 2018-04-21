@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'c/p', api.ContestProblemViewSet)
+router.register(r'c/ongoing', api.OnGoingContestViewSet)
 router.register(r'c', api.ContestViewSet)
 
 urlpatterns = [
