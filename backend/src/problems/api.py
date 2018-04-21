@@ -31,6 +31,8 @@ class TestCaseViewSet(viewsets.ModelViewSet):
 	authentication_classes = (authentication.SessionAuthentication,)
 	permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 	parser_classes = (MultiPartParser, FormParser,)
+	filter_backends = (DjangoFilterBackend, SearchFilter)
+	filter_fields = ('problem',)
 
 
 

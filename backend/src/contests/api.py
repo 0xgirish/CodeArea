@@ -8,7 +8,7 @@ from rest_framework import generics, filters
 from .serializers import ContestsHaveProblemsSerializer, ContestSerializer
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .models import Contest, ContestsHaveProblems, Participant
 from problems.models import Problem
@@ -74,12 +74,13 @@ class ContestViewSet(viewsets.ModelViewSet):
 class OnGoingContestViewSet(viewsets.ModelViewSet):
 
 	queryset = Contest.objects.all()
-	authentication_classes = (authentication.SessionAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
+	
 	serializer_class = ContestSerializer
-	filter_backends = (DjangoFilterBackend, SearchFilter, OnGoingContest)
+	filter_backends = (DjangoFilterBackend, SearchFilter, OnGoingContest, OrderingFilter)
 	filter_fields = ('creator',)
 	search_fields = ('contest_code', 'title',)
+	ordering = ('end_contest',)
+
 
 
 
