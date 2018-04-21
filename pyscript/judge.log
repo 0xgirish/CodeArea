@@ -8,3 +8,62 @@ CRITICAL:root:[Tue Apr 17 10:41:32 2018]
 	[/home/girishk/web/CodeArea/pyscript/index.py | 62] 'query'
 CRITICAL:root:[Tue Apr 17 15:40:49 2018]
 	[/home/girishk/web/CodeArea/pyscript/index.py | 62] 'query'
+CRITICAL:root:[Sun Apr 22 00:10:42 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/7335192c079fe31a2974e2f2d55843a0/cb34dac57298bcaba213f8a9fe372827.in'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	random string of size 7 = b'5e2noag'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	random string of size 7 = b'q8mfcea'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	random string of size 7 = b'8zyzl11'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	random string of size 7 = b'wsen612'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	random string of size 7 = b'j50shij'
+INFO:root:[Sun Apr 22 00:17:19 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 00:17:19 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/d1dda7e1061cbebde779c91224adae3b/2f9f52e841162ebdbe63a0e5b215b406.in'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	random string of size 7 = b'yvpfkff'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	random string of size 7 = b'byvmjvf'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	random string of size 7 = b'a5om1r7'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	random string of size 7 = b'mn81te4'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	random string of size 7 = b'i6dz2lf'
+INFO:root:[Sun Apr 22 00:17:23 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 00:17:23 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/5e18068939ca367c73eaa98d24124f19/32947067da818a7c5064291419afca7b.in'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	random string of size 7 = b'o33kqrg'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	random string of size 7 = b'qbuu86x'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	random string of size 7 = b'l80q2nu'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	random string of size 7 = b'vbgehx6'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	random string of size 7 = b'nfpuvqc'
+INFO:root:[Sun Apr 22 00:18:05 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 00:18:05 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/3645398023f9e734c9307e84ed9af046/d9fb3b72c2032ff20bd93799bb554e38.in'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	random string of size 7 = b'ikpwslg'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	random string of size 7 = b'lv00ea3'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	random string of size 7 = b'i6blkb1'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	random string of size 7 = b'w6vf1m6'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	random string of size 7 = b'jss5j0o'
+INFO:root:[Sun Apr 22 00:19:16 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 00:19:20 2018]
+	container created . . .
+docker run -d -it --name 32c1f6730bb5f15beceb4f5982c293e4 -v /home/girishk/web/CodeArea_judge/docker/userData/a9a163cdc5983a7efa51a68ac86cdfc5:/70b6c0ec9c85d35d10b375af37c194af virtual_machine:latest 1>container.log 2>&1
