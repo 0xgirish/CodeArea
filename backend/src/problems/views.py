@@ -94,3 +94,6 @@ def problem_manage(request, slug):
 	}
 	return render(request, 'problems/problem_manage.html', context)
 
+
+def ide(request):
+	return render(request, 'problems/code.html',{})
