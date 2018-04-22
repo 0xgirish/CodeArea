@@ -125,23 +125,19 @@ $(document).ready(function() {
         var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" } ;
         var obj2 = {"query" : objct };
         var myJson = JSON.stringify(objct);
-        var myJson2 = JSON.stringify(obj2)
-        console.log(myJson2);
 
-        $.ajax({
-            url: 'http://CodeArea.com/pyscript/index.py',
-            method: "POST",
-            data: myJson2,
-            dataType   : 'json',
-            contentType: 'application/json', 
-            success: function(data) {
-                console.log(data)
+        console.log(myJson);
 
-            },
-            error: function(error) {
-                console.log(error)
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("output").innerHTML = this.responseText;
             }
-        });
+        };
+        xmlhttp.open("GET", "http://CodeArea.com/pyscript/index.py?query=" + myJson, true);
+        xmlhttp.send();
+        
 
         // var objForm = document.createElement('FORM');
         // objForm.method = 'post';
