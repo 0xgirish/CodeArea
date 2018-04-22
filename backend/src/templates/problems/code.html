@@ -31,8 +31,9 @@
         margin: 0;
         position: absolute;
         bottom: 20;
-        right: 2%;
+        left: 39%;
         width: 10%;
+        height: 5%;
     }
 
     #btn-run {
@@ -41,21 +42,22 @@
         bottom: 20;
         left: 2%;
     }
-
-    #font-group {
-        margin: 0;
-        position: absolute;
-        bottom: 20;
-        right: 21%;
-        width: 8%;
+  
+     #font-group{
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	left: 27%;
+    	width: 8%;
+    	height: 5%;
     }
-
-    #theme-group {
-        margin: 0;
-        position: absolute;
-        bottom: 20;
-        right: 40%;
-        width: 8%;
+    #theme-group{
+    	margin: 0;
+    	position: absolute;
+    	bottom: 20;
+    	left: 15%;
+    	width: 8%;
+    	height: 5%;
     }
 
     .form-improve {
@@ -130,6 +132,8 @@
         var themeVal = document.getElementById("themeset").value;
         editor.setTheme(themeVal);
     }
+		
+	
 
     function changeFontSize() {
         var fontsize = document.getElementById("fontsize").value;
