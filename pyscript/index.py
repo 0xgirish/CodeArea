@@ -153,7 +153,7 @@ class Judge:
 
 level = 7   # NOTE: Change level here
 
-PATH = '/home/girishk/web/CodeArea_judge/docker/userData/{}'.format(random_md5(level))
+PATH = '/home/chirag/Desktop/CodeAreaMaster/docker/userData/{}'.format(random_md5(level))
 
 # PATH_CONTEST: path to contest parent folder
 # default value is ../backend/media_cdn
