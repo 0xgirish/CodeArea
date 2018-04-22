@@ -51,7 +51,7 @@
   </style>
 
 </head>
-<body>
+<body onload="checkCookie()">
 
 <!-- <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
 	<div class="panel-heading"><b>CodeArea</b></div> -->
@@ -91,17 +91,76 @@
 
 <script type="text/javascript">
 
-	ace.require("ace/ext/language_tools");
-	ace.require("ace/ext/searchbox");
-	ace.require("ace/ext/keybinding_menu");
-	ace.require("ace/ext/linking");
-	//var beautify = ace.require("ace/ext/beautify"); // get reference to extension
-	var editor = ace.edit("editor"); // get reference to editor
-	//beautify.beautify(editor.session);
-	editor.setTheme("ace/theme/eclipse");
-	editor.session.setMode("ace/mode/python");
-	editor.setFontSize(14);
-	editor.setValue("# This is your CodeArea\n");
+	
+    ace.require("ace/ext/language_tools");
+    ace.require("ace/ext/searchbox");
+    ace.require("ace/ext/keybinding_menu");
+    ace.require("ace/ext/linking");
+    //var beautify = ace.require("ace/ext/beautify"); // get reference to extension
+    var editor = ace.edit("editor"); // get reference to editor
+    //beautify.beautify(editor.session)
+
+    function saveContent(){
+        setTimeout(function(){
+            var code = editor.getValue();
+            code = "code="+code;
+            console.log(code);
+            var lang = document.getElementById('language').value;
+            if(lang == "python2" || lang == "python3"){
+                lang = "lang=ace/mode/python";
+            }else if(lang == "cpp14" || lang == "C"){
+                lang = "lang=ace/mode/c_cpp";
+            }else{
+                lang = "lang=ace/mode/"+lang;
+            }
+            var theme = document.getElementById("themeset").value;
+            theme = "theme="+theme;
+            var font = document.getElementById("fontsize").value;
+            font = "font="+font;
+            document.cookie = code+";"+lang+";"+theme+";"+font;
+            console.log(document.cookie);
+            saveContent();
+        }, 7000)
+    }
+
+
+
+    function checkCookie(){
+        var code = getCookie("code");
+        if(code != ""){
+            var lang = getCookie("lang");
+            var theme = getCookie("theme");
+            var font = getCookie("font");
+            editor.session.setMode(lang);
+            editor.setTheme(theme);
+            editor.setValue(code);
+            editor.setFontSize(font);
+        }else{  
+            editor.session.setMode("ace/mode/python");
+            editor.setTheme("ace/theme/eclipse");
+            editor.setFontSize(14);
+            editor.setValue("# This is your CodeArea\n");
+        }
+        saveContent();
+    }
+
+    function getCookie(cname){
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        console.log(ca);
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            // while (c.charAt(0) == ' ') {
+            //     c = c.substring(1);
+            // }
+            //console.log(c);
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 	//editor.setKeyboardHandler("ace/keyboard/vim");
 	editor.setOptions({
         enableBasicAutocompletion: true,
