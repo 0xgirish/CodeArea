@@ -126,6 +126,15 @@
 	var editor = ace.edit("editor"); // get reference to editor
 	//beautify.beautify(editor.session)
 
+    function saveContent(){
+        setTimeout(function(){
+            var code = editor.getValue();
+            var lang = document.getElementById('language').value;
+            if(lang == "python2")
+        }, 7000)
+    }
+
+
     function checkCookie(){
         var code = getCookie("code");
         if(code != ""){
@@ -143,6 +152,24 @@
             editor.setValue("# This is your CodeArea\n");
         }
     }
+
+    function getCookie(cname){
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            console.log(c);
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
 	//editor.setKeyboardHandler("ace/keyboard/vim");
 	editor.setOptions({
         enableBasicAutocompletion: true,

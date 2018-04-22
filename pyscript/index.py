@@ -191,5 +191,11 @@ else:
     print('===================>  end  <===================')
 
 #print(json_data)
+if(judge.submission == "normal"):
+    json_data = json.dumps({"result":res.name, "output":out_string})
+else:
+    json_data = json.dumps({"result":res.name})
+
+print(json_data)
 
 del judge
