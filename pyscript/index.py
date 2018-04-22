@@ -10,6 +10,7 @@ import os
 import filecmp
 from inspect import getframeinfo, currentframe
 from Docker import Docker, random_md5, LOGFILE_NAME, Status
+from PATH import PATH
 
 
 print('Content-Type: text/plain;charset=utf-8\r\n')
@@ -155,7 +156,7 @@ class Judge:
 
 level = 7   # NOTE: Change level here
 
-PATH = '/home/karan/Desktop/csp-project/Untitled/docker/userData/{}'.format(random_md5(level))
+PATH = PATH.format(random_md5(level))
 
 # PATH_CONTEST: path to contest parent folder
 # default value is ../backend/media_cdn
@@ -196,7 +197,7 @@ else:
 
 #print(json_data)
 if(judge.submission == "normal"):
-    json_data = json.dumps({"result":res.name, "output":out_string})
+    json_data = json.dumps({"result":res.name, "output":output_string})
 else:
     json_data = json.dumps({"result":res.name})
 
