@@ -3,6 +3,17 @@
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
 <script type="text/javascript" src={% static "js/csrf.js" %}></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".content-markdown").each(function() {
+        var statement = $(this).text()
+        console.log(statement)
+        var markedContent = marked(statement)
+        console.log(markedContent)
+        $(this).html(markedContent)
+    })
+})
+</script>
 <style type="text/css">
 .wmd-panel {
     margin: 0;
@@ -158,6 +169,28 @@ a:hover {
                                                     <i class="material-icons i-sm">launch</i></button>
                                             </td>
                                         </tr>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="codePreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Code</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="content-markdown">
+                                                            {{ submission.code }}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -192,27 +225,5 @@ a:hover {
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-                    <div class="modal fade" id="codePreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Code</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <pre><code class="codeblock">
-                                        #include<hello>
-                                    </code>
-                                    </pre>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
        
         {% endblock %}
