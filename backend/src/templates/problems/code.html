@@ -195,13 +195,13 @@
         var textCode = editor.getValue();
         var language = document.getElementById('language').value;
 
-        var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": getLangId(language), "custom_input": "" };
+        var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "noraml", "lang_id": getLangId(language), "custom_input": "23" };
         var myJson = JSON.stringify(objct);
         console.log(myJson);
 
         var objForm = document.createElement('FORM');
         objForm.method = 'post';
-        objForm.action = 'http://CodeArea.com/pyscript/index.py';
+        objForm.action = 'http://girishk.com/pyscript/index.py';
         objForm.target = 'output';
         var objJson = document.createElement('INPUT');
         objJson.type = 'hidden';

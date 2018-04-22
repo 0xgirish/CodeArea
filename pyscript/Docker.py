@@ -180,7 +180,7 @@ def random_md5(size):
 			rand_string += universe[randint(0, len(universe)-1)]
 		rand_string = rand_string.encode()
 
-		logging.info('[{}]\n\trandom string of size {} = {}'.format(time.asctime(), size, rand_string))
+		#logging.info('[{}]\n\trandom string of size {} = {}'.format(time.asctime(), size, rand_string))
 		hash = str(MD5(rand_string).hexdigest())
 		return hash
 	except Exception as e:

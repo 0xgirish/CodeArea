@@ -131,14 +131,14 @@ $(document).ready(function() {
         var textCode = ideJS.editor.getValue();
         var language = iframeDOM.contents().find("#language").val();
 
-        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" } ;
+        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": "23" } ;
         var obj2 = {"query" : objct };
         var myJson = JSON.stringify(objct);
         var myJson2 = JSON.stringify(obj2)
         console.log(myJson2);
 
         $.ajax({
-            url: 'http://CodeArea.com/pyscript/index.py',
+            url: 'http://girishk.com/pyscript/index.py',
             method: "POST",
             data: myJson,
             dataType   : 'json',
