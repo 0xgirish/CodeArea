@@ -94,9 +94,27 @@ $(document).ready(function() {
             <ul class="pagination">
                 {% if problem_list.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ problem_list.previous_page_number }}">Previous</a>
+                	{% if request.GET.level and request.GET.tags %}
+                    <a class="page-link" href="?page={{ problem_list.previous_page_number }}&level={{ request.GET.level }}&tags={{ request.GET.tags }}">Previous</a>
+                	{% elif request.GET.level %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}&level={{ request.GET.level }}">Previous</a>
+                	{% elif request.GET.tags %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}&tags={{ request.GET.tags }}">Previous</a>
+                	{% else %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}">Previous</a>
+                	{% endif %}
                 </li>
-                <li class="page-item"><a class="page-link" href="?page={{ problem_list.previous_page_number }}">{{ problem_list.previous_page_number }}</a></li>
+                <li class="page-item">
+                	{% if request.GET.level and request.GET.tags %}
+                    <a class="page-link" href="?page={{ problem_list.previous_page_number }}&level={{ request.GET.level }}&tags={{ request.GET.tags }}">{{ problem_list.previous_page_number }}</a>
+                	{% elif request.GET.level %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}&level={{ request.GET.level }}">{{ problem_list.previous_page_number }}</a>
+                	{% elif request.GET.tags %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}&tags={{ request.GET.tags }}">{{ problem_list.previous_page_number }}</a>
+                	{% else %}
+                	<a class="page-link" href="?page={{ problem_list.previous_page_number }}">{{ problem_list.previous_page_number }}</a>
+                	{% endif %}
+                </li>
                 {% else %}
                 <li class="page-item disabled">
                     <span class="page-link">Previous</span>
@@ -106,9 +124,27 @@ $(document).ready(function() {
                     <a class="page-link" href="#"> {{problem_list.number}} <span class="sr-only">(current)</span></a>
                 </li>
                 {% if problem_list.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ problem_list.next_page_number }}">{{ problem_list.next_page_number }}</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ problem_list.next_page_number }}">Next</a>
+                	{% if request.GET.level and request.GET.tags %}
+                    <a class="page-link" href="?page={{ problem_list.next_page_number }}&level={{ request.GET.level }}&tags={{ request.GET.tags }}">{{ problem_list.next_page_number }}</a>
+                	{% elif request.GET.level %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}&level={{ request.GET.level }}">{{ problem_list.next_page_number }}</a>
+                	{% elif request.GET.tags %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}&tags={{ request.GET.tags }}">{{ problem_list.next_page_number }}</a>
+                	{% else %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}">{{ problem_list.next_page_number }}</a>
+                	{% endif %}
+                </li>
+                <li class="page-item">
+                    {% if request.GET.level and request.GET.tags %}
+                    <a class="page-link" href="?page={{ problem_list.next_page_number }}&level={{ request.GET.level }}&tags={{ request.GET.tags }}">Next</a>
+                	{% elif request.GET.level %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}&level={{ request.GET.level }}">Next</a>
+                	{% elif request.GET.tags %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}&tags={{ request.GET.tags }}">Next</a>
+                	{% else %}
+                	<a class="page-link" href="?page={{ problem_list.next_page_number }}">Next</a>
+                	{% endif %}
                 </li>
                 {% else %}
                 <li class="page-item disabled">
@@ -133,10 +169,10 @@ $(document).ready(function() {
         <div class="card feed-item">
             <div class="card-body">
                 <h3 class="card-title text-center"> Filter </h3>
-                <form>
+                <form method="GET" action={% url "problem_list" %}>
                     <div class="form-group">
                         <label for="Difficulty">Difficulty</label>
-                        <select class="form-control select-difficulty" id="Difficulty">
+                        <select class="form-control select-difficulty" id="Difficulty" name="level">
                             <option selected>All</option>
                             <option>Easy</option>
                             <option>Medium</option>
@@ -145,11 +181,8 @@ $(document).ready(function() {
                     </div>
                     <div class="form-group">
                         <label for="Tags">Tags</label>
-                        <select class="form-control select-tags" id="Tags" multiple="multiple">
-                            <option>Tag1</option>
-                            <option>Tag2</option>
-                            <option>Tag3</option>
-                            <option>Tag4</option>
+                        <select class="form-control select-tags" id="Tags" multiple="multiple" name="tags">
+                        
                         </select>
                     </div>
                     <button type="submit" class="btn btn-red">Filter</button>
@@ -186,6 +219,27 @@ $(document).ready(function() {
         showNoSuggestionNotice: true,
         noSuggestionNotice: 'Sorry, no matching results'
     });
+
+    function addTags(data){
+        var i;
+        for(i=0;i<data.length;++i){
+            $("#Tags").append("<option value = " + data[i]['id'] + ">" + data[i]['name'] + "</option");
+        }
+    }
+    $.ajax({
+            url: '/tags/api/tags/',
+            method: "GET",
+            data: {},
+            success: function(data) {
+                console.log(data)
+                addTags(data);
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+
+        });
 });
 </script>
 <!-- Resource jQuery -->

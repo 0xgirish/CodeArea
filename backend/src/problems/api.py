@@ -31,6 +31,8 @@ class TestCaseViewSet(viewsets.ModelViewSet):
 	authentication_classes = (authentication.SessionAuthentication,)
 	permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
 	parser_classes = (MultiPartParser, FormParser,)
+	filter_backends = (DjangoFilterBackend, SearchFilter)
+	filter_fields = ('problem',)
 
 
 
@@ -41,6 +43,6 @@ class ProblemViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = ProblemSerializer
 	filter_backends = (DjangoFilterBackend, SearchFilter)
-	filter_fields = ('problem_code',)
+	filter_fields = ('problem_code', 'tags',)
 	search_fields = ('title', 'problem_code',)
 

@@ -19,7 +19,7 @@ $(document).ready(function() {
             var current = new Date(moment().format('YYYY/MM/DD HH:mm'))
             var diff = enddate.getTime()-current.getTime()
             var days = diff/(1000 * 3600 * 24)
-            var hours = diff/(1000 * 3600)
+            var hours = (days - Math.floor(days))*24
             $("#ongoing tbody").append("<tr>\
                                 <td><a href='/contests/"+ data[i].slug + "/'>" + data[i].title + "</a></td>\
                                 <td>"+ Math.floor(days) + " Days " + Math.floor(hours) + " Hours" +"</td>\

@@ -60,6 +60,11 @@ body {
     border-bottom: solid 3px #aaa !important;
 }
 
+.problem-statement{
+    margin-top: 40px;
+    font-weight: 400;
+}
+
 
 </style>
 <div class="container feed-container">
@@ -71,7 +76,7 @@ body {
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href={% url "problem" obj.slug %} >Details</a>
+                            <a class="nav-link active" href={% url "problem" obj.slug %} >Statement</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" >Submissions</a>
@@ -82,8 +87,14 @@ body {
                         
                     </ul>
                 		</div>
-                		<div class="col-12">
+                		<div class="col-12 problem-statement">
+                            <div class="container">
+                                <div class="row">
+                                    <div class ="col-lg-9 col-md-9 com-sm-12">
                                 <div class="card-text content-markdown"> {{obj.statement}} </div>
+                            </div>
+                        </div>
+                    </div>
                             </div>
                     </div>
                 </div>

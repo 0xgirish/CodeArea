@@ -162,6 +162,31 @@ a:hover {
                                     </tbody>
                                 </table>
                             </div>
+                            <ul class="pagination">
+                                    {% if contest_submission_list.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ contest_submission_list.previous_page_number }}">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ contest_submission_list.previous_page_number }}">{{ contest_submission_list.previous_page_number }}</a></li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Previous</span>
+                                    </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#"> {{contest_submission_list.number}} <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    {% if contest_submission_list.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ contest_submission_list.next_page_number }}">{{ contest_submission_list.next_page_number }}</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ contest_submission_list.next_page_number }}">Next</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Next</span>
+                                    </li>
+                                    {% endif %}
+                                </ul>
                         </div>
                     </div>
                 </div>
