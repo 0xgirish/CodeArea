@@ -5,8 +5,19 @@
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
-
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
-
+<div class="alert alert-info">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="material-icons">info_outline</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                    </button>
+                    <b>Email Sent:  Follow Link to finalize Signup</b> 
+               </div>
+            </div>
+<center>
+<h1>{% trans "Verify Your E-mail Address" %}</h1>
+<p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+</center> 
 {% endblock %}
