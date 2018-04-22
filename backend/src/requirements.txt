@@ -1,0 +1,13 @@
+Django==1.11
+django-allauth==0.35.0
+django-cleanup==2.1.0
+django-crispy-forms==1.7.0
+django-extensions==2.0.6
+django-filter==1.1.0
+django-pagedown==1.0.4
+djangorestframework==3.7.7
+Markdown==2.6.11
+MarkupSafe==1.0
+Pillow==4.1.1
+psycopg2==2.7.4
+psycopg2-binary==2.7.4
