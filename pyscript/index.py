@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import json
+import sys
 import cgi
 import logging
 import time
@@ -29,9 +30,9 @@ class Judge:
         :param folder: folder name target
         '''
         try:
-            json_data = cgi.FieldStorage()['query']
+            #json_data = cgi.FieldStorage()['query']
 
-            data_dict = json.loads('{}'.format(json_data.value))
+            data_dict = json.load(sys.stdin)
             # user code string
             self.code = data_dict['code']
             # custom_input value | if not custom_input then empty string

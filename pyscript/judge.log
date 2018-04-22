@@ -1,0 +1,19 @@
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'sqyrecw'
+CRITICAL:root:[Sun Apr 22 23:30:00 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 64] Expecting value: line 1 column 1 (char 0)
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'loitkvs'
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'euzdqbo'
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'1y0h0o0'
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'dxjff1u'
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	random string of size 7 = b'8nzy6lg'
+INFO:root:[Sun Apr 22 23:30:00 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 23:30:02 2018]
+	container created . . .
+docker run -d -it --name 1bba69e58aafd3769e02933b86f3d2e8 -v /home/karan/Desktop/csp-project/Untitled/docker/userData/577d3d0cc78d297f61084b558c236d4c:/0e924ac1aaa35afc7c8abadffd755641 virtual_machine:latest 1>container.log 2>&1
