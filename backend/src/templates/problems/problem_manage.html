@@ -106,6 +106,12 @@ body {
     $(document).ready(function() {
         $("#id_tags").addClass("select-tags");
         $('.select-tags').select2();
+        $("#preview").click(function(){
+        var marktext = $("#id_statement").val();
+        var markedContent = marked(marktext);
+        console.log(marktext);
+        $(".modal-body").html(markedContent);
+    });
     });
     </script>
     {% endblock %}

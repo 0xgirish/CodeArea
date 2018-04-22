@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^posts/', include('posts.urls')),
     url(r'^api/', include('rest_framework.urls')),
+    url(r'^tags/', include('tags.urls')),
     url(r'$', isworking),
 
 ]

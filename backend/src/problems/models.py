@@ -17,6 +17,12 @@ from django.core.urlresolvers import reverse
 class Problem(models.Model):
 	""" Represents a programming problem on the website"""
 
+	LEVEL_CHOICES = (
+		('EASY', 'EASY'),
+		('MEDIUM', 'MEDIUM'),
+		('HARD', 'HARD')
+	)
+
 	title = models.CharField(max_length=255)
 	problem_code = models.CharField(max_length=100, unique = True)
 	slug = models.SlugField(unique = True) # Slug Field
@@ -24,6 +30,7 @@ class Problem(models.Model):
 	timestamp = models.DateTimeField(auto_now = False, auto_now_add = True)
 	setter = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL, related_name='setter')
 	tags = models.ManyToManyField(Tag, blank=True)
+	level = models.CharField(max_length=5, choices= LEVEL_CHOICES, default = 'EASY')
 
 	def __str__(self):
 		return self.problem_code

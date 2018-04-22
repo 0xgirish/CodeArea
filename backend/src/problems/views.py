@@ -28,11 +28,20 @@ def problem(request, slug):
 	return render(request, "problems/problem_details.html", context)
 
 def problem_list(request):
-	if request.GET.get('title'):
-		problem_list = Problem.objects.filter(title__contains=request.GET.get('title'))
-	else:
-		problem_list = Problem.objects.all()
-	problem_list1 = Problem.objects.all()
+
+	if request.method == 'GET':
+		level = request.GET.get('level')
+		if level and level is not 'All':
+			problem_list = Problem.objects.filter(tags__in = request.GET.getlist('tags'), level = level.upper())
+		else:
+			problem_list = Problem.objects.filter(tags__in = request.GET.getlist('tags'))
+
+		if request.GET.get('title'):
+			problem_list = Problem.objects.filter(title__contains=request.GET.get('title'))
+		else:
+			problem_list = Problem.objects.all()
+
+
 	paginator = Paginator(problem_list,2)
 
 	page = request.GET.get('page',1)
@@ -45,7 +54,6 @@ def problem_list(request):
 
 	context = {
 		'problem_list' : queryset,
-		'problems' : problem_list1,
 	}
 
 	return render(request, "problems/problem_list.html", context)

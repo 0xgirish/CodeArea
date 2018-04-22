@@ -43,6 +43,6 @@ class ProblemViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = ProblemSerializer
 	filter_backends = (DjangoFilterBackend, SearchFilter)
-	filter_fields = ('problem_code',)
+	filter_fields = ('problem_code', 'tags',)
 	search_fields = ('title', 'problem_code',)
 
