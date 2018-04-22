@@ -9,7 +9,37 @@ $(document).ready(function() {
         var markedContent = marked(statement)
         console.log(markedContent)
         $(this).html(markedContent)
-    })
+    });
+
+    function addOngoing(data){
+        var i;
+
+        for(i=0;i<data.length;++i){
+            var enddate = new Date(data[i].end_contest.split("T")[0] +" " + data[i].end_contest.split("T")[1].split("Z")[0])
+            var current = new Date(moment().format('YYYY/MM/DD HH:mm'))
+            var diff = enddate.getTime()-current.getTime()
+            var days = diff/(1000 * 3600 * 24)
+            var hours = diff/(1000 * 3600)
+            $("#ongoing tbody").append("<tr>\
+                                <td><a href='/contests/"+ data[i].contest_code + "/'>" + data[i].title + "</a></td>\
+                                <td>"+ Math.floor(days) + " Days " + Math.floor(hours) + "Hours" +"</td>\
+                            </tr>")
+        }
+    }
+
+    $.ajax({
+        url: '/contests/api/contest/c/ongoing/',
+        method: "GET",
+        data: {},
+        success: function(data) {
+            console.log(data);
+            addOngoing(data);
+        },
+        error: function(error) {
+            console.log(error)
+        }
+
+    });
 })
 </script>
 <link rel="stylesheet" href={% static "css/feed.css" %}>
@@ -82,21 +112,16 @@ $(document).ready(function() {
                 <div class="card-body">
                     <h3 class="card-title text-center"> Ongoing Contests </h3>
                     <!--Table-->
-                    <table class="table table-hover text-center ongoing table-sm">
+                    <table class="table table-hover text-center ongoing table-sm" id="ongoing">
                         <!--Table head-->
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Ends at</th>
+                                <th>Ends in</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for obj in contest_list %}
-                            <tr>
-                                <td>{{obj.title}}</td>
-                                <td>{{obj.start_contest|timeuntil:obj.end_contest}}</td>
-                            </tr>
-                            {% endfor %}
+                            
                         </tbody>
                         <!--Table body-->
                     </table>
