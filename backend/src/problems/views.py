@@ -29,17 +29,22 @@ def problem(request, slug):
 
 def problem_list(request):
 
+	problem_list = Problem.objects.all()
+
 	if request.method == 'GET':
 		level = request.GET.get('level')
-		if level and level is not 'All':
-			problem_list = Problem.objects.filter(tags__in = request.GET.getlist('tags'), level = level.upper())
-		else:
-			problem_list = Problem.objects.filter(tags__in = request.GET.getlist('tags'))
+		tags = request.GET.get('tags')
+		title = request.GET.get('title')
 
-		if request.GET.get('title'):
-			problem_list = Problem.objects.filter(title__contains=request.GET.get('title'))
-		else:
-			problem_list = Problem.objects.all()
+		if level and level != 'All':
+			problem_list = problem_list.filter(level = level.upper())
+		if tags:
+			problem_list = problem_list.filter(tags__in = tags)
+		if title:
+			problem_list = problem_list.filter(title__contains=request.GET.get('title'))
+
+
+		
 
 
 	paginator = Paginator(problem_list,2)
