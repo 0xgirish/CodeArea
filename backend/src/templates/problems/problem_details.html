@@ -163,7 +163,7 @@ $(document).ready(function() {
 
         var ci = $("textarea#custom").val()
 
-        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": "ci" } ;
+        var objct =  { "code": textCode, "contest": "", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": ci } ;
         var obj2 = {"query" : objct };
         var myJson = JSON.stringify(objct);
         var myJson2 = JSON.stringify(obj2)
@@ -174,7 +174,7 @@ $(document).ready(function() {
             method: "POST",
             data: myJson,
             dataType   : 'json',
-            contentType: 'application/json', 
+            contentType: 'application/json; charset=utf-8', 
             success: function(data) {
                 console.log(data)
 
