@@ -1,52 +1,45 @@
 {% load staticfiles %}
-
 <!DOCTYPE html>
-<html>
+<body background="{% static "/material-kit/sec.jpg" %}">
 
 <head>
     
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <!-- Font Awesome -->
-    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
     <link rel="stylesheet" href={% static "material-kit/css/material-kit.css" %}>
     <link rel="stylesheet" href={% static "css/style.css" %}>
-    <title> Home </title>
+    <title> CodeArea </title>
 </head>
 
 <body>
     <nav class="navbar navbar-inverse navbar-expand-lg bg-dark sticky-top">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-translate">
-                <a class="navbar-brand" href="#">Code Area 2018</a>
+                <a class="navbar-brand" href="#" title="Local Competitive Platform">CodeArea 2018</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     <span class="navbar-toggler-icon"></span>
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href={% url "contest_list" %} class="nav-link">
+                        <a href={% url "contest_list" %} class="nav-link" title="List of all contest">
                                             Contests
                                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={% url "problem_list" %} class="nav-link">
+                        <a href={% url "problem_list" %} class="nav-link" title="List of all problems">
                                             Problems
                                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={% url "post_list" %} class="nav-link">
+                        <a href={% url "post_list" %} class="nav-link" title="Post A problem">
                                             Posts
                                         </a>
                     </li>
@@ -66,20 +59,15 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a href="/accounts/login/" class="btn btn-rose btn-raised btn-round ">
-                                            Register
-                                        </a>
+                        <a href="/accounts/login/" class="btn btn-danger btn-round"><i class="material-icons">face</i>Register</a>               
                     </li>
                     {% endif %}
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-->
     </nav>
     <main>
         {% block content %} {%endblock%}
-        <!-- .content-wrapper -->
     </main>
     <!-- Latest compiled and minified JavaScript -->
     <!-- Bootstrap tooltips -->
