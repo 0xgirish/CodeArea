@@ -33,7 +33,7 @@ class Judge:
         try:
             #json_data = cgi.FieldStorage()['query']
 
-            data_dict = json.loads(sys.stdin)
+            data_dict = json.load(sys.stdin)
             # user code string
             self.code = data_dict['code']
             # custom_input value | if not custom_input then empty string
