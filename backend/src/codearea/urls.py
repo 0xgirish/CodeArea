@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^posts/', include('posts.urls')),
     url(r'^api/', include('rest_framework.urls')),
-    url(r'$', isworking),
+    #url(r'$', isworking),
 
 ]
 

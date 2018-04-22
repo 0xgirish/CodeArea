@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_extensions',
     'django_filters',
-    'django_cleanup',
+    #'django_cleanup',
 ]
 
 
