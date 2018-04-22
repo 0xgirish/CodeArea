@@ -197,7 +197,7 @@ else:
 
 #print(json_data)
 if(judge.submission == "normal"):
-    json_data = json.dumps({"result":res.name, "output":out_string})
+    json_data = json.dumps({"result":res.name, "output":output_string})
 else:
     json_data = json.dumps({"result":res.name})
 
