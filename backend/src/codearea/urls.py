@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from accounts.views import isworking
-
+from problems.views import ide
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^posts/', include('posts.urls')),
     url(r'^api/', include('rest_framework.urls')),
     url(r'^tags/', include('tags.urls')),
+    url(r'^ide/$', ide, name='ide'),
     url(r'$', isworking),
 
 ]
