@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Installing docker"
+sudo apt-get install docker-ce
 echo 'Creating image of virtual_machine (docker)'
 docker build -t virtual_machine ./docker/
 echo

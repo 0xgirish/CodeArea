@@ -67,3 +67,50 @@ INFO:root:[Sun Apr 22 00:19:16 2018]
 INFO:root:[Sun Apr 22 00:19:20 2018]
 	container created . . .
 docker run -d -it --name 32c1f6730bb5f15beceb4f5982c293e4 -v /home/girishk/web/CodeArea_judge/docker/userData/a9a163cdc5983a7efa51a68ac86cdfc5:/70b6c0ec9c85d35d10b375af37c194af virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 17:56:38 2018]
+	random string of size 7 = b'inkzv84'
+CRITICAL:root:[Sun Apr 22 17:56:38 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	random string of size 7 = b'm9w13jj'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	random string of size 7 = b'c29aw7r'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	random string of size 7 = b'a9j5c62'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	random string of size 7 = b'8ylm1gu'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	random string of size 7 = b'x8dknbp'
+INFO:root:[Sun Apr 22 17:58:42 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 17:58:42 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/54c9f6c46fb5cbd7aa4cbc01121ac3e2/e152fcc0235002cbc5686ca78013fc56.in'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	random string of size 7 = b'r9idusz'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	random string of size 7 = b'rb8df2d'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	random string of size 7 = b'x1z31cu'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	random string of size 7 = b'd08ko3x'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	random string of size 7 = b'l03y74b'
+INFO:root:[Sun Apr 22 17:58:46 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 17:58:46 2018]
+	[/home/girishk/web/CodeArea_judge/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea/docker/userData/2232ae9d012c36786eb7a12a3814d045/71e93f54a33e5ae96f58dbc93e8ab98b.in'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	random string of size 7 = b'zscwmo1'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	random string of size 7 = b'yw83457'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	random string of size 7 = b'51rea3l'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	random string of size 7 = b'7rt1gjr'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	random string of size 7 = b'9uvxl82'
+INFO:root:[Sun Apr 22 17:59:56 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 17:59:59 2018]
+	container created . . .
+docker run -d -it --name 44ae8cd2a9aab0aa36ed852f69f066e0 -v /home/girishk/web/CodeArea_judge/docker/userData/213d678c570efc0897ec9c706d86abea:/dd389cf476cd9446a1e532151e40a3d5 virtual_machine:latest 1>container.log 2>&1

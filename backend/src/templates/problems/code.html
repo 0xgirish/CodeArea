@@ -24,7 +24,7 @@
         top: 0;
         bottom: 70;
         left: 0;
-        right: 0;
+        right: 50%;
     }
     #language {
     	margin: 0;
@@ -54,7 +54,15 @@
     	width: 16%;
     }
     .form-improve{
-    	top:600;
+        top: 650;
+    }
+    #output{
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 70;
+        left: 50%;
+        right: 0;
     }
   </style>
 
@@ -93,6 +101,7 @@
 				<option value="ace/theme/twilight">Twilight</option>
 			</select>
 		</div>
+        <iframe frameborder="0" width="100%" height="95%" src="" name="output" id="output"></iframe>
 
 <!-- 	</div>
 </div> -->
@@ -188,7 +197,7 @@
 		
 		var objForm = document.createElement('FORM');
 		objForm.method = 'post';
-		objForm.action = 'pyscript/index.py';
+		objForm.action = 'http://girishk.com/pyscript/index.py';
 		objForm.target = 'output';
 		var objJson = document.createElement('INPUT');
 		objJson.type = 'hidden';
