@@ -156,15 +156,14 @@ $(document).ready(function() {
         var iframeDOM = $("iframe#ide");
         var ideJS = iframeDOM[0].contentWindow;
         console.log(ideJS.editor.getValue());
-        console.log(iframeDOM.contents().find("#language").val());
+        // console.log(iframeDOM.contents().find("#language").val());
 
         var textCode = ideJS.editor.getValue();
         var language = iframeDOM.contents().find("#language").val();
 
-        var ci = $("textarea#custom").text()
-        console.log(ci)
+        var ci = $("textarea#custom").val()
 
-        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" } ;
+        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": "ci" } ;
         var obj2 = {"query" : objct };
         var myJson = JSON.stringify(objct);
         var myJson2 = JSON.stringify(obj2)
