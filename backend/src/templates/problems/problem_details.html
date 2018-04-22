@@ -122,22 +122,39 @@ $(document).ready(function() {
         var textCode = ideJS.editor.getValue();
         var language = iframeDOM.contents().find("#language").val();
 
-        var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" };
+        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" } ;
+        var obj2 = {"query" : objct };
         var myJson = JSON.stringify(objct);
-        console.log(myJson);
+        var myJson2 = JSON.stringify(obj2)
+        console.log(myJson2);
 
-        var objForm = document.createElement('FORM');
-        objForm.method = 'post';
-        objForm.action = 'http://CodeArea.com/pyscript/index.py';
-        objForm.target = 'output';
-        var objJson = document.createElement('INPUT');
-        objJson.type = 'hidden';
-        objJson.name = 'query';
-        objJson.value = myJson;
-        objForm.appendChild(objJson);
-        document.body.appendChild(objForm);
-        objForm.submit();
-        document.body.removeChild(objForm);
+        $.ajax({
+            url: 'http://CodeArea.com/pyscript/index.py',
+            method: "POST",
+            data: myJson2,
+            dataType   : 'json',
+            contentType: 'application/json', 
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        });
+
+        // var objForm = document.createElement('FORM');
+        // objForm.method = 'post';
+        // objForm.action = 'http://CodeArea.com/pyscript/index.py';
+        // objForm.target = 'output';
+        // var objJson = document.createElement('INPUT');
+        // objJson.type = 'hidden';
+        // objJson.name = 'query';
+        // objJson.value = myJson;
+        // objForm.appendChild(objJson);
+        // document.body.appendChild(objForm);
+        // objForm.submit();
+        // document.body.removeChild(objForm);
 
 
     });
