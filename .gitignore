@@ -3,3 +3,5 @@
 .*.un~
 *~
 *.backup
+*.log
+PATH.py
