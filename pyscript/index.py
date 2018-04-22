@@ -30,6 +30,7 @@ class Judge:
         '''
         try:
             json_data = cgi.FieldStorage()['query']
+
             data_dict = json.loads('{}'.format(json_data.value))
             # user code string
             self.code = data_dict['code']
@@ -153,7 +154,7 @@ class Judge:
 
 level = 7   # NOTE: Change level here
 
-PATH = '/home/girishk/web/CodeArea_judge/docker/userData/{}'.format(random_md5(level))
+PATH = '/home/karan/Desktop/csp-project/Untitled/docker/userData/{}'.format(random_md5(level))
 
 # PATH_CONTEST: path to contest parent folder
 # default value is ../backend/media_cdn
@@ -182,13 +183,15 @@ if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
 elif res.name == 'INTERNAL_ERROR':
     # TODO: INFORM ABOUT INCEDENT
     #json_data = json.dumps({"out": res})
-    print(res.name)
+    # print(res.name)
+    pass
 else:
     # TODO: give result to user using databse entry @ Karan
-    print(res.name)
-    print('===================> Start <===================')
-    print(output_string)
-    print('===================>  end  <===================')
+    # print(res.name)
+    # print('===================> Start <===================')
+    # print(output_string)
+    # print('===================>  end  <===================')
+    pass
 
 #print(json_data)
 if(judge.submission == "normal"):

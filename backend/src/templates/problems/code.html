@@ -76,8 +76,7 @@
     </style>
 </head>
 
-<body onload="checkCookie()">
-
+<body>
     <!-- <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
 	<div class="panel-heading"><b>CodeArea</b></div> -->
     <div id="editor"></div>
@@ -107,68 +106,23 @@
             <option value="ace/theme/twilight">Twilight</option>
         </select>
     </div>
-    <iframe frameborder="0" width="100%" height="95%" src="" name="output" id="output"></iframe>
+    <!-- <iframe frameborder="0" width="100%" height="95%" src="" name="output" id="output"></iframe> -->
     <!-- 	</div>
 </div> -->
-
-<script type="text/javascript">
-
-
-
-	ace.require("ace/ext/language_tools");
-	ace.require("ace/ext/searchbox");
-	ace.require("ace/ext/keybinding_menu");
-	ace.require("ace/ext/linking");
-	//var beautify = ace.require("ace/ext/beautify"); // get reference to extension
-	var editor = ace.edit("editor"); // get reference to editor
-	//beautify.beautify(editor.session)
-
-    function saveContent(){
-        setTimeout(function(){
-            var code = editor.getValue();
-            var lang = document.getElementById('language').value;
-            if(lang == "python2")
-        }, 7000)
-    }
-
-
-    function checkCookie(){
-        var code = getCookie("code");
-        if(code != ""){
-            var lang = getCookie("lang");
-            var theme = getCookie("theme");
-            var font = getCookie("font");
-            editor.session.setMode(lang);
-            editor.setTheme(theme);
-            editor.setValue(code);
-            editor.setFontSize(font);
-        }elae{  
-            editor.session.setMode("ace/mode/python");
-            editor.setTheme("ace/theme/eclipse");
-            editor.setFontSize(14);
-            editor.setValue("# This is your CodeArea\n");
-        }
-    }
-
-    function getCookie(cname){
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            console.log(c);
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-	//editor.setKeyboardHandler("ace/keyboard/vim");
-	editor.setOptions({
+    <script type="text/javascript">
+    ace.require("ace/ext/language_tools");
+    ace.require("ace/ext/searchbox");
+    ace.require("ace/ext/keybinding_menu");
+    ace.require("ace/ext/linking");
+    //var beautify = ace.require("ace/ext/beautify"); // get reference to extension
+    var editor = ace.edit("editor"); // get reference to editor
+    //beautify.beautify(editor.session);
+    editor.setTheme("ace/theme/eclipse");
+    editor.session.setMode("ace/mode/python");
+    editor.setFontSize(14);
+    editor.setValue("# This is your CodeArea\n");
+    //editor.setKeyboardHandler("ace/keyboard/vim");
+    editor.setOptions({
         enableBasicAutocompletion: true,
         enableSnippets: true,
         enableLiveAutocompletion: true

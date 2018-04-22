@@ -159,3 +159,168 @@ INFO:root:[Sun Apr 22 19:43:18 2018]
 INFO:root:[Sun Apr 22 19:43:20 2018]
 	container created . . .
 docker run -d -it --name 44225dd2569e2aab6ae8a70b7606ecb9 -v /home/girishk/web/CodeArea_judge/docker/userData/8738dded41786aefd3dec87115ae2745:/be65120fbe36dcecfdfc125a7ed0b671 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 22:09:53 2018]
+	random string of size 7 = 1jj25v0
+CRITICAL:root:[Sun Apr 22 22:09:53 2018]
+	[index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	random string of size 7 = b'bzp56ip'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	random string of size 7 = b'8cbexeq'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	random string of size 7 = b'ck7auna'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	random string of size 7 = b'3eu12fp'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	random string of size 7 = b'906p0kz'
+INFO:root:[Sun Apr 22 22:12:28 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 22:12:28 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea_judge/docker/userData/3fd6c414b27d9b7130e6c0c8492bc5c5/0d5f8cbee63a38e570f96e8141859e2a.in'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	random string of size 7 = b'03o3q36'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	random string of size 7 = b'mazzxh3'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	random string of size 7 = b't4u3v6u'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	random string of size 7 = b'7m4e6mc'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	random string of size 7 = b'8jf19sf'
+INFO:root:[Sun Apr 22 22:13:01 2018]
+	Judge instance created
+CRITICAL:root:[Sun Apr 22 22:13:01 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 90] [Errno 2] No such file or directory: '/home/girishk/web/CodeArea_judge/docker/userData/46d53ff44fa00025be4cbf57e2d9acc4/da18b4f822b837d50284c587a1005317.in'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	random string of size 7 = b'syxenlm'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	random string of size 7 = b'sb2jbna'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	random string of size 7 = b'jo2qxbi'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	random string of size 7 = b'r1f0u95'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	random string of size 7 = b'6kddje5'
+INFO:root:[Sun Apr 22 22:14:58 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 22:14:59 2018]
+	container created . . .
+docker run -d -it --name 933ad22a2f87b23c5548b32f76f7c15f -v /home/karan/Desktop/csp-project/Untitled/docker/userData/7264af214bde832c61c1b085bd09c99d:/361c999f1f924f2f7d0de0934a6496cc virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	random string of size 7 = b'odi36e7'
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	random string of size 7 = b'akujhhc'
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	random string of size 7 = b'scnhggr'
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	random string of size 7 = b'o8purbe'
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	random string of size 7 = b'ua4618d'
+INFO:root:[Sun Apr 22 22:15:35 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 22:15:36 2018]
+	container created . . .
+docker run -d -it --name dcececddd9f6b426bddc2476e0c0c4f1 -v /home/karan/Desktop/csp-project/Untitled/docker/userData/4cd27371fc059e22578d2b0ba17c5db7:/67a1cc61650c014330fba317acbf8b58 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	random string of size 7 = b'98owz6d'
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	random string of size 7 = b'xlvh6cn'
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	random string of size 7 = b'mk66iya'
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	random string of size 7 = b'up32kdn'
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	random string of size 7 = b'oy8fvqn'
+INFO:root:[Sun Apr 22 22:16:42 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 22:16:43 2018]
+	container created . . .
+docker run -d -it --name 1abcdae01e726d0972ce5f13d6d79d93 -v /home/karan/Desktop/csp-project/Untitled/docker/userData/797974a1308bafca43af109d79fe986e:/f3e6295db544ced20b867d23be6c6a74 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 22:18:02 2018]
+	random string of size 7 = b'h60joj9'
+CRITICAL:root:[Sun Apr 22 22:18:02 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:18:07 2018]
+	random string of size 7 = b'mjiwsa1'
+CRITICAL:root:[Sun Apr 22 22:18:07 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:19:22 2018]
+	random string of size 7 = b'600vgsp'
+CRITICAL:root:[Sun Apr 22 22:19:22 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:20:06 2018]
+	random string of size 7 = b'lsk6mea'
+CRITICAL:root:[Sun Apr 22 22:20:06 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:22:47 2018]
+	random string of size 7 = b'iafgw3u'
+CRITICAL:root:[Sun Apr 22 22:22:47 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:27:37 2018]
+	random string of size 7 = b'q88nuzo'
+CRITICAL:root:[Sun Apr 22 22:27:37 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+INFO:root:[Sun Apr 22 22:27:37 2018]
+	random string of size 7 = b'jpr6ycp'
+CRITICAL:root:[Sun Apr 22 22:27:37 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:28:28 2018]
+	random string of size 7 = b'5l1d7z5'
+CRITICAL:root:[Sun Apr 22 22:28:28 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] 'query'
+INFO:root:[Sun Apr 22 22:29:24 2018]
+	random string of size 7 = b'we1rv8i'
+CRITICAL:root:[Sun Apr 22 22:29:24 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+INFO:root:[Sun Apr 22 22:29:24 2018]
+	random string of size 7 = b'fg6zewu'
+CRITICAL:root:[Sun Apr 22 22:29:24 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:30:39 2018]
+	random string of size 7 = b'r4emb7f'
+CRITICAL:root:[Sun Apr 22 22:30:39 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+INFO:root:[Sun Apr 22 22:30:39 2018]
+	random string of size 7 = b't78vljh'
+CRITICAL:root:[Sun Apr 22 22:30:39 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+CRITICAL:root:[Sun Apr 22 22:34:47 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/Docker.py | 187] 'str' object has no attribute 'decode'
+CRITICAL:root:[Sun Apr 22 22:34:47 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+CRITICAL:root:[Sun Apr 22 22:34:47 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/Docker.py | 187] 'str' object has no attribute 'decode'
+CRITICAL:root:[Sun Apr 22 22:34:47 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:35:18 2018]
+	random string of size 7 = dhm41i1
+CRITICAL:root:[Sun Apr 22 22:35:18 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/Docker.py | 187] Unicode-objects must be encoded before hashing
+CRITICAL:root:[Sun Apr 22 22:35:18 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+INFO:root:[Sun Apr 22 22:35:18 2018]
+	random string of size 7 = mf3xp8e
+CRITICAL:root:[Sun Apr 22 22:35:18 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/Docker.py | 187] Unicode-objects must be encoded before hashing
+CRITICAL:root:[Sun Apr 22 22:35:18 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:36:11 2018]
+	random string of size 7 = <class 'bytes'>
+CRITICAL:root:[Sun Apr 22 22:36:11 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] not indexable
+INFO:root:[Sun Apr 22 22:36:11 2018]
+	random string of size 7 = <class 'bytes'>
+CRITICAL:root:[Sun Apr 22 22:36:11 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 62] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:38:43 2018]
+	random string of size 7 = b'yv85l70'
+CRITICAL:root:[Sun Apr 22 22:38:43 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 63] not indexable
+INFO:root:[Sun Apr 22 22:38:43 2018]
+	random string of size 7 = b'utkzmli'
+CRITICAL:root:[Sun Apr 22 22:38:43 2018]
+	[/home/karan/Desktop/csp-project/Untitled/pyscript/index.py | 63] write() argument must be str, not bytes
+INFO:root:[Sun Apr 22 22:40:26 2018]
+	random string of size 7 = b'95kh5jf'
+INFO:root:[Sun Apr 22 22:40:26 2018]
+	random string of size 7 = b'ijntgya'
