@@ -114,3 +114,48 @@ INFO:root:[Sun Apr 22 17:59:56 2018]
 INFO:root:[Sun Apr 22 17:59:59 2018]
 	container created . . .
 docker run -d -it --name 44ae8cd2a9aab0aa36ed852f69f066e0 -v /home/girishk/web/CodeArea_judge/docker/userData/213d678c570efc0897ec9c706d86abea:/dd389cf476cd9446a1e532151e40a3d5 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	random string of size 7 = b'6lgx4mg'
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	random string of size 7 = b'egp1ie4'
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	random string of size 7 = b'f5g4pe7'
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	random string of size 7 = b'91bipx6'
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	random string of size 7 = b'4v0tuw6'
+INFO:root:[Sun Apr 22 19:42:30 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	random string of size 7 = b'jd7lv9h'
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	random string of size 7 = b'mvje91i'
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	random string of size 7 = b'39i3k9j'
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	random string of size 7 = b'niko28a'
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	random string of size 7 = b'zd0fiy4'
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 19:42:32 2018]
+	container created . . .
+docker run -d -it --name 420893f5d7cd86ab48a1be559b769e97 -v /home/girishk/web/CodeArea_judge/docker/userData/3a06b1cd87e0759c2a5d8cf2bd71f484:/dc7f6110f76dccd0b75369b7b85e1f62 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 19:42:34 2018]
+	container created . . .
+docker run -d -it --name 4b19035f7cf0c9a9f998b39daa1a5671 -v /home/girishk/web/CodeArea_judge/docker/userData/ef34676ef73dba05053f0d059619d058:/62f895c53aa6bc0e5afd287af702d907 virtual_machine:latest 1>container.log 2>&1
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	random string of size 7 = b'33tpvgp'
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	random string of size 7 = b'ijknlcp'
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	random string of size 7 = b'9h1dmkw'
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	random string of size 7 = b'hp4rfru'
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	random string of size 7 = b'oegxwqz'
+INFO:root:[Sun Apr 22 19:43:18 2018]
+	Judge instance created
+INFO:root:[Sun Apr 22 19:43:20 2018]
+	container created . . .
+docker run -d -it --name 44225dd2569e2aab6ae8a70b7606ecb9 -v /home/girishk/web/CodeArea_judge/docker/userData/8738dded41786aefd3dec87115ae2745:/be65120fbe36dcecfdfc125a7ed0b671 virtual_machine:latest 1>container.log 2>&1
