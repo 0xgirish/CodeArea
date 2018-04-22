@@ -45,16 +45,6 @@ $(document).ready(function() {
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <div class="container feed-container">
     <div class="row">
-        <!--  <div class="col-sm-6 text-left">
-            <div class="feed-heading">
-            Contest List
-        </div>
-        </div>
-        <div class="col-6 text-right">
-            <div class="feed-heading">
-            Filter By
-        </div>
-        </div> -->
         <div class="col-sm-12 col-md-12 col-lg-8">
             {% for obj in contest_list %}
             <div class="card feed-item">
@@ -110,7 +100,7 @@ $(document).ready(function() {
         <div class="col-lg-4 col-md-12">
             <div class="card feed-item">
                 <div class="card-body">
-                    <h3 class="card-title text-center"> Ongoing Contests </h3>
+                    <h3 class="card-title text-center"> Current Contests </h3>
                     <!--Table-->
                     <table class="table table-hover text-center ongoing table-sm" id="ongoing">
                         <!--Table head-->
