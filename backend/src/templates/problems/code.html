@@ -25,6 +25,7 @@
         bottom: 70;
         left: 0;
         right: 50%;
+        width: 100%;
     }
 
     #lang-group {
@@ -55,7 +56,7 @@
     	margin: 0;
     	position: absolute;
     	bottom: 20;
-    	left: 15%;
+    	left: 8%;
     	width: 8%;
     	height: 5%;
     }
@@ -80,7 +81,6 @@
     <!-- <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
 	<div class="panel-heading"><b>CodeArea</b></div> -->
     <div id="editor"></div>
-    <button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button>
     <div class="form-group form-improve" id="lang-group">
         <select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
             <option value="python2">Python 2.7</option>
@@ -106,7 +106,6 @@
             <option value="ace/theme/twilight">Twilight</option>
         </select>
     </div>
-    <iframe frameborder="0" width="100%" height="95%" src="" name="output" id="output"></iframe>
     <!-- 	</div>
 </div> -->
     <script type="text/javascript">

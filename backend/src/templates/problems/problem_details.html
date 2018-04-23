@@ -105,17 +105,34 @@ body {
                 <div class="col-12">
                     <iframe frameborder="0" width="100%" src="/ide/" class="ide" id="ide"></iframe>
                 </div>
-                <button class="btn btn-primary" id="submit-code"> Run </button>
-                <div class="col-6">
-                <div class="form-group">
-    <label for="custom">Custom STDIN</label>
-    <textarea class="form-control" id="custom" rows="3"></textarea>
-  </div>
-</div>
-<div class="col-6">
-    
-    <button class="btn btn-primary" id="custom-code"> Custom Run </button>
-</div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary" id="submit-code"> Run </button>
+                            <button class="btn btn-primary" id="custom-code"> Custom Run </button>
+                            <div class="togglebutton">
+                                <label>
+                                    <input type="checkbox" id="toggle-custom">
+                                    <span class="toggle"></span> Custom Input
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6" style="margin-top:10px;">
+                            <div class="form-group custom-in">
+                                <label for="custom">Custom STDIN</label>
+                                <textarea class="form-control" id="custom" rows="3"></textarea>
+
+                            </div>   
+                        </div>
+                        <div class="col-6" style="margin-top:10px;">
+                            <div class="form-group custom-in" >
+                                <label for="custom">Custom STDOUT</label>
+                                <textarea class="form-control" id="custom-out" rows="3" disabled></textarea>
+
+                            </div>  
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -131,8 +148,8 @@ $(document).ready(function() {
         var textCode = ideJS.editor.getValue();
         var language = iframeDOM.contents().find("#language").val();
 
-        var objct =  { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" } ;
-        var obj2 = {"query" : objct };
+        var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" };
+        var obj2 = { "query": objct };
         var myJson = JSON.stringify(objct);
         var myJson2 = JSON.stringify(obj2)
         console.log(myJson2);
@@ -141,8 +158,9 @@ $(document).ready(function() {
             url: 'http://CodeArea.com/pyscript/index.py',
             method: "POST",
             data: myJson,
-            dataType   : 'json',
-            contentType: 'application/json', 
+            crossDomain: true,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function(data) {
                 console.log(data)
 
@@ -150,8 +168,13 @@ $(document).ready(function() {
             error: function(error) {
                 console.log(error);
             }
+        });
     });
-});
+
+    function printOutput(data){
+        $("#custom-out").val(data['output'])
+    }
+
     $("#custom-code").click(function() {
         var iframeDOM = $("iframe#ide");
         var ideJS = iframeDOM[0].contentWindow;
@@ -159,12 +182,15 @@ $(document).ready(function() {
         // console.log(iframeDOM.contents().find("#language").val());
 
         var textCode = ideJS.editor.getValue();
+
         var language = iframeDOM.contents().find("#language").val();
 
         var ci = $("textarea#custom").val()
 
-        var objct =  { "code": textCode, "contest": "", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": ci } ;
-        var obj2 = {"query" : objct };
+        console.log(ci)
+
+        var objct = { "code": textCode, "contest": "", "problem": "1", "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": ci };
+        var obj2 = { "query": objct };
         var myJson = JSON.stringify(objct);
         var myJson2 = JSON.stringify(obj2)
         console.log(myJson2);
@@ -174,16 +200,34 @@ $(document).ready(function() {
             url: 'http://CodeArea.com/pyscript/index.py',
             method: "POST",
             data: myJson,
-            dataType   : 'json',
-            contentType: 'application/json; charset=utf-8', 
+            crossDomain: true,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
             success: function(data) {
                 console.log(data)
+                printOutput(data);
 
             },
             error: function(error) {
                 console.log(error);
             }
+        });
     });
+
+    $("#custom-code").hide();
+    $(".custom-in").hide()
+
+    $("#toggle-custom").change(function(){
+        var this_ = $(this)
+
+        if(this.checked){
+            $("#custom-code").show()
+            $(".custom-in").show()
+        }
+        else{
+            $("#custom-code").hide()
+            $(".custom-in").hide()
+        }
     });
 });
 </script>
