@@ -5,7 +5,7 @@ from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
 from problems.models import Problem
 from contests.models import ContestsHaveProblems, Contest, Participant
-from .models import Submission, ContestSubmission
+from .models import Submission, ContestSubmission, Language
 # Create your views here.
 
 def submission_list(request):
@@ -45,20 +45,26 @@ def contest_submission_list(request):
 	return render(request, "submissions/contest_submission_list.html", context)
 
 def submit_problem(request, *args, **kwargs):
-	form = SubmissionForm(request.POST or None)
+	# form = SubmissionForm(request.POST or None)
+	print("Reached")
 
-	if form.is_valid():
-
+	if request.method == 'POST':
 		isParticipant = get_object_or_404(Profile, user = request.user)
-		instance = form.save(commit=False)
+		print(request.POST.get('lang'))
+
+		lang = get_object_or_404(Language, language_name = request.POST.get('lang'))
+		problem = get_object_or_404(Problem, slug = kwargs['slug'])
+		print(problem.problem_code)
+
+		instance = Submission()
 		instance.user = isParticipant
-		instance.problem = get_object_or_404(Problem, slug = kwargs['slug'])
+		instance.problem = problem
+		instance.code = request.POST.get('code')
+		instance.language = lang
 		instance.save()
-		return redirect('problem', kwargs['slug'])
-	context = {
-		'form': form,
-	}
-	return render(request, 'problem_create.html', context)
+		print("done")
+
+	return render(request, "index.html", {})
 
 def submit_contest_problem(request, *args, **kwargs):
 
