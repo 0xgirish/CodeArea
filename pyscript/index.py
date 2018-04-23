@@ -61,8 +61,7 @@ class Judge:
             # logging info
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
-            logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}"
-                                                 .format(filename, getframeinfo(currentframe()).lineno, str(e))))
+            #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
             exit(-1)
 
     def prepare_envior(self, path='../backend/media_cdn/'):
@@ -200,6 +199,9 @@ if(judge.submission == "normal"):
     json_data = json.dumps({"result":res.name, "output":output_string})
 else:
     json_data = json.dumps({"result":res.name})
+
+logging.info(output_string)
+logging.info(json_data)
 
 print(json_data)
 
