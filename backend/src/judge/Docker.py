@@ -33,7 +33,8 @@ class Docker:
 	Docker:	Initialize docker container and run program of user and destroy container
 	container : string format for command to create container
 	'''
-	container = "docker run -d -it --name {name} -v {source}:/{target} virtual_machine:latest 1>{devnull} 2>&1"
+	container = "docker run -d -it --network none --name {name} -v {source}:/{target} virtual_machine:latest 1>{devnull} 2>&1"
+	# container_no_internet = "docker connect none {name}"
 	##################################
 	#    change here for devnull 	 #
 	# CONTAINER_RUNTIME = os.devnull #
@@ -74,7 +75,9 @@ class Docker:
 		try:
 			container_command = Docker.container.format(name=self.name, source=self.path, target=self.target_folder,
 														devnull=Docker.CONTAINER_RUNTIME)
+			# container_internet = Docker.container_no_internet.format(name=self.name)
 			os.system(container_command)
+			# os.system(container_internet)
 			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
