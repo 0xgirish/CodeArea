@@ -1,0 +1,1 @@
+PATH = "/home/girishk/web/CodeAreaMaster/backend/src/judge/docker/userData/{}"
