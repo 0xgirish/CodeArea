@@ -5,4 +5,4 @@ from django.shortcuts import render
 from .index import judge_main
 
 def run_judge(request):
-    judge_main(request)
+    return judge_main(request)

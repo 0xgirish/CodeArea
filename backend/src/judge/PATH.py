@@ -1,1 +1,1 @@
-PATH = "/home/girishk/web/CodeAreaMaster/backend/src/judge/docker/userData/{}"
+PATH = "/home/karan/Desktop/csp-project/Untitled/backend/src/judge/docker/userData/{}"

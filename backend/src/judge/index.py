@@ -149,7 +149,7 @@ class Judge:
         remove directory from userData after getting user code output_string
         '''
         if(self.safe_to_remove or self.submission.lower() != 'normal'):
-            os.system("rm -r {}".format(self.path))
+            os.system("rm -rf {}".format(self.path))
             #logging.info('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
             return True
         else:

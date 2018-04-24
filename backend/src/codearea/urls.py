@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^api/', include('rest_framework.urls')),
     url(r'^tags/', include('tags.urls')),
     url(r'^ide/$', ide, name='ide'),
-    url(r'^judge', run_judge),
+    url(r'^judge/$', run_judge),
     url(r'$', isworking),
 
 ]
