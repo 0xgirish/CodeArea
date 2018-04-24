@@ -19,3 +19,163 @@
 .i-sm{
 	font-size: 18px;
 }
+
+
+.app {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.app .loading-spinner {
+  animation: rotate 2.625s linear infinite;
+  height: 30px;
+  transform-origin: center;
+  width: 30px;
+}
+.app .loading-spinner .path {
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out 0.75s infinite;
+  stroke: #2196f3;
+  stroke-linecap: round;
+}
+
+@-webkit-keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes dash {
+  0% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 150;
+    stroke-dashoffset: -24;
+  }
+  100% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: -124;
+  }
+}
+@-moz-keyframes dash {
+  0% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 150;
+    stroke-dashoffset: -24;
+  }
+  100% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: -124;
+  }
+}
+@-o-keyframes dash {
+  0% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 150;
+    stroke-dashoffset: -24;
+  }
+  100% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 150;
+    stroke-dashoffset: -24;
+  }
+  100% {
+    stroke-dasharray: 0, 150;
+    stroke-dashoffset: -124;
+  }
+}
+@-webkit-keyframes color {
+  0%,
+  100% {
+    stroke: #2196f3;
+  }
+  25% {
+    stroke: #f44336;
+  }
+  50% {
+    stroke: #ffeb3b;
+  }
+  75% {
+    stroke: #4caf50;
+  }
+}
+@-moz-keyframes color {
+  0%,
+  100% {
+    stroke: #2196f3;
+  }
+  25% {
+    stroke: #f44336;
+  }
+  50% {
+    stroke: #ffeb3b;
+  }
+  75% {
+    stroke: #4caf50;
+  }
+}
+@-o-keyframes color {
+  0%,
+  100% {
+    stroke: #2196f3;
+  }
+  25% {
+    stroke: #f44336;
+  }
+  50% {
+    stroke: #ffeb3b;
+  }
+  75% {
+    stroke: #4caf50;
+  }
+}
+@keyframes color {
+  0%,
+  100% {
+    stroke: #2196f3;
+  }
+  25% {
+    stroke: #f44336;
+  }
+  50% {
+    stroke: #ffeb3b;
+  }
+  75% {
+    stroke: #4caf50;
+  }
+}
