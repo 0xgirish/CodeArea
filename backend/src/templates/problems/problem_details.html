@@ -109,7 +109,12 @@ body {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-primary" id="submit-code"> Run </button>
+                            <form id="submission" method="POST" action={% url "problem_submission" obj.slug %}>
+                                {% csrf_token %}
+                                <input type="hidden" name="code" id="code" value="no code" />
+                                <input type="hidden" name="lang" id="lang"/>
+                            <button class="btn btn-primary" id="submit-code"> Submit </button>
+                        </form>
                             <button class="btn btn-primary" id="custom-code"> Custom Run </button>
                             <div class="togglebutton">
                                 <label>
@@ -139,8 +144,10 @@ body {
     </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#submit-code").click(function() {
+$(document).ready(function(e) {
+    $("#submission").submit(function(event) {
+        event.preventDefault();
+
         var iframeDOM = $("iframe#ide");
         var ideJS = iframeDOM[0].contentWindow;
         console.log(ideJS.editor.getValue());
@@ -149,28 +156,34 @@ $(document).ready(function() {
         var textCode = ideJS.editor.getValue();
         var language = iframeDOM.contents().find("#language").val();
 
+        // var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" };
+        // var obj2 = { "query": objct };
+        // var myJson = JSON.stringify(objct);
+        // var myJson2 = JSON.stringify(obj2)
+        // console.log(myJson2);
 
-        var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" };
-        var obj2 = { "query": objct };
-        var myJson = JSON.stringify(objct);
-        var myJson2 = JSON.stringify(obj2)
-        console.log(myJson2);
+        $("input#code").val(textCode);
+        $("input#lang").val(language);
+        this.submit()
+        // $(this).submit()
+        // event.submit();
 
-        $.ajax({
-            url: 'http://CodeArea.com/pyscript/index.py',
-            method: "POST",
-            data: myJson,
-            crossDomain: true,
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function(data) {
-                console.log(data)
+        // $.ajax({
+        //     url: 'http://CodeArea.com/pyscript/index.py',
+        //     method: "POST",
+        //     data: myJson,
+        //     crossDomain: true,
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //     success: function(data) {
+        //         console.log(data)
 
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+        //     },
+        //     error: function(error) {
+        //         console.log(error);
+        //     }
+        // });
+
     });
 
     function printOutput(data){
