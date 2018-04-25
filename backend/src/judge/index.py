@@ -128,10 +128,10 @@ class Judge:
         '''
         : create docker instance, execute user program and check user code
         '''
-        print(self.path)
+        # print(self.path)
         docker = Docker(self.timeout, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
                         self.md5_input, self.target_folder)
-        print("SUCCESS")
+        # print("SUCCESS")
         if docker.prepare():
             result = docker.execute()
 
@@ -139,7 +139,7 @@ class Judge:
                 return result
 
             result_list = []
-            print(result)
+            # print(result," " ,getframeinfo(currentframe()).lineno)
             for res, test in zip(result, self.testcase):
                 if res.name == 'COMPILATION_ERROR':
                     self.instance.status = 'CE'
@@ -159,7 +159,7 @@ class Judge:
                 else:
                     result_list.append(res)
 
-                return result_list
+            return result_list
 
         else:
             # if not able to create docker container
@@ -171,7 +171,7 @@ class Judge:
             self.instance.status = 'IE'
             return
         is_wrong = True
-        print(result)
+        print(result, " ", getframeinfo(currentframe()).lineno)
         for res, test_id in zip(result, self.testcase_id):
             subtask = SubmissionTasks()
             subtask.submission = self.instance
