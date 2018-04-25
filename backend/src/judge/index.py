@@ -129,6 +129,7 @@ class Judge:
         '''
         : create docker instance, execute user program and check user code
         '''
+        print(self.path)
         docker = Docker(self.timeout, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
                         self.md5_input, self.target_folder)
         print("SUCCESS")
@@ -158,6 +159,8 @@ class Judge:
                         result_list.append(Status.PROBLEM_OUTPUT_NOT_FOUND)
                 else:
                     result_list.append(res)
+
+                return result_list
 
         else:
             # if not able to create docker container
@@ -193,7 +196,7 @@ class Judge:
             self.instance.status = 'AC'
         self.instance.save()
 
-    def status_code(status):
+    def status_code(self, status):
         if status.name == 'CORRECT':
             return 'AC'
         elif status.name == 'WRONG':
