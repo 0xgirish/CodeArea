@@ -20,7 +20,7 @@ print('Content-Type: text/plain;charset=utf-8\r\n')
 print()
 
 
-logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
 
 
@@ -37,47 +37,42 @@ class Judge:
             #json_data = cgi.FieldStorage()['query']
 
             data = request.POST.get("submit")
-            print("Data: "+str(data))
+            # print("Data: "+str(data))
 
             logging.info(data)
             data_dict = json.loads(data)
-
-            submission_id = data_dict['submission_id']
-            self.instance = Submission.objects.get(pk = submission_id)
-            problem = self.instance.problem
-            # user code string
             self.submission = data_dict['type']
 
-            if self.submission == 'noraml':
+            submission_id = data_dict['submission_id']
+            # user code string
+
+            if self.submission == 'normal':
                 self.code = data_dict['code']
+                self.instance = None
+                self.language_id = data_dict['lang_id']
             else:
+                self.instance = Submission.objects.get(pk = submission_id)
+                problem = self.instance.problem
                 self.code = self.instance.code
+                self.problem = problem.problem_code
+                testcases = TestCase.objects.filter(problem = problem)
+                
+                # testcase calculation
+                self.testcase = []
+                self.testcase_id = []
+                for testcase in testcases:
+                    testcase_file_name = testcase.input
+                    testcase_file_name = str(testcase_file_name).split("/")[1].split(".")[0]
+                    testcase_id = testcase.id
+                    self.testcase.append(testcase_file_name)
+                    self.testcase_id.append(testcase_id)
+                    self.language_id = self.instance.language.language_name
+
+
             # custom_input value | if not custom_input then empty string
             self.custom_input = data_dict['custom_input']
-            # contest code | if custom_input then empty string
-            # self.problem = data_dict['problem']
-            self.problem = problem.problem_code
-            # problem code | if custom_input then empty string
-            # Get the testcases
-            testcases = TestCase.objects.filter(problem = problem)
-            
-            # testcase calculation
-            self.testcase = []
-            self.testcase_id = []
-            for testcase in testcases:
-                testcase_file_name = testcase.input
-                testcase_file_name = str(testcase_file_name).split("/")[1].split(".")[0]
-                testcase_id = testcase.id
-                self.testcase.append(testcase_file_name)
-                self.testcase_id.append(testcase_id)
 
 
-            # normal if custom_input is present | e.g. not empty string
-            # language id of user submission | more info: Language.py
-            self.language_id = self.instance.language.language_name
-
-            # Timeout value for program | default is 2.0 second
-            # TODO: make it contest or problem sepesific
             self.timeout = timeout
             self.path = path
             self.md5_name = random_md5(level)
@@ -91,11 +86,12 @@ class Judge:
                 self.target_folder = target_folder
 
             if self.submission == 'normal':
-                self.test_case_list = ['normal']
+                self.testcase = ['normal']
             # logging info
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
-            logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
+            #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
+            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             exit(-1)
 
     def prepare_envior(self, path='../../media_cdn/'):
@@ -106,7 +102,7 @@ class Judge:
             # creating input file copy md5
             if self.submission == 'normal':
                 os.system("mkdir {}".format(self.path))
-                with open('{}/{}.in'.format(self.path, self.md5_input), 'w') as fp:
+                with open('{}/{}_normal.in'.format(self.path, self.md5_input), 'w') as fp:
                     fp.write(self.custom_input)
             else:
                 for t in testcase:
@@ -123,8 +119,7 @@ class Judge:
             return True
 
         except Exception as e:
-            logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}"
-                                                 .format(filename, getframeinfo(currentframe()).lineno, str(e))))
+            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             return False
 
     def run(self):
@@ -261,7 +256,7 @@ def judge_main(request):
         elif judge.submission == 'normal':
             output_string = judge.get_output()
             judge.remove_directory()
-            json_data = json.dumps({"result":res[0], "output":output_string})
+            json_data = json.dumps({"result":res[0].name, "output":output_string})
             del judge
             return HttpResponse(json_data)
         else:

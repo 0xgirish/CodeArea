@@ -65,8 +65,7 @@ class Docker:
 			self.input = md5_input
 			#logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
 		except Exception as e:
-			logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}"
-												.format(filename, getframeinfo(currentframe()).lineno, str(e))))
+			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			exit(-1)
 
 	def prepare(self):
@@ -82,7 +81,7 @@ class Docker:
 			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
-			logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
+			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			return False
 
 	def execute(self):
@@ -107,13 +106,17 @@ class Docker:
 				# interpreted languages		
 				result_list = []
 				for t in self.test_case_list:
+					# print("\n\nTestCaseList: ", t, "\n\n")
 					execute_command = "{command1} <{input_file} >{output} 2>&1"\
 					.format(command1=LANGUAGE[self.language_id]['command1'].format(path),
 						input_file=input_path.format(folder=self.target_folder, input_md5=self.input, test=t),
 							output=output_path.format(folder=self.target_folder, output=self.output, test=t))
+
 					docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
-					.format(name=self.name,  timeout=self.timeout, command=execute_command)
-					status = self.__execute_one_by_one(docker_command)
+						.format(name=self.name,  timeout=self.timeout, command=execute_command)
+					print("\n\nDockerCommand: ", docker_command, "\n\n")
+					status = self.execute_one_by_one(docker_command)
+					# print("\n\nStatus: ", status.name, "\n\n")
 					result_list.append(status)
 
 				return_val = result_list
@@ -143,7 +146,7 @@ class Docker:
 						docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
 							.format(name=self.name,  timeout=self.timeout, command=execute_command)
 
-						status = self.__execute_one_by_one(docker_command)
+						status = self.execute_one_by_one(docker_command)
 						result_list.append(status)
 
 					return_val = result_list
@@ -156,13 +159,13 @@ class Docker:
 			self.destroy()
 			return return_val
 		except Exception as e:
-			logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}"
-												.format(filename, getframeinfo(currentframe()).lineno, str(e))))
+			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			self.destroy()
 			# for internal error | e.g. not able to create file CodeArea
 			return [Status.INTERNAL_ERROR] * len(self.test_case_list)
 
-	def __execute_one_by_one(command):
+
+	def execute_one_by_one(self, command):
 		status = os.system(command)
 		if status is 0:
 			return Status.SUCCESS
@@ -182,7 +185,7 @@ class Docker:
 			os.system(remove_container)
 			#logging.info('[{}]\n\tContainer removed'.format(time.asctime()))
 		except Exception as e:
-			logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
+			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 
 
 def random_md5(size):
@@ -200,5 +203,5 @@ def random_md5(size):
 		hash = str(MD5(rand_string).hexdigest())
 		return hash
 	except Exception as e:
-		logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
+		print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 		return False
