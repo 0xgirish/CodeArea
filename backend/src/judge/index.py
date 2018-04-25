@@ -74,7 +74,8 @@ class Judge:
 
             # normal if custom_input is present | e.g. not empty string
             # language id of user submission | more info: Language.py
-            self.language_id = self.instance.language_name
+            self.language_id = self.instance.language.language_name
+
             # Timeout value for program | default is 2.0 second
             # TODO: make it contest or problem sepesific
             self.timeout = timeout
@@ -132,6 +133,7 @@ class Judge:
         '''
         docker = Docker(self.timeout, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
                         self.md5_input, self.target_folder)
+        print("SUCCESS")
         if docker.prepare():
             result = docker.execute()
 
@@ -164,10 +166,12 @@ class Judge:
             self.instance.status = 'IE'
             return False
 
-    def save_result(result=None, is_judge_IE=False):
+    def save_result(self,result=None, is_judge_IE=False):
         if is_judge_IE:
             self.instance.status = 'IE'
+            return
         is_wrong = True
+        print(result)
         for res, test_id in zip(result, self.testcase_id):
             subtask = SubmissionTasks()
             subtask.submission = self.instance
@@ -266,6 +270,7 @@ def judge_main(request):
         judge.save_result(is_judge_IE=True)
 
     judge.remove_directory()
+    return HttpResponse("Hello")
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
     #     get_subm = judge.get_submission()

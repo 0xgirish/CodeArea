@@ -107,10 +107,29 @@ $(document).ready(function(e) {
         }
     };
 
-var json = { "code": "{{submission.code}}", "contest": "CHEP", "problem": "1", "type": "noraml", "lang_id": getLangId(language), "custom_input": "23" };
+	var objct = { "submission_id": {{submission.id}}, "type": "submit", "custom_input":"" };
+        // var obj2 = { "query": objct };
+    var myJson = JSON.stringify(objct);
+    // var myJson2 = JSON.stringify(obj2)
+    console.log(myJson);
 
-console.log(json['code']);
-});
+
+    $.ajax({
+        url: '/judge/',
+        method: "POST",
+        data: {"submit": myJson},
+        //crossDomain: true,
+        dataType: 'json',
+        //contentType: 'application/json; charset=utf-8',
+        success: function(data) {
+            console.log(data);
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});	
 
 </script>
 {% endblock %}
