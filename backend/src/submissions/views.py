@@ -5,7 +5,7 @@ from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
 from problems.models import Problem, TestCase
 from contests.models import ContestsHaveProblems, Contest, Participant
-from .models import Submission, ContestSubmission, Language
+from .models import Submission, ContestSubmission, Language, SubmissionTasks
 # Create your views here.
 
 def submission_list(request):
@@ -63,13 +63,15 @@ def submit_problem(request, *args, **kwargs):
 		instance.code = request.POST.get('code')
 		instance.language = lang
 		instance.save()
-		print("done")
+		# print("done")
 
-	context = {
-		'obj': problem,
-		# 'submission': instance,
-		'testcases': testcases,
-	}
+		
+
+		context = {
+			'obj': problem,
+			'submission': instance,
+			'lang': lang,
+		}
 
 	return render(request, "submissions/problem_submission.html", context)
 

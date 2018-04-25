@@ -7,6 +7,8 @@ from contests.models import ContestsHaveProblems, Participant
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from problems.models import TestCase
+
 # Create your models here
 
 
@@ -42,6 +44,10 @@ class Submission(models.Model):
 	language = models.ForeignKey(Language, blank=True, null=True, on_delete = models.SET_NULL)
 	status = models.CharField(max_length=3, choices= STATUS_CHOICES, default = RUNNING)
 	timestamp = models.DateTimeField(auto_now_add = True, auto_now = False)
+	testcases = models.ManyToManyField(TestCase, through = 'SubmissionTasks')
+
+	def __str__(self):
+		return "%s-%s-%s"%(self.user.user.username, self.problem.problem_code, self.id)
 
 
 class ContestSubmission(models.Model):
@@ -71,3 +77,33 @@ class ContestSubmission(models.Model):
 	timestamp = models.DateTimeField(auto_now_add = True, auto_now = False)
 
 	
+class SubmissionTasks(models.Model):
+	""" Stores results of each submission tast/tetcase """
+
+	ACCEPTED_ANSWER = 'AC'
+	WRONG_ANSWER = 'WA'
+	RUNTIME_ERROR = 'RE'
+	TIME_EXCEEDED = 'TLE'
+	INTERNAL_ERROR = 'IE'
+	RUNNING = 'R'
+
+	STATUS_CHOICES = (
+		(ACCEPTED_ANSWER, 'ACCEPTED'),
+		(WRONG_ANSWER, 'WRONG ANSWER'),
+		(RUNTIME_ERROR, 'RUNTIME ERROR'),
+		(TIME_EXCEEDED, 'TIME LIMIT EXCEEDED'),
+		(INTERNAL_ERROR, 'INTERNAL ERROR'),
+		(RUNNING, 'RUNNING')
+	)
+
+	submission = models.ForeignKey(Submission, on_delete = models.CASCADE)
+	testcase = models.ForeignKey(TestCase, on_delete = models.CASCADE)
+	status = models.CharField(max_length=3, choices= STATUS_CHOICES, default = RUNNING)
+
+	def __str__(self):
+		return "%s-%s-%s"%(self.submission.id, self.testcase.id, self.id)
+
+
+# class ContestSubmissionTask(models.Model):
+
+
