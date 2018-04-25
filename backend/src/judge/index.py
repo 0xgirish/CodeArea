@@ -14,6 +14,7 @@ from .PATH import PATH as path
 from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
+from .Language import get_code_by_name as lang_code
 
 
 print('Content-Type: text/plain;charset=utf-8\r\n')
@@ -66,7 +67,7 @@ class Judge:
                     testcase_id = testcase.id
                     self.testcase.append(testcase_file_name)
                     self.testcase_id.append(testcase_id)
-                    self.language_id = self.instance.language.language_name
+                self.language_id = lang_code(self.instance.language.language_name)
 
 
             # custom_input value | if not custom_input then empty string
