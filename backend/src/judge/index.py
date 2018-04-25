@@ -18,7 +18,6 @@ from .Language import get_code_by_name as lang_code
 from django.conf import settings
 
 
-
 print('Content-Type: text/plain;charset=utf-8\r\n')
 print()
 
