@@ -42,7 +42,7 @@ class Docker:
 	# last container id is stored in container.log
 	CONTAINER_RUNTIME = 'container.log'
 
-	def __init__(self, timeout, language_id, code, source_path, md5_result, md5_name, md5_input, target_folcer):
+	def __init__(self, timeout, language_id, code, source_path, md5_result, test_case_list ,md5_name, md5_input, target_folcer):
 		'''
 		:param timeout: max time limit for code execution
 		:param language_id: user programming language id option on submission
@@ -60,6 +60,7 @@ class Docker:
 			self.target_folder = target_folcer
 			self.path = source_path
 			self.output = md5_result
+			self.test_case_list = test_case_list
 			self.name = md5_name
 			self.input = md5_input
 			#logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
@@ -92,8 +93,8 @@ class Docker:
 		try:
 			file_path = '{path}/CodeArea.{lang}'.format(path=self.path,
 														lang=LANGUAGE[self.language_id]['extension'])
-			input_path = '/{folder}/{input_md5}.in'.format(folder=self.target_folder, input_md5=self.input)
-			output_path = '/{folder}/{output}.out'.format(folder=self.target_folder, output=self.output)
+			input_path = '/{folder}/{input_md5}_{test}.in'
+			output_path = '/{folder}/{output}_{test}.out'
 			path = "/{}".format(self.target_folder)
 			# write user.code to corrosponding CodeArea file
 			with open(file_path, 'w') as fp:
@@ -103,25 +104,27 @@ class Docker:
 			# if self.language_id > TWO_STEP then language is compiled
 			two_step = (self.language_id > TWO_STEP)
 			if not two_step:
-				# interpreted languages
-				execute_command = "{command1} <{input_file} >{output} 2>&1"\
-					.format(command1=LANGUAGE[self.language_id]['command1'].format(path), input_file=input_path,
-							output=output_path)
-				docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
+				# interpreted languages		
+				result_list = []
+				for t in self.test_case_list:
+					execute_command = "{command1} <{input_file} >{output} 2>&1"\
+					.format(command1=LANGUAGE[self.language_id]['command1'].format(path),
+						input_file=input_path.format(folder=self.target_folder, input_md5=self.input, test=t),
+							output=output_path.format(folder=self.target_folder, output=self.output, test=t))
+					docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
 					.format(name=self.name,  timeout=self.timeout, command=execute_command)
-				status = os.system(docker_command)
-				if status is 0:
-					return_val = Status.SUCCESS
-				elif status >> 8 is 124:
-					return_val = Status.TIMEOUT
-				else:
-					return_val = Status.RUNTIME_ERROR
+					status = self.__execute_one_by_one(docker_command)
+					result_list.append(status)
+
+				return_val = result_list
 
 			else:
 				# compiled languages
 				# command to compile
+				compile_path = '/{folder}/{output}.out'.format(folder=self.target_folder,
+																output=self.output)
 				compile_command = "{command1} >{output} 2>&1"\
-					.format(command1=LANGUAGE[self.language_id]['command1'].format(path), output=output_path)
+					.format(command1=LANGUAGE[self.language_id]['command1'].format(path), output=compile_path)
 
 				# run in docker
 				docker_command = "docker exec {name} sh -c '{command}'".format(name=self.name, command=compile_command)
@@ -131,22 +134,23 @@ class Docker:
 				if os.path.isfile('{}/{}'.format(self.path, LANGUAGE[self.language_id]['binary'])):
 
 					# command to execute binary
-					execute_command = "{command2} <{input_file} >{output} 2>&1"\
-						.format(command2=LANGUAGE[self.language_id]['command2'].format(path), input_file=input_path,
-								output=output_path)
-					# run in docker
-					docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
-						.format(name=self.name,  timeout=self.timeout, command=execute_command)
-					status = os.system(docker_command)
-					if status is 0:
-						return_val = Status.SUCCESS
-					elif status >> 8 is 124:
-						return_val = Status.TIMEOUT
-					else:
-						return_val = Status.RUNTIME_ERROR
+					result_list = []
+					for t in self.test_case_list:
+						execute_command = "{command2} <{input_file} >{output} 2>&1"\
+							.format(command2=LANGUAGE[self.language_id]['command2'].format(path),
+									input_file=input_path.format(folder=self.target_folder, input_md5=self.input, test=t),
+									output=output_path.format(folder=self.target_folder, output=self.output, test=t))
+						docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
+							.format(name=self.name,  timeout=self.timeout, command=execute_command)
+
+						status = self.__execute_one_by_one(docker_command)
+						result_list.append(status)
+
+					return_val = result_list
+
 				else:
 					# if not success in compilation
-					return_val = Status.COMPILATION_ERROR
+					return_val = [Status.COMPILATION_ERROR] * len(self.test_case_list)
 
 			# destroy docker container
 			self.destroy()
@@ -156,7 +160,16 @@ class Docker:
 												.format(filename, getframeinfo(currentframe()).lineno, str(e))))
 			self.destroy()
 			# for internal error | e.g. not able to create file CodeArea
-			return Status.INTERNAL_ERROR
+			return [Status.INTERNAL_ERROR] * len(self.test_case_list)
+
+	def __execute_one_by_one(command):
+		status = os.system(command)
+		if status is 0:
+			return Status.SUCCESS
+		elif status >> 8 us 124:
+			return Status.TIMEOUT
+		else:
+			return Status.RUNTIME_ERROR
 
 	def destroy(self):
 		'''
