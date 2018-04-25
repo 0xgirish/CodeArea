@@ -15,6 +15,8 @@ from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
 from .Language import get_code_by_name as lang_code
+from django.conf import settings
+
 
 
 print('Content-Type: text/plain;charset=utf-8\r\n')
@@ -95,7 +97,7 @@ class Judge:
             print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             exit(-1)
 
-    def prepare_envior(self, path='../../media_cdn/'):
+    def prepare_envior(self, path=settings.MEDIA_ROOT):
         '''
         :return : boolean value
         '''
@@ -106,7 +108,7 @@ class Judge:
                 with open('{}/{}_normal.in'.format(self.path, self.md5_input), 'w') as fp:
                     fp.write(self.custom_input)
             else:
-                for t in testcase:
+                for t in self.testcase:
                     static_input_path = "{}/{}/{}.in".format(path, self.problem, t)
                     # mkdir userData/md5_folder
                     os.system("mkdir {}".format(self.path))
@@ -137,14 +139,14 @@ class Judge:
                 return result
 
             result_list = []
-
+            print(result)
             for res, test in zip(result, self.testcase):
                 if res.name == 'COMPILATION_ERROR':
                     self.instance.status = 'CE'
                     return False
 
                 if res.name == 'SUCCESS':
-                    check_against = '{}/{}/{}.out'.format(self.path_contest, self.contest, self.problem)
+                    check_against = '{}/{}/{}.out'.format(self.path_contest, self.problem, test)
                     output_path = '{}/{}_{}.out'.format(self.path, self.md5_result, test)
                     if os.path.isfile(output_path) and os.path.isfile(check_against):
                         res_ = filecmp.cmp(check_against, output_path)
