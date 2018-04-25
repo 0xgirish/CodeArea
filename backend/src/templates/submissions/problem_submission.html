@@ -1,0 +1,116 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
+<script type="text/javascript" src={% static "js/csrf.js" %}></script>
+<style type="text/css">
+.head {
+    background-color: #F8F8F8;
+    min-height: 100px;
+    color: #fff;
+}
+
+.head .card-title {
+    margin-top: 2rem;
+}
+
+.nav-tabs .nav-item .nav-link,
+.nav-tabs .nav-item .nav-link:hover,
+.nav-tabs .nav-item .nav-link:focus {
+    color: #263238 !important;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+    background-color: transparent;
+    border-bottom: solid 3px #424242 !important;
+}
+
+.nav-tabs .nav-item .nav-link.active:hover {
+    background-color: transparent;
+    border-bottom: solid 3px #000000 !important;
+}
+
+.nav-tabs .nav-item .nav-link {
+    background-color: transparent;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+}
+
+.nav-tabs .nav-item .nav-link:hover {
+    background-color: transparent;
+    border-bottom: solid 3px #aaa !important;
+}
+
+.status {
+    padding-bottom: 20px;
+}
+</style>
+<div class="container feed-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card feed-item">
+                <div class="head">
+                    <h3 class="card-title text-center"> {{obj.title | title}} </h3>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "problem" obj.slug %}>Statement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Submissions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Leaderboard</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 text-center status">
+                                    <h3> <strong> Status </strong> </h3>
+                                </div>
+                                {% for testcase in testcases %}
+                                <div class="col-sm-2 col-3">
+                                    <div class="app" id="{{testcase.id}}" data-toggle="tooltip" data-placement="top" title="Testcase #{{forloop.counter}}">
+                                        <svg class="loading-spinner" viewBox="-24 -24 48 48">
+                                            <circle class="path" cx="0" cy="0" r="20" fill="none" stroke-width="4"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+
+	function getLangId(lang) {
+        switch (lang) {
+            case "python2":
+                return 0;
+            case "python3":
+                return 1;
+            case "golang":
+                return 2;
+            case "C":
+                return 3;
+            case "cpp14":
+                return 4;
+            case "java":
+                return 5;
+        }
+    };
+
+var json = { "code": "{{submission.code}}", "contest": "CHEP", "problem": "1", "type": "noraml", "lang_id": getLangId(language), "custom_input": "23" };
+
+console.log(json['code']);
+});
+
+</script>
+{% endblock %}

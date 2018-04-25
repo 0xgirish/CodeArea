@@ -3,9 +3,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
-from problems.models import Problem
+from problems.models import Problem, TestCase
 from contests.models import ContestsHaveProblems, Contest, Participant
-from .models import Submission, ContestSubmission, Language
+from .models import Submission, ContestSubmission, Language, SubmissionTasks
 # Create your views here.
 
 def submission_list(request):
@@ -46,14 +46,15 @@ def contest_submission_list(request):
 
 def submit_problem(request, *args, **kwargs):
 	# form = SubmissionForm(request.POST or None)
-	print("Reached")
-
+	
+	context = {}
+	problem = get_object_or_404(Problem, slug = kwargs['slug'])
+	testcases = TestCase.objects.filter(problem = problem)
 	if request.method == 'POST':
 		isParticipant = get_object_or_404(Profile, user = request.user)
 		print(request.POST.get('lang'))
 
 		lang = get_object_or_404(Language, language_name = request.POST.get('lang'))
-		problem = get_object_or_404(Problem, slug = kwargs['slug'])
 		print(problem.problem_code)
 
 		instance = Submission()
@@ -62,9 +63,17 @@ def submit_problem(request, *args, **kwargs):
 		instance.code = request.POST.get('code')
 		instance.language = lang
 		instance.save()
-		print("done")
+		# print("done")
 
-	return render(request, "index.html", {})
+		
+
+		context = {
+			'obj': problem,
+			'submission': instance,
+			'lang': lang,
+		}
+
+	return render(request, "submissions/problem_submission.html", context)
 
 def submit_contest_problem(request, *args, **kwargs):
 
