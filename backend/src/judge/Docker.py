@@ -166,7 +166,7 @@ class Docker:
 		status = os.system(command)
 		if status is 0:
 			return Status.SUCCESS
-		elif status >> 8 us 124:
+		elif status >> 8 is 124:
 			return Status.TIMEOUT
 		else:
 			return Status.RUNTIME_ERROR

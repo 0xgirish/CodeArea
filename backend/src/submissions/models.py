@@ -28,6 +28,7 @@ class Submission(models.Model):
 	TIME_EXCEEDED = 'TLE'
 	INTERNAL_ERROR = 'IE'
 	RUNNING = 'R'
+	COMPILATION_ERROR = 'CE'
 
 	STATUS_CHOICES = (
 		(ACCEPTED_ANSWER, 'ACCEPTED'),
@@ -35,7 +36,8 @@ class Submission(models.Model):
 		(RUNTIME_ERROR, 'RUNTIME ERROR'),
 		(TIME_EXCEEDED, 'TIME LIMIT EXCEEDED'),
 		(INTERNAL_ERROR, 'INTERNAL ERROR'),
-		(RUNNING, 'RUNNING')
+		(RUNNING, 'RUNNING'),
+		(COMPILATION_ERROR, 'COMPILATION_ERROR')
 	)
 
 	user = models.ForeignKey(Profile, on_delete = models.CASCADE)

@@ -14,6 +14,8 @@ for testcase in testcases:
 	testcase_files.append((testcase.id, testcase_file_name))
 
 # Create the submission task
+
+# for loop
 subtask = SubmissionTasks()
 subtask.submission = instance
 subtask.testcase = TestCase.objects.get(id = testcase_files[0][0])

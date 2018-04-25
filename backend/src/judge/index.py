@@ -12,6 +12,8 @@ from inspect import getframeinfo, currentframe
 from .Docker import Docker, random_md5, LOGFILE_NAME, Status
 from .PATH import PATH as path
 from django.http import HttpResponse
+from problems.models import Problem, TestCase
+from submissions.models import Submission, SubmissionTasks
 
 
 print('Content-Type: text/plain;charset=utf-8\r\n')
@@ -39,18 +41,40 @@ class Judge:
 
             logging.info(data)
             data_dict = json.loads(data)
+
+            submission_id = data_dict['submission_id']
+            self.instance = Submission.objects.get(pk = submission_id)
+            problem = self.instance.problem
             # user code string
-            self.code = data_dict['code']
+            self.submission = data_dict['type']
+
+            if self.submission == 'noraml':
+                self.code = data_dict['code']
+            else:
+                self.code = self.instance.code
             # custom_input value | if not custom_input then empty string
             self.custom_input = data_dict['custom_input']
             # contest code | if custom_input then empty string
-            self.problem = data_dict['problem']
+            # self.problem = data_dict['problem']
+            self.problem = problem.problem_code
             # problem code | if custom_input then empty string
-            self.testcase = data_dict['testcase']
+            # Get the testcases
+            testcases = TestCase.objects.filter(problem = problem)
+            
+            # testcase calculation
+            self.testcase = []
+            self.testcase_id = []
+            for testcase in testcases:
+                testcase_file_name = testcase.input
+                testcase_file_name = str(testcase_file_name).split("/")[1].split(".")[0]
+                testcase_id = testcase.id
+                self.testcase.append(testcase_file_name)
+                self.testcase_id.append(testcase_id)
+
+
             # normal if custom_input is present | e.g. not empty string
-            self.submission = data_dict['type']
             # language id of user submission | more info: Language.py
-            self.language_id = data_dict['lang_id']
+            self.language_id = self.instance.language_name
             # Timeout value for program | default is 2.0 second
             # TODO: make it contest or problem sepesific
             self.timeout = timeout
@@ -118,7 +142,8 @@ class Judge:
 
             for res, test in zip(result, self.testcase):
                 if res.name == 'COMPILATION_ERROR':
-                    return [Status.COMPILATION_ERROR]
+                    self.instance.status = 'CE'
+                    return False
 
                 if res.name == 'SUCCESS':
                     check_against = '{}/{}/{}.out'.format(self.path_contest, self.contest, self.problem)
@@ -136,7 +161,48 @@ class Judge:
 
         else:
             # if not able to create docker container
-            return Status.INTERNAL_ERROR
+            self.instance.status = 'IE'
+            return False
+
+    def save_result(result=None, is_judge_IE=False):
+        if is_judge_IE:
+            self.instance.status = 'IE'
+        is_wrong = True
+        for res, test_id in zip(result, self.testcase_id):
+            subtask = SubmissionTasks()
+            subtask.submission = self.instance
+            subtask.testcase = TestCase.objects.get(id = test_id)
+            """ 
+            Status options are: 
+            ACCEPTED_ANSWER = 'AC'
+            WRONG_ANSWER = 'WA'
+            RUNTIME_ERROR = 'RE'
+            TIME_EXCEEDED = 'TLE'
+            INTERNAL_ERROR = 'IE'
+            """
+            subtask.status = self.status_code(res)
+            if res == 'AC':
+                is_wrong = False
+            # save the instance
+            subtask.save()
+        if is_wrong:
+            self.instance.status = 'WA'
+        else:
+            self.instance.status = 'AC'
+        self.instance.save()
+
+    def status_code(status):
+        if status.name == 'CORRECT':
+            return 'AC'
+        elif status.name == 'WRONG':
+            return 'WA'
+        elif status.name == 'RUNTIME_ERROR':
+            return 'RE'
+        elif status.name == 'TIMEOUT':
+            return 'TLE'
+        else:
+            return 'IE'
+        
 
     def get_output(self):
         '''
@@ -186,10 +252,19 @@ def judge_main(request):
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
         res = judge.run()
+        if isinstance(res, bool) and not res:
+            return
+        elif judge.submission == 'normal':
+            output_string = judge.get_output()
+            judge.remove_directory()
+            json_data = json.dumps({"result":res[0], "output":output_string})
+            del judge
+            return HttpResponse(json_data)
+        else:
+            judge.save_result(res)
     else:
-        res = [Status.INTERNAL_ERROR]
+        judge.save_result(is_judge_IE=True)
 
-    output_string = judge.get_output()
     judge.remove_directory()
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
@@ -210,22 +285,3 @@ def judge_main(request):
     #     # print(output_string)
     #     # print('===================>  end  <===================')
     #     pass
-
-    result_set = []
-    for result in res:
-        result_set.append(res.name)
-
-    #print(json_data)
-    if(judge.submission == "normal"):
-        json_data = json.dumps({"result":result_set, "output":output_string})
-    else:
-        json_data = json.dumps({"result":result_set})
-
-    logging.info(output_string)
-    logging.info(json_data)
-
-    del judge
-
-    print(json_data)
-
-    return HttpResponse(json_data)
