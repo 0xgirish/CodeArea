@@ -165,6 +165,7 @@ class Judge:
         else:
             # if not able to create docker container
             self.instance.status = 'IE'
+            self.instance.save()
             return False
 
     def save_result(self,result=None, is_judge_IE=False):
@@ -172,7 +173,10 @@ class Judge:
             self.instance.status = 'IE'
             self.instance.save()
             return True
-        is_wrong = True
+        is_ac = False
+        is_tle = True
+        is_re = True
+        is_wa = True
         print(result, " ", getframeinfo(currentframe()).lineno)
         for res, test_id in zip(result, self.testcase_id):
             subtask = SubmissionTasks()
@@ -189,13 +193,29 @@ class Judge:
             subtask.status = self.status_code(res)
             # print("\n\n", self.status_code(res), "\n\n")
             if subtask.status == 'AC':
-                is_wrong = False
+                is_ac = True
+                is_tle = False
+                is_re = False
+                is_wa = False
+            elif subtask.status == 'WA' and is_wa:
+                is_re = False
+                is_tle = False
+            elif subtask.status == 'TLE' and is_tle:
+                is_wa = False
+                is_re = False
+            elif subtask.status == 'RE' and is_re:
+                is_wa = False
+                is_tle = False
             # save the instance
             subtask.save()
-        if is_wrong:
-            self.instance.status = 'WA'
-        else:
+        if is_ac:
             self.instance.status = 'AC'
+        elif is_wa:
+            self.instance.status = 'WA'
+        elif is_tle:
+            self.instance.status = 'TLE'
+        elif is_re:
+            self.instance.status = 'RE'
         self.instance.save()
         return True
 
