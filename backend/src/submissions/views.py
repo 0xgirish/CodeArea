@@ -11,7 +11,7 @@ from .models import Submission, ContestSubmission, Language, SubmissionTasks
 def submission_list(request):
 	
 	submission_list = Submission.objects.filter(user = request.user.profile)
-	paginator = Paginator(submission_list,1)
+	paginator = Paginator(submission_list,10)
 	page = request.GET.get('page',1)
 	try:
 		submission_list = paginator.page(page)
