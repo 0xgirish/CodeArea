@@ -283,7 +283,7 @@ def judge_main(request):
         if isinstance(res, bool) and not res:
             judge.remove_directory()
             del judge
-            return HttpResponse("COMPILATION_ERROR")
+            return HttpResponse("CE")
         elif judge.submission == 'normal':
             output_string = judge.get_output()
             judge.remove_directory()
@@ -295,11 +295,11 @@ def judge_main(request):
             judge.save_result(res)
             judge.remove_directory()
             del judge
-            return HttpResponse("DONE")
+            return HttpResponse(self.instance.status)
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
-        return HttpResponse("INTERNAL_ERROR")
+        return HttpResponse("IE")
     # return HttpResponse("Hello")
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
