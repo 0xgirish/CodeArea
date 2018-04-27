@@ -143,6 +143,7 @@ class Judge:
             for res, test in zip(result, self.testcase):
                 if res.name == 'COMPILATION_ERROR':
                     self.instance.status = 'CE'
+                    self.instance.save()
                     return False
 
                 if res.name == 'SUCCESS':
@@ -169,7 +170,8 @@ class Judge:
     def save_result(self,result=None, is_judge_IE=False):
         if is_judge_IE:
             self.instance.status = 'IE'
-            return
+            self.instance.save()
+            return True
         is_wrong = True
         print(result, " ", getframeinfo(currentframe()).lineno)
         for res, test_id in zip(result, self.testcase_id):
@@ -185,7 +187,8 @@ class Judge:
             INTERNAL_ERROR = 'IE'
             """
             subtask.status = self.status_code(res)
-            if res == 'AC':
+            # print("\n\n", self.status_code(res), "\n\n")
+            if subtask.status == 'AC':
                 is_wrong = False
             # save the instance
             subtask.save()
@@ -194,6 +197,7 @@ class Judge:
         else:
             self.instance.status = 'AC'
         self.instance.save()
+        return True
 
     def status_code(self, status):
         if status.name == 'CORRECT':
@@ -232,10 +236,10 @@ class Judge:
         '''
         if(self.safe_to_remove):
             os.system("rm -rf {}".format(self.path))
-            #logging.info('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
+            print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
             return True
         else:
-            logging.warning('[{}]\n\tRemoving without get_output is not safe'.format(time.asctime()))
+            print('[{}]\n\tRemoving without get_output is not safe'.format(time.asctime()))
             return False
 
 
@@ -257,7 +261,9 @@ def judge_main(request):
     if judge_prepare:
         res = judge.run()
         if isinstance(res, bool) and not res:
-            return
+            judge.remove_directory()
+            del judge
+            return HttpResponse("COMPILATION_ERROR")
         elif judge.submission == 'normal':
             output_string = judge.get_output()
             judge.remove_directory()
@@ -265,12 +271,16 @@ def judge_main(request):
             del judge
             return HttpResponse(json_data)
         else:
+            judge.safe_to_remove = True
             judge.save_result(res)
+            judge.remove_directory()
+            del judge
+            return HttpResponse("DONE")
     else:
         judge.save_result(is_judge_IE=True)
-
-    judge.remove_directory()
-    return HttpResponse("Hello")
+        judge.remove_directory()
+        return HttpResponse("INTERNAL_ERROR")
+    # return HttpResponse("Hello")
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
     #     get_subm = judge.get_submission()

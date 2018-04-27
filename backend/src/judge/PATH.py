@@ -1,1 +1,0 @@
-PATH = "/home/karan/Desktop/csp-project/Untitled/backend/src/judge/docker/userData/{}"

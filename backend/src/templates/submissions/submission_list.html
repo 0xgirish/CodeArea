@@ -6,15 +6,16 @@
 <script type="text/javascript">
 
 function populate(data) {
-        var markedContent = marked("```\n"+data['code']+"\n```")
-        console.log(data['code'])
+        var markedContent = marked("```\n"+data["code"]+"\n```")
+        // console.log(data["code"])
         $(".content-markdown").html(markedContent);
     }
 
 $(document).on('click','.v-code', function(e) {
         e.preventDefault();
         var this_ = $(this);
-        var geturl = "/submissions/api/" + this_.attr("data-id") + "/";
+        var geturl = "/submissions/api/submission/" + this_.attr("data-id") + "/";
+        console.log(geturl)
         $.ajax({
             url: geturl,
             method: "GET",
