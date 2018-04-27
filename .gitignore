@@ -5,4 +5,5 @@
 *.backup
 *.log
 PATH.py
-
+.in
+.out
