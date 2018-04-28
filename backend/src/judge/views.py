@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 
 from .index import judge_main
 from .contest import judge_main_contest
+from django.contrib.auth.decorators import login_required
+
 from .normal import judge_main_normal
 
 @login_required

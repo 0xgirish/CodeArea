@@ -2,7 +2,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript"></script>
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
-
+<script type="text/javascript" src={% static "js/csrf.js" %}></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $(".content-markdown").each(function() {
@@ -60,34 +60,183 @@ body {
     border-bottom: solid 3px #aaa !important;
 }
 
+.problem-statement {
+    margin-top: 40px;
+    font-weight: 400;
+}
 
+.ide {
+    min-height: 500px;
+}
 </style>
 <div class="container feed-container">
     <div class="row">
         <div class="col-12">
             <div class="card feed-item">
                 <div class="head">
-                    <h3 class="card-title text-center"> {{obj.title | title}} </h3>
+                   <h3 class="card-title text-center"> {{obj.title | title}} | {{contest.title | title}} </h3>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" >Details</a>
+                            <a class="nav-link active" href={% url "contest_problem" contest.slug obj.slug %}>Statement</a>
+                        </li>
+               
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "contest_problem_submission" contest.slug obj.slug %}>Submissions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" >Submissions</a>
+                            <a class="nav-link" href="#">Leaderboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" >Leaderboard</a>
-                        </li>
-                        
                     </ul>
                 		</div>
-                		<div class="col-12">
+                		<div class="col-12 problem-statement">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-9 col-md-9 com-sm-12">
                                 <div class="card-text content-markdown"> {{obj.statement}} </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <iframe frameborder="0" width="100%" src="/ide/" class="ide" id="ide"></iframe>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <form id="submission" method="POST" action={% url "contest_problem_submission" contest.slug obj.slug %}>
+                                {% csrf_token %}
+                                <input type="hidden" name="code" id="code" value="no code" />
+                                <input type="hidden" name="lang" id="lang"/>
+                            <button class="btn btn-primary" id="submit-code"> Submit </button>
+                        </form>
+                            <button class="btn btn-primary" id="custom-code"> Custom Run </button>
+                            <div class="togglebutton">
+                                <label>
+                                    <input type="checkbox" id="toggle-custom">
+                                    <span class="toggle"></span> Custom Input
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6" style="margin-top:10px;">
+                            <div class="form-group custom-in">
+                                <label for="custom">Custom STDIN</label>
+                                <textarea class="form-control" id="custom" rows="3"></textarea>
+
+                            </div>   
+                        </div>
+                        <div class="col-6" style="margin-top:10px;">
+                            <div class="form-group custom-in" >
+                                <label for="custom">Custom STDOUT</label>
+                                <textarea class="form-control" id="custom-out" rows="3" disabled></textarea>
+
+                            </div>  
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#submission").submit(function(event) {
+        event.preventDefault();
+
+        var iframeDOM = $("iframe#ide");
+        var ideJS = iframeDOM[0].contentWindow;
+        console.log(ideJS.editor.getValue());
+        console.log(iframeDOM.contents().find("#language").val());
+
+        var textCode = ideJS.editor.getValue();
+        var language = iframeDOM.contents().find("#language").val();
+
+        // var objct = { "code": textCode, "contest": "CHEP", "problem": "1", "type": "practice", "lang_id": ideJS.getLangId(language), "custom_input": "" };
+        // var obj2 = { "query": objct };
+        // var myJson = JSON.stringify(objct);
+        // var myJson2 = JSON.stringify(obj2)
+        // console.log(myJson2);
+
+        $("input#code").val(textCode);
+        $("input#lang").val(language);
+        this.submit()
+        // $(this).submit()
+        // event.submit();
+
+        // $.ajax({
+        //     url: 'http://CodeArea.com/pyscript/index.py',
+        //     method: "POST",
+        //     data: myJson,
+        //     crossDomain: true,
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //     success: function(data) {
+        //         console.log(data)
+
+        //     },
+        //     error: function(error) {
+        //         console.log(error);
+        //     }
+        // });
+
+    });
+
+    function printOutput(data){
+        $("#custom-out").val(data['output'])
+    }
+
+    $("#custom-code").click(function() {
+        var iframeDOM = $("iframe#ide");
+        var ideJS = iframeDOM[0].contentWindow;
+        console.log(ideJS.editor.getValue());
+        // console.log(iframeDOM.contents().find("#language").val());
+
+        var textCode = ideJS.editor.getValue();
+
+        var language = iframeDOM.contents().find("#language").val();
+
+        var ci = $("textarea#custom").val()
+
+        // console.log(ci)
+
+        var objct = { "code": textCode, "type": "normal", "lang_id": ideJS.getLangId(language), "custom_input": ci , "submission_id":"None"};
+        // var obj2 = { "query": objct };
+        var myJson = JSON.stringify(objct);
+        // var myJson2 = JSON.stringify(obj2)
+        console.log(myJson);
+
+
+        $.ajax({
+            url: '/judge/',
+            method: "POST",
+            data: {"submit": myJson},
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                printOutput(data);
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#custom-code").hide();
+    $(".custom-in").hide()
+
+    $("#toggle-custom").change(function(){
+        var this_ = $(this)
+
+        if(this.checked){
+            $("#custom-code").show()
+            $(".custom-in").show()
+        }
+        else{
+            $("#custom-code").hide()
+            $(".custom-in").hide()
+        }
+    });
+});
+</script>
+{% endblock %}
