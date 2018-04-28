@@ -10,6 +10,7 @@ def create(request):
 	form = PostForm(request.POST or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		instance.author = request.user.profile
 		instance.save()
 
 	context = {
@@ -24,7 +25,7 @@ def post(request, slug):
 		'obj': instance,
 	}
 
-	return render(request, "post_details.html", context)
+	return render(request, "posts/post_details.html", context)
 
 def post_list(request):
 	post_list = Post.objects.all()
@@ -43,6 +44,21 @@ def post_list(request):
 	}
 
 	return render(request, "posts/post_list.html", context)
+
+
+
+def post_manage(request, slug):
+	instance = get_object_or_404(Post, slug = slug)
+	form = PostForm(request.POST or None, instance = instance)
+	if form.is_valid() and instance.author == request.user.profile:
+		instance = form.save(commit=False)
+		instance.save()
+
+	context = {
+		'form': form,
+		'obj': instance,
+	}
+	return render(request, 'posts/post_manage.html', context)
 
 
 class PostLikeToggleView(RedirectView):

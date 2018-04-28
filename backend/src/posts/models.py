@@ -30,12 +30,25 @@ class Post(models.Model):
 		return self.title
 
 def pre_save_post_receiver(sender, instance, *args, **kwagrs):
-	slug = slugify(instance.title)
-	exists = Post.objects.filter(slug = slug).exists()
-	if exists:
-		# Won't exist because problem_code is unique but just in case
-		slug = "%s-%s"%(slug, instance.id)
-
-	instance.slug = slug
+	exists = Post.objects.filter(title = instance.title).exists()
+	if not exists:
+		slug = slugify(instance.title)
+		instance.slug = slug
 
 pre_save.connect(pre_save_post_receiver, sender = Post)
+
+class Comment(models.Model):
+	post = models.ForeignKey(Post, on_delete = models.CASCADE)
+	user = models.ForeignKey(Profile, on_delete = models.CASCADE)
+	content = models.TextField()
+
+	def __str__(self):
+		return "%s-%s-%s"%(self.user.user.username, self.post.title, self.id)
+
+class CommentReply(models.Model):
+	parent = models.ForeignKey(Comment, on_delete = models.CASCADE)
+	user = models.ForeignKey(Profile, on_delete = models.CASCADE)
+	content = models.TextField()
+
+	def __str__(self):
+		return "%s-%s-%s"%(self.user.username, self.parent.id, self.id)
