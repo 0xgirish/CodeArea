@@ -298,12 +298,15 @@ def judge_main(request):
             judge.safe_to_remove = True
             judge.save_result(res)
             judge.remove_directory()
-            # del judge
-            return HttpResponse(judge.instance.status)
+            json_data = json.dumps({"result": judge.instance.status})
+            del judge
+            return HttpResponse(json_data)
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
-        return HttpResponse("IE")
+        json_data = json.dumps({"result": "IE"})
+        del judge
+        return HttpResponse(json_data)
     # return HttpResponse("Hello")
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
