@@ -69,21 +69,17 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
-                                <table class="table table-hover text-center" id="problem-table">
+                                <div id="status">		
+                                	Running
+                                </div>
+                                <table class="table table-hover text-center" id="task-table">
                                     <thead>
                                         <tr>
-                                            <!-- <th scope="col">Subtask</th>
-                                            <th scope="col">Status</th> -->
-                                            Running
+                                            <th scope="col">Subtask</th>
+                                            <th scope="col">Status</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- {% for task in subtask %}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{task.status}}</td>
-                                        </tr>
-                                        {% endfor %} -->
                                     </tbody>
                                 </table>
                             </div>
@@ -122,6 +118,55 @@ $(document).ready(function(e) {
     console.log(myJson);
 
 
+    function getResult(status){
+    	switch(status){
+    		case "AC": 
+    			return "ACCEPTED";
+    		case "WA":
+    			return "WRONG ANSWER";
+    		case "TLE":
+    			return "TIME LIMIT EXCEEDED";
+    		case "RE":
+    			return "RUNTIME ERROR";
+    		case "IE":
+    			return "INTERNAL ERROR";
+    		case "CE":
+    			return "COMPILATION ERROR";
+    	}
+    }
+
+    function addTasks(data){
+
+    	var i;
+    	for(i=0;i<data.length;i++){
+    		$("#task-table > tbody:last-child").append('<tr> \
+                                            <td>'+ (i+1) + '</td> \
+                                            <td>' + getResult(data[i]['status']) + '</td> \
+                                        </tr>');
+    	}
+    }
+
+    function onResult(data){
+    	var stat = getResult(data['result']);
+    	$("#status").html(stat);
+    	var id = {{submission.id}}
+    	id = '/submissions/api/subtask/?submission=' + id;
+    	console.log(id);
+    	$.ajax({
+    		url: id,
+    		method: "GET",
+    		data: {},
+    		success: function(data){
+    			console.log(data);
+    			addTasks(data);
+    		},
+    		error: function(error){
+    			console.log(error)
+    		}
+    	})
+
+    }
+
     $.ajax({
         url: '/judge/',
         method: "POST",
@@ -131,6 +176,7 @@ $(document).ready(function(e) {
         //contentType: 'application/json; charset=utf-8',
         success: function(data) {
             console.log(data);
+            onResult(data);
 
         },
         error: function(error) {
