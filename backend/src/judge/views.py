@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from .index import judge_main
 from .contest import judge_main_contest
+from django.contrib.auth.decorators import login_required
 
 from .normal import judge_main_normal
 

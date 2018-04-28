@@ -151,7 +151,7 @@ $(document).ready(function(e) {
     	var score = data['score']
     	$("#status").html(stat + ': ' + score);
     	var id = {{submission.id}}
-    	id = '/submissions/api/subtask/?submission=' + id;
+    	id = '/submissions/api/contest/subtask/?submission=' + id;
     	console.log(id);
     	$.ajax({
     		url: id,
@@ -177,7 +177,7 @@ $(document).ready(function(e) {
         //contentType: 'application/json; charset=utf-8',
         success: function(data) {
             console.log(data);
-            // onResult(data);
+            onResult(data);
 
         },
         error: function(error) {
