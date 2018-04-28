@@ -43,7 +43,6 @@ class JudgeContest:
 
             logging.info(data)
             data_dict = json.loads(data)
-            self.submission = data_dict['type']
 
             submission_id = data_dict['submission_id']
             # user code string
