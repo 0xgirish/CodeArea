@@ -116,7 +116,7 @@ class Judge:
 
                     with open('{}/{}_{}.in'.format(self.path, self.md5_input, t), 'w') as fp:
                         fp.write(data)
-                del data
+                # del data
             self.path_contest = path
             return True
 

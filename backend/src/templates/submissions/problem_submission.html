@@ -55,29 +55,37 @@
                             <a class="nav-link" href={% url "problem" obj.slug %}>Statement</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Submissions</a>
+                            <a class="nav-link active" href="#">Current Submission</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "problem_submission_list" obj.slug %}>Submissions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Leaderboard</a>
                         </li>
                     </ul>
                 </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-12 text-center status">
-                                    <h3> <strong> Status </strong> </h3>
-                                </div>
-                                {% for testcase in testcases %}
-                                <div class="col-sm-2 col-3">
-                                    <div class="app" id="{{testcase.id}}" data-toggle="tooltip" data-placement="top" title="Testcase #{{forloop.counter}}">
-                                        <svg class="loading-spinner" viewBox="-24 -24 48 48">
-                                            <circle class="path" cx="0" cy="0" r="20" fill="none" stroke-width="4"></circle>
-                                        </svg>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
+                                <table class="table table-hover text-center" id="problem-table">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th scope="col">Subtask</th>
+                                            <th scope="col">Status</th> -->
+                                            Running
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- {% for task in subtask %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{task.status}}</td>
+                                        </tr>
+                                        {% endfor %} -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
