@@ -148,7 +148,8 @@ $(document).ready(function(e) {
 
     function onResult(data){
     	var stat = getResult(data['result']);
-    	$("#status").html(stat);
+    	var score = data['score']
+    	$("#status").html(stat + ': ' + score);
     	var id = {{submission.id}}
     	id = '/submissions/api/subtask/?submission=' + id;
     	console.log(id);

@@ -47,6 +47,7 @@ class Submission(models.Model):
 	status = models.CharField(max_length=3, choices= STATUS_CHOICES, default = RUNNING)
 	timestamp = models.DateTimeField(auto_now_add = True, auto_now = False)
 	testcases = models.ManyToManyField(TestCase, through = 'SubmissionTasks')
+	score = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
 	def __str__(self):
 		return "%s-%s-%s"%(self.user.user.username, self.problem.problem_code, self.id)
