@@ -179,6 +179,10 @@ class Judge:
         is_re = True
         is_wa = True
         print(result, " ", getframeinfo(currentframe()).lineno)
+
+        scores = 0
+        weight = 0
+
         for res, test_id in zip(result, self.testcase_id):
             subtask = SubmissionTasks()
             subtask.submission = self.instance
@@ -198,6 +202,7 @@ class Judge:
                 is_tle = False
                 is_re = False
                 is_wa = False
+                scores = scores + subtask.testcase.weight
             elif subtask.status == 'WA' and is_wa:
                 is_re = False
                 is_tle = False
@@ -208,6 +213,7 @@ class Judge:
                 is_wa = False
                 is_tle = False
             # save the instance
+            weight = weight + subtask.testcase.weight
             subtask.save()
         if is_ac:
             self.instance.status = 'AC'
@@ -217,6 +223,7 @@ class Judge:
             self.instance.status = 'TLE'
         elif is_re:
             self.instance.status = 'RE'
+        self.instance.score = (scores/weight)*100 if weight>0 else 100
         self.instance.save()
         return True
 
@@ -298,7 +305,7 @@ def judge_main(request):
             judge.safe_to_remove = True
             judge.save_result(res)
             judge.remove_directory()
-            json_data = json.dumps({"result": judge.instance.status})
+            json_data = json.dumps({"result": judge.instance.status, "score": judge.instance.score})
             del judge
             return HttpResponse(json_data)
     else:
