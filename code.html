@@ -103,8 +103,9 @@
     function saveContent(){
         setTimeout(function(){
             var code = editor.getValue();
-            code = "code="+code;
-            console.log(code);
+            code = "code='"+code+"'";
+            // console.log(code);
+            console.log(typeof code);
             var lang = document.getElementById('language').value;
             if(lang == "python2" || lang == "python3"){
                 lang = "lang=ace/mode/python";
@@ -117,7 +118,12 @@
             theme = "theme="+theme;
             var font = document.getElementById("fontsize").value;
             font = "font="+font;
-            document.cookie = code+";"+lang+";"+theme+";"+font;
+            var d = new Date();
+            d.setTime(d.getTime() + (30*24*60*60*1000));
+            var expires = "expires=" + d.toGMTString();
+            var cookie = code+";"+lang+";"+theme+";"+font+";"+expires+";path=/";
+            console.log(cookie);
+            document.cookie = cookie;
             console.log(document.cookie);
             saveContent();
         }, 7000)
@@ -127,6 +133,7 @@
 
     function checkCookie(){
         var code = getCookie("code");
+        console.log(code);
         if(code != ""){
             var lang = getCookie("lang");
             var theme = getCookie("theme");
