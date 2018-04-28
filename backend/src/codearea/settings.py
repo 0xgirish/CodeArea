@@ -59,9 +59,7 @@ INSTALLED_APPS = [
     'pagedown',
     'crispy_forms',
     'django_extensions',
-    'django_filters',
-    'django_cleanup',
-    
+    'django_filters',    
 ]
 
 
