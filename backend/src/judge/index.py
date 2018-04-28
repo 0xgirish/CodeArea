@@ -180,6 +180,7 @@ class Judge:
         is_wa = True
         print(result, " ", getframeinfo(currentframe()).lineno)
 
+        # For total score of the problem submission
         scores = 0
         weight = 0
 
