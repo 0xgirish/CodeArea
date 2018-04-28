@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 from accounts.views import isworking
 from problems.views import ide
-from judge.views import run_judge
+from judge.views import run_judge, run_judge_contest
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^tags/', include('tags.urls')),
     url(r'^ide/$', ide, name='ide'),
     url(r'^judge/$', run_judge),
+    url(r'^contest', run_judge_contest),
     url(r'$', isworking),
 
 ]
