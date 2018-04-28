@@ -15,7 +15,7 @@ filename = getframeinfo(currentframe()).filename
 
 # Enum class for error sending
 # return by: Docker.execute
-class Status:
+class Status(Enum):
 	SUCCESS = 0
 	TIMEOUT = 31744
 	RUNTIME_ERROR = 256

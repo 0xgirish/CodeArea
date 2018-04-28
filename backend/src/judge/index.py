@@ -10,7 +10,7 @@ import os
 import filecmp
 from inspect import getframeinfo, currentframe
 from .Docker import Docker, random_md5, LOGFILE_NAME, Status
-import path
+from .PATH import PATH as path
 from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
@@ -39,7 +39,7 @@ class Judge:
             #json_data = cgi.FieldStorage()['query']
 
             data = request.POST.get("submit")
-            # print("Data: "+str(data))
+            print("Data: "+str(data))
 
             logging.info(data)
             data_dict = json.loads(data)
@@ -266,7 +266,7 @@ class Judge:
 
 
 def judge_main(request):
-
+    print("\n\nIn judge_main .........................\n\n")
     level = 7   # NOTE: Change level here
 
     PATH = path.format(random_md5(level))
@@ -280,7 +280,9 @@ def judge_main(request):
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
+        print("\n\nPreparing enviornment\n\n")
         res = judge.run()
+        print("\n\nRunnned\n\n")
         if isinstance(res, bool) and not res:
             judge.remove_directory()
             del judge
@@ -296,8 +298,8 @@ def judge_main(request):
             judge.safe_to_remove = True
             judge.save_result(res)
             judge.remove_directory()
-            del judge
-            return HttpResponse(self.instance.status)
+            # del judge
+            return HttpResponse(judge.instance.status)
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
