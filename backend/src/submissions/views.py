@@ -26,6 +26,25 @@ def submission_list(request):
 
 	return render(request, "submissions/submission_list.html", context)
 
+def problem_submission_list(request,slug):
+	
+	submission_list = Submission.objects.filter(user = request.user.profile, problem__slug = slug)
+	paginator = Paginator(submission_list,10)
+	page = request.GET.get('page',1)
+	try:
+		submission_list = paginator.page(page)
+	except PageNotAnInteger:
+		submission_list = paginator.page(1)
+	except EmptyPage:
+		submission_list = paginator.page(paginator.num_pages)
+
+	context = {
+		'submission_list' : submission_list,
+		'slug' : slug,
+	}
+
+	return render(request, "submissions/problem_submission_list.html", context)
+
 def contest_submission_list(request):
 	
 	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile)
@@ -64,12 +83,11 @@ def submit_problem(request, *args, **kwargs):
 		instance.language = lang
 		instance.save()
 		# print("done")
-
 		
 
 		context = {
 			'obj': problem,
-			'submission': instance,
+			'submission': instance.id,
 			'lang': lang,
 		}
 

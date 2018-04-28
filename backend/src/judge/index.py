@@ -10,7 +10,7 @@ import os
 import filecmp
 from inspect import getframeinfo, currentframe
 from .Docker import Docker, random_md5, LOGFILE_NAME, Status
-from PATH import PATH as path
+from .PATH import PATH as path
 from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
@@ -116,7 +116,7 @@ class Judge:
 
                     with open('{}/{}_{}.in'.format(self.path, self.md5_input, t), 'w') as fp:
                         fp.write(data)
-                del data
+                # del data
             self.path_contest = path
             return True
 
