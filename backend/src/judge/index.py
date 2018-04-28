@@ -297,7 +297,7 @@ def judge_main(request):
             judge.save_result(res)
             judge.remove_directory()
             del judge
-            return HttpResponse("self.instance.status")
+            return HttpResponse(self.instance.status)
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
