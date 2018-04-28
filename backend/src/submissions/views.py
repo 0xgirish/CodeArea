@@ -87,7 +87,7 @@ def submit_problem(request, *args, **kwargs):
 
 		context = {
 			'obj': problem,
-			'submission': instance.id,
+			'submission': instance,
 			'lang': lang,
 		}
 
