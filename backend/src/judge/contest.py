@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
 import json
@@ -17,9 +16,6 @@ from submissions.models import ContestSubmission, ContestSubmissionTasks
 from .Language import get_code_by_name as lang_code
 from django.conf import settings
 
-
-print('Content-Type: text/plain;charset=utf-8\r\n')
-print()
 
 
 logging.basicConfig(level=logging.INFO)
@@ -254,9 +250,7 @@ def judge_main_contest(request):
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
-        print("\n\nPreparing enviornment\n\n")
         res = judge.run()
-        print("\n\nRunnned\n\n")
         if isinstance(res, bool) and not res:
             judge.remove_directory()
             json_data = json.dumps({"result": "CE", "score": judge.instance.score})
@@ -276,22 +270,3 @@ def judge_main_contest(request):
         del judge
         return HttpResponse(json_data)
     # return HttpResponse("Hello")
-
-    # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
-    #     get_subm = judge.get_submission()
-    #     logging.critical('[{}]\n\tfor problem {} some test case output is missing | '
-    #                      .format(time.asctime(), get_subm[0]), *get_subm[1])
-    #     #json_data = json.dumps({"out":res})
-    #     # TODO: REDIRECT TO SOMETHING WENT WRONG
-    # elif res.name == 'INTERNAL_ERROR':
-    #     # TODO: INFORM ABOUT INCEDENT
-    #     #json_data = json.dumps({"out": res})
-    #     # print(res.name)
-    #     pass
-    # else:
-    #     # TODO: give result to user using databse entry @ Karan
-    #     # print(res.name)
-    #     # print('===================> Start <===================')
-    #     # print(output_string)
-    #     # print('===================>  end  <===================')
-    #     pass
