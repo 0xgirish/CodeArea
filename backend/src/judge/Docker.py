@@ -7,7 +7,7 @@ from random import randint
 from inspect import getframeinfo, currentframe
 from .Language import LANGUAGE, TWO_STEP
 
-LOGFILE_NAME = 'judge.log'
+LOGFILE_NAME = './judge.log'
 
 logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
