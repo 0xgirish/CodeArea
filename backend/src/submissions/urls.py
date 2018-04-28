@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'submission', api.SubmissionViewSet)
 router.register(r'subtask', api.SubmissionTasksViewSet)
+router.register(r'contestsubmission', api.ContestSubmissionViewSet)
 
 
 urlpatterns = [

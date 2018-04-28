@@ -49,8 +49,9 @@ TWO_STEP = 1
 
 
 
-def get_code_by_name(name: str) -> int:
+def get_code_by_name(name):
     global LANGUAGE
+    name = str(name)
     for key, value in LANGUAGE.items():
         if value['title'] == name:
-            return key
+            return int(key)

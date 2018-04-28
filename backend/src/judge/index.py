@@ -10,7 +10,7 @@ import os
 import filecmp
 from inspect import getframeinfo, currentframe
 from .Docker import Docker, random_md5, LOGFILE_NAME, Status
-from .PATH import PATH as path
+from PATH import PATH as path
 from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
@@ -134,7 +134,8 @@ class Judge:
         # print("SUCCESS")
         if docker.prepare():
             result = docker.execute()
-
+            print("RESULT:")
+            print(result)
             if self.submission.lower() == 'normal':
                 return result
 
@@ -287,6 +288,7 @@ def judge_main(request):
         elif judge.submission == 'normal':
             output_string = judge.get_output()
             judge.remove_directory()
+            print(res[0])
             json_data = json.dumps({"result":res[0].name, "output":output_string})
             del judge
             return HttpResponse(json_data)
@@ -295,7 +297,7 @@ def judge_main(request):
             judge.save_result(res)
             judge.remove_directory()
             del judge
-            return HttpResponse(self.instance.status)
+            return HttpResponse("self.instance.status")
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()

@@ -13,3 +13,9 @@ class SubmissionTasksSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.SubmissionTasks
 		fields = '__all__'
+
+class ContestSubmissionSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = models.ContestSubmission
+		fields = '__all__'

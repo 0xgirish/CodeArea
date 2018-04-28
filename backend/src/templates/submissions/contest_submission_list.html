@@ -14,7 +14,7 @@ function populate(data) {
 $(document).on('click','.v-code', function(e) {
         e.preventDefault();
         var this_ = $(this);
-        var geturl = "/submissions/api/" + this_.attr("data-id") + "/";
+        var geturl = "/submissions/api/contestsubmission/" + this_.attr("data-id") + "/";
         $.ajax({
             url: geturl,
             method: "GET",
@@ -182,7 +182,7 @@ a:hover {
                                             <td>{{submission.status}}</td>
                                             <td>{{submission.timestamp}} </td>
                                             <td>
-                                                <button class="btn btn-fab btn-fab-mini btn-round v-code" data-id="{{submission.id}}"data-toggle="modal" data-target="#codePreview">
+                                                <button class="btn btn-fab btn-fab-mini btn-round v-code" data-id="{{submission.id}}" data-toggle="modal" data-target="#codePreview">
                                                     <i class="material-icons i-sm">launch</i></button>
                                             </td>
                                         </tr>
@@ -231,7 +231,7 @@ a:hover {
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                <div class="codeblock">
+                                <div class="content-markdown">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
