@@ -15,7 +15,8 @@ from problems.models import Problem, TestCase
 from submissions.models import ContestSubmission, ContestSubmissionTasks
 from .Language import get_code_by_name as lang_code
 from django.conf import settings
-from contests.models import Participant
+from contests.models import Participant, ContestsHaveProblems
+from django.db.models import Sum
 
 
 logging.basicConfig(level=logging.INFO)
@@ -210,15 +211,18 @@ class JudgeContest:
         max_instance = ContestSubmission.objects.filter(user = self.instance.user, problem = self.instance.problem).order_by('-score')[0]
         self.instance.score = current_score
 
+        current_score = current_score/100
+
         participant = Participant.objects.get(id = self.instance.user.id)
         print(participant.user.user.username)
         score_to_add = 0 if current_score < max_instance.score else (current_score - max_instance.score )
         
 
         self.instance.save()
-        
+            
+        cur_weight = max_instance.problem.weight
         print(participant.points, score_to_add, max_instance.score, current_score)
-        participant.points = participant.points + score_to_add
+        participant.points = participant.points + cur_weight*score_to_add
 
         participant.save()
 
