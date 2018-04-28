@@ -304,7 +304,9 @@ def judge_main(request):
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
-        return HttpResponse("IE")
+        json_data = json.dumps({"result": "IE"})
+        del judge
+        return HttpResponse(json_data)
     # return HttpResponse("Hello")
 
     # if res.name == 'PROBLEM_OUTPUT_NOT_FOUND':
