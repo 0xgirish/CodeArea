@@ -78,7 +78,7 @@ class ContestSubmission(models.Model):
 	language = models.ForeignKey(Language, blank=True, null=True, on_delete = models.SET_NULL)
 	status = models.CharField(max_length=3, choices= STATUS_CHOICES, default = RUNNING)
 	timestamp = models.DateTimeField(auto_now_add = True, auto_now = False)
-	score = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+	score = models.FloatField(default=0)
 
 
 	

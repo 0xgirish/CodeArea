@@ -15,7 +15,7 @@ from problems.models import Problem, TestCase
 from submissions.models import ContestSubmission, ContestSubmissionTasks
 from .Language import get_code_by_name as lang_code
 from django.conf import settings
-
+from contests.models import Participant
 
 
 logging.basicConfig(level=logging.INFO)
@@ -205,8 +205,24 @@ class JudgeContest:
             self.instance.status = 'TLE'
         elif is_re:
             self.instance.status = 'RE'
-        self.instance.score = (scores/weight)*100 if weight>0 else 100
+
+        current_score = (scores/weight)*100 if weight>0 else 100
+        max_instance = ContestSubmission.objects.filter(user = self.instance.user, problem = self.instance.problem).order_by('-score')[0]
+        self.instance.score = current_score
+
+        participant = Participant.objects.get(id = self.instance.user.id)
+        print(participant.user.user.username)
+        score_to_add = 0 if current_score < max_instance.score else (current_score - max_instance.score )
+        
+
         self.instance.save()
+        
+        print(participant.points, score_to_add, max_instance.score, current_score)
+        participant.points = participant.points + score_to_add
+
+        participant.save()
+
+        print("Score Updated")
         return True
 
     def status_code(self, status):

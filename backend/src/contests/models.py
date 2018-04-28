@@ -65,7 +65,7 @@ class Participant(models.Model):
 	""" A participant of a contest """
 	user = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = 'participant')
 	contest = models.ForeignKey(Contest, on_delete = models.CASCADE)
-	points = models.IntegerField(null = False, blank = False, default = 0)
+	points = models.FloatField(null = False, blank = False, default = 0)
 
 	def __str__(self):
 		return "%s: %s" %(self.contest.contest_code, self.user.user.username)
