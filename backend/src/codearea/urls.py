@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^tags/', include('tags.urls')),
     url(r'^ide/$', ide, name='ide'),
     url(r'^judge/$', run_judge),
-    url(r'^contest', run_judge_contest),
+    url(r'^judge/contest/$', run_judge_contest),
     url(r'$', isworking),
 
 ]

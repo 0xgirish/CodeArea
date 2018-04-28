@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from .index import judge_main
-form .contest import judge_main_contest
+from .contest import judge_main_contest
 
 def run_judge(request):
     return judge_main(request)

@@ -95,21 +95,32 @@ def submit_problem(request, *args, **kwargs):
 
 def submit_contest_problem(request, *args, **kwargs):
 
-	form = ContestSubmissionForm(request.POST or None)
-	if form.is_valid():
-		print(kwargs['slug2'])
-		profile = get_object_or_404(Profile, user = request.user)
-		contest = get_object_or_404(Contest, slug = kwargs['slug1'])
-		problem = get_object_or_404(Problem, slug = kwargs['slug2'])
-		contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = contest)
-		participant = get_object_or_404(Participant, user = profile, contest = contest)
-		instance = form.save(commit=False)
-		instance.problem = contest_problem
-		instance.user = participant
-		instance.save()
-		return redirect('contest_problem', kwargs['slug1'], kwargs['slug2'])
+	context = {}
+	contest = get_object_or_404(Contest, slug = kwargs['slug1'])
+	problem = get_object_or_404(Problem, slug = kwargs['slug2'])
+	testcases = TestCase.objects.filter(problem = problem)
+	contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = contest)
 
-	context = {
-		'form': form,
-	}
-	return render(request, 'problem_create.html', context)
+	if request.method == 'POST':
+		isParticipant = get_object_or_404(Participant, user = request.user.profile, contest = contest)
+		print(request.POST.get('lang'))
+
+		lang = get_object_or_404(Language, language_name = request.POST.get('lang'))
+		print(problem.problem_code)
+
+		instance = ContestSubmission()
+		instance.user = isParticipant
+		instance.problem = contest_problem
+		instance.code = request.POST.get('code')
+		instance.language = lang
+		instance.save()
+		# print("done")
+		
+
+		context = {
+			'obj': problem,
+			'submission': instance,
+			'contest': contest,
+			'lang': lang,
+		}
+	return render(request, 'submissions/contest_problem_submission.html', context)

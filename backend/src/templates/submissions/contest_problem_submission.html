@@ -1,0 +1,190 @@
+{% extends "index.html" %} {% load staticfiles %} {% block content %}
+<link rel="stylesheet" href={% static "css/feed.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
+<script type="text/javascript" src={% static "js/csrf.js" %}></script>
+<style type="text/css">
+.head {
+    background-color: #F8F8F8;
+    min-height: 100px;
+    color: #fff;
+}
+
+.head .card-title {
+    margin-top: 2rem;
+}
+
+.nav-tabs .nav-item .nav-link,
+.nav-tabs .nav-item .nav-link:hover,
+.nav-tabs .nav-item .nav-link:focus {
+    color: #263238 !important;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+    background-color: transparent;
+    border-bottom: solid 3px #424242 !important;
+}
+
+.nav-tabs .nav-item .nav-link.active:hover {
+    background-color: transparent;
+    border-bottom: solid 3px #000000 !important;
+}
+
+.nav-tabs .nav-item .nav-link {
+    background-color: transparent;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+}
+
+.nav-tabs .nav-item .nav-link:hover {
+    background-color: transparent;
+    border-bottom: solid 3px #aaa !important;
+}
+
+.status {
+    padding-bottom: 20px;
+}
+</style>
+<div class="container feed-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card feed-item">
+                <div class="head">
+                    <h3 class="card-title text-center"> {{obj.title | title}} | {{contest.title | title}} </h3>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "contest_problem" contest.slug obj.slug %}>Statement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Current Submission</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "contest_problem_submission" contest.slug obj.slug %}>Submissions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Leaderboard</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
+                                <div id="status">		
+                                	Running
+                                </div>
+                                <table class="table table-hover text-center" id="task-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Subtask</th>
+                                            <th scope="col">Status</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+
+	function getLangId(lang) {
+        switch (lang) {
+            case "python2":
+                return 0;
+            case "python3":
+                return 1;
+            case "golang":
+                return 2;
+            case "C":
+                return 3;
+            case "cpp14":
+                return 4;
+            case "java":
+                return 5;
+        }
+    };
+
+	var objct = { "submission_id": {{submission.id}}, "type": "submit", "custom_input":"" };
+        // var obj2 = { "query": objct };
+    var myJson = JSON.stringify(objct);
+    // var myJson2 = JSON.stringify(obj2)
+    console.log(myJson);
+
+
+    function getResult(status){
+    	switch(status){
+    		case "AC": 
+    			return "ACCEPTED";
+    		case "WA":
+    			return "WRONG ANSWER";
+    		case "TLE":
+    			return "TIME LIMIT EXCEEDED";
+    		case "RE":
+    			return "RUNTIME ERROR";
+    		case "IE":
+    			return "INTERNAL ERROR";
+    		case "CE":
+    			return "COMPILATION ERROR";
+    	}
+    }
+
+    function addTasks(data){
+
+    	var i;
+    	for(i=0;i<data.length;i++){
+    		$("#task-table > tbody:last-child").append('<tr> \
+                                            <td>'+ (i+1) + '</td> \
+                                            <td>' + getResult(data[i]['status']) + '</td> \
+                                        </tr>');
+    	}
+    }
+
+    function onResult(data){
+    	var stat = getResult(data['result']);
+    	var score = data['score']
+    	$("#status").html(stat + ': ' + score);
+    	var id = {{submission.id}}
+    	id = '/submissions/api/subtask/?submission=' + id;
+    	console.log(id);
+    	$.ajax({
+    		url: id,
+    		method: "GET",
+    		data: {},
+    		success: function(data){
+    			console.log(data);
+    			addTasks(data);
+    		},
+    		error: function(error){
+    			console.log(error)
+    		}
+    	})
+
+    }
+
+    $.ajax({
+        url: '/judge/contest/',
+        method: "POST",
+        data: {"submit": myJson},
+        //crossDomain: true,
+        dataType: 'json',
+        //contentType: 'application/json; charset=utf-8',
+        success: function(data) {
+            console.log(data);
+            // onResult(data);
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});	
+
+</script>
+{% endblock %}

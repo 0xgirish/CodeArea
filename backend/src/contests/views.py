@@ -21,7 +21,8 @@ def create(request):
 def problem(request, slug1, slug2):
 	cproblem = get_object_or_404(ContestsHaveProblems, problem__slug = slug2, contest__slug = slug1)
 	context = {
-		'obj' : cproblem.problem
+		'obj' : cproblem.problem,
+		'contest': cproblem.contest,
 	}
 
 	return render(request, "contests/problem_details.html", context)
