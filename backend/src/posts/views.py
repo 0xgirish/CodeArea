@@ -15,6 +15,7 @@ def create(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.author = request.user.profile
+		form.save_m2m()
 		instance.save()
 
 	context = {
@@ -80,6 +81,7 @@ def post_manage(request, slug):
 	form = PostForm(request.POST or None, instance = instance)
 	if form.is_valid() and instance.author == request.user.profile:
 		instance = form.save(commit=False)
+		form.save_m2m()
 		instance.save()
 
 	context = {

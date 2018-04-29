@@ -17,6 +17,7 @@ def create(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.setter = request.user.profile
+		form.save_m2m()
 		instance.save()
 
 	context = {
@@ -113,6 +114,7 @@ def problem_manage(request, slug):
 	form = ProblemForm(request.POST or None, instance = instance)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		form.save_m2m()
 		instance.save()
 
 	context = {
