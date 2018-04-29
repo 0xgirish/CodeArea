@@ -71,7 +71,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_FORMS = {'login': 'oauth.forms.AuthLoginForm'}
+ACCOUNT_FORMS = {'login': 'oauth.forms.AuthLoginForm','signup': 'oauth.forms.AuthSignupForm'}
 
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
