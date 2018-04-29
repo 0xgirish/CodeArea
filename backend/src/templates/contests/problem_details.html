@@ -78,14 +78,17 @@ body {
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
+                            <a class="nav-link" href={% url "contest_problem_list" contest.slug %}>Contest Page</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" href={% url "contest_problem" contest.slug obj.slug %}>Statement</a>
                         </li>
                
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "contest_problem_submission" contest.slug obj.slug %}>Submissions</a>
+                            <a class="nav-link" href={% url "contest_submissions" contest.slug %}>Submissions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Leaderboard</a>
+                            <a class="nav-link" href={% url "leaderboard" contest.slug %}>Contest Leaderboard</a>
                         </li>
                     </ul>
                 		</div>

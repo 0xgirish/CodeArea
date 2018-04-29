@@ -3,35 +3,6 @@
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
 <script type="text/javascript" src={% static "js/csrf.js" %}></script>
-<script type="text/javascript">
-
-function populate(data) {
-        var markedContent = marked("```\n"+data["code"]+"\n```")
-        // console.log(data["code"])
-        $(".content-markdown").html(markedContent);
-    }
-
-$(document).on('click','.v-code', function(e) {
-        e.preventDefault();
-        var this_ = $(this);
-        var geturl = "/submissions/api/submission/" + this_.attr("data-id") + "/";
-        //console.log(geturl)
-        $.ajax({
-            url: geturl,
-            method: "GET",
-            data: {},
-            success: function(data) {
-                console.log(data)
-                populate(data);
-
-            },
-            error: function(error) {
-                console.log(error)
-            }
-
-        });
-    });
-</script>
 
 <style type="text/css">
 .wmd-panel {
@@ -151,17 +122,14 @@ a:hover {
         <div class="col-12">
             <div class="card feed-item">
                 <div class="head">
-                    <h3 class="card-title text-center">Problem Submissions </h3>
+                    <h3 class="card-title text-center">{{title}}</h3>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "problem" slug %}>Statement</a>
+                            <a class="nav-link" href={% url "contest_problem_list" slug %}>Contest Page</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Submissions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Leaderboard</a>
+                            <a class="nav-link active" href="#">Leaderboard</a>
                         </li>
                     </ul>
                 </div>
@@ -172,45 +140,40 @@ a:hover {
                                 <table class="table table-hover text-center" id="problem-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Problem</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Timestamp</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Rank</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Score</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for submission in submission_list %}
-                                        <tr id="{{submission.id}}">
-                                            <td>{{submission.problem.title}}</td>
-                                            <td>{{submission.status}}</td>
-                                            <td>{{submission.timestamp}} </td>
-                                            <td>
-                                                <button class="btn btn-fab btn-fab-mini btn-round v-code" data-id="{{submission.id}}" data-toggle="modal" data-target="#codePreview">
-                                                    <i class="material-icons i-sm">launch</i></button>
-                                            </td>
+                                        {% for participant in participant_list %}
+                                        <tr>
+                                            <td>{{rank|add:forloop.counter}}</td>
+                                            <td>{{participant.user}}</td>
+                                            <td>{{participant.points}}</td>
                                         </tr>
                                         
                                         {% endfor %}
                                     </tbody>
                                 </table>
                                 <ul class="pagination">
-                                    {% if submission_list.has_previous %}
+                                    {% if participant_list.has_previous %}
                                     <li class="page-item">
-                                        <a class="page-link" href="?page={{ submission_list.previous_page_number }}">Previous</a>
+                                        <a class="page-link" href="?page={{ participant_list.previous_page_number }}">Previous</a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ submission_list.previous_page_number }}">{{ submission_list.previous_page_number }}</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ participant_list.previous_page_number }}">{{ participant_list.previous_page_number }}</a></li>
                                     {% else %}
                                     <li class="page-item disabled">
                                         <span class="page-link">Previous</span>
                                     </li>
                                     {% endif %}
                                     <li class="page-item active">
-                                        <a class="page-link" href="#"> {{submission_list.number}} <span class="sr-only">(current)</span></a>
+                                        <a class="page-link" href="#"> {{participant_list.number}} <span class="sr-only">(current)</span></a>
                                     </li>
-                                    {% if submission_list.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ submission_list.next_page_number }}">{{ submission_list.next_page_number }}</a></li>
+                                    {% if participant_list.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ participant_list.next_page_number }}">{{ participant_list.next_page_number }}</a></li>
                                     <li class="page-item">
-                                        <a class="page-link" href="?page={{ submission_list.next_page_number }}">Next</a>
+                                        <a class="page-link" href="?page={{ participant_list.next_page_number }}">Next</a>
                                     </li>
                                     {% else %}
                                     <li class="page-item disabled">
@@ -224,26 +187,5 @@ a:hover {
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-            <div class="modal fade" id="codePreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Code</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="content-markdown">
-                            </div>
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
        
         {% endblock %}
