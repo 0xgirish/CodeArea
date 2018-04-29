@@ -1,6 +1,7 @@
 {% load staticfiles %}
 
 <!DOCTYPE html>
+<body background="{% static "/material-kit/sec.jpg" %}">
 <html>
 
 <head>
@@ -25,7 +26,7 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-translate">
-                <a class="navbar-brand" href="#">Code Area</a>
+                <a class="navbar-brand" href="#">CodeArea 2018</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     <span class="navbar-toggler-icon"></span>
@@ -36,17 +37,17 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href={% url "contest_list" %} class="nav-link">
+                        <a href={% url "contest_list" %} class="nav-link" title="List of all contest">
                                             Contests
                                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={% url "problem_list" %} class="nav-link">
+                        <a href={% url "problem_list" %} class="nav-link" title="List of all problems">
                                             Problems
                                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={% url "post_list" %} class="nav-link">
+                        <a href={% url "post_list" %} class="nav-link" title="Post A problem">
                                             Posts
                                         </a>
                     </li>
