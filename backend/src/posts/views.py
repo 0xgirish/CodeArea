@@ -39,7 +39,7 @@ def post_list(request):
 	View for a post feed
 	"""
 	post_list = Post.objects.all()
-	paginator = Paginator(post_list,1)
+	paginator = Paginator(post_list,3)
 
 	page = request.GET.get('page',1)
 	try:
