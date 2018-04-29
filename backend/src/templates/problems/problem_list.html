@@ -154,7 +154,7 @@ $(document).ready(function() {
             </ul>
         </div>
     <div class="col-lg-4 col-md-12">
-        <div class="card feed-item">
+        <div class="card feed-item" style="background-image: url({% static "/material-kit/flowers.png" %}); height: 90px; width: 400px;" >    
             <div class="card-body">
                 <form method="get">
                     <div class="input-group mb-3">
@@ -166,9 +166,9 @@ $(document).ready(function() {
                 </form>
             </div>
         </div>
-        <div class="card feed-item">
+        <div class="card feed-item" style="background-image: url({% static "/material-kit/flowers.png" %}); height: 300px; width: 400px;" >
             <div class="card-body">
-                <h3 class="card-title text-center"> Filter </h3>
+                <h3 class="card-title text-center"> FILTER </h3>
                 <form method="GET" action={% url "problem_list" %}>
                     <div class="form-group">
                         <label for="Difficulty">Difficulty</label>
