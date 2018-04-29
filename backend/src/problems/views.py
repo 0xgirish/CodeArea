@@ -1,12 +1,18 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 
 from .forms import ProblemForm, TestCaseForm
 from .models import Problem, TestCase
 # Create your views here.
 
+@login_required
 def create(request):
+	"""
+	View to create a problem
+	"""
 	form = ProblemForm(request.POST or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -19,6 +25,9 @@ def create(request):
 	return render(request, 'problems/problem_create.html', context)
 
 def problem(request, slug):
+	"""
+	View for a problem page
+	"""
 	instance = get_object_or_404(Problem, slug = slug)
 
 	context = {
@@ -28,6 +37,9 @@ def problem(request, slug):
 	return render(request, "problems/problem_details.html", context)
 
 def problem_list(request):
+	"""
+	View for a problem feed
+	"""
 
 	problem_list = Problem.objects.all()
 
@@ -42,10 +54,6 @@ def problem_list(request):
 			problem_list = problem_list.filter(tags__in = tags)
 		if title:
 			problem_list = problem_list.filter(title__contains=request.GET.get('title'))
-
-
-		
-
 
 	paginator = Paginator(problem_list,2)
 
@@ -63,10 +71,18 @@ def problem_list(request):
 
 	return render(request, "problems/problem_list.html", context)
 
-
+@login_required
 def add_testcase(request, slug):
+	"""
+	View to add testcases to a problem
+	"""
 	form = TestCaseForm(request.POST or None)
 	problem = get_object_or_404(Problem, slug = slug)
+
+	if request.user.profile != problem.setter:
+		# Only problem setter can add testcases
+		raise PermissionDenied
+
 	testcases = TestCase.objects.filter(problem_id = problem)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -81,8 +97,19 @@ def add_testcase(request, slug):
 	}
 	return render(request,"problems/add_testcase.html", context)
 
+
+@login_required
 def problem_manage(request, slug):
+	"""
+	View to manage a problem
+	"""
+
 	instance = get_object_or_404(Problem, slug = slug)
+
+	if request.user.profile != instance.setter:
+		# Only problem setter edit problem
+		raise PermissionDenied
+
 	form = ProblemForm(request.POST or None, instance = instance)
 	if form.is_valid():
 		instance = form.save(commit=False)

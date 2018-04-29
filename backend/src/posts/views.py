@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 from .models import Post
 from .forms import PostForm
 
-from django.views.generic import RedirectView
-# Create your views here.
+@login_required
 def create(request):
+	"""
+	View to create a post
+	"""
 	form = PostForm(request.POST or None)
 	if form.is_valid():
 		instance = form.save(commit=False)
@@ -19,6 +23,9 @@ def create(request):
 	return render(request, 'posts/post_create.html', context)
 
 def post(request, slug):
+	"""
+	View for a post
+	"""
 	instance = get_object_or_404(Post, slug = slug)
 
 	context = {
@@ -28,6 +35,9 @@ def post(request, slug):
 	return render(request, "posts/post_details.html", context)
 
 def post_list(request):
+	"""
+	View for a post feed
+	"""
 	post_list = Post.objects.all()
 	paginator = Paginator(post_list,1)
 
@@ -46,9 +56,17 @@ def post_list(request):
 	return render(request, "posts/post_list.html", context)
 
 
-
+@login_required
 def post_manage(request, slug):
+	"""
+	View to edit a post
+	"""
 	instance = get_object_or_404(Post, slug = slug)
+
+	if request.user.profile != instance.author:
+		# User != the author
+		raise PermissionDenied
+
 	form = PostForm(request.POST or None, instance = instance)
 	if form.is_valid() and instance.author == request.user.profile:
 		instance = form.save(commit=False)
@@ -59,58 +77,5 @@ def post_manage(request, slug):
 		'obj': instance,
 	}
 	return render(request, 'posts/post_manage.html', context)
-
-
-class PostLikeToggleView(RedirectView):
-	def get_redirect_url(self, *args, **kwargs):
-		slug = self.kwargs.get("slug")
-		instance = get_object_or_404(Post, slug = slug)
-		url_ = instance.get_absolute_url()
-		user = self.request.user
-		if user.is_authenticated():
-			if user.profile in instance.likes.all():
-				instance.likes.remove(user.profile)
-			else:
-				instance.likes.add(user.profile)
-
-		return url_
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import authentication, permissions
-from django.contrib.auth.models import User
-
-class PostLikeAPIToggle(APIView):
-	
-	authentication_classes = (authentication.SessionAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
-
-	def get(self, request, slug, format=None):
-		"""
-		Return a list of all users.
-		"""
-		instance = get_object_or_404(Post, slug = slug)
-		url_ = instance.get_absolute_url()
-		user = self.request.user
-		updated  = False
-		liked = False
-		if user.is_authenticated():
-			if user.profile in instance.likes.all():
-				instance.likes.remove(user.profile)
-				liked = False
-			else:
-				instance.likes.add(user.profile)
-				liked = True
-
-			updated = True
-
-		count = instance.likes.all().count()
-		data = {
-			"updated" : updated,
-			"liked": liked,
-			"count": count
-		}
-
-		return Response(data)
 
 

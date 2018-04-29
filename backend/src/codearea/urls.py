@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^judge/$', run_judge),
     url(r'^judge/contest/$', run_judge_contest),
     url(r'judge/normal/$', run_judge_normal),
-    #url(r'$', isworking),
+    url(r'$', isworking),
 
 ]
 

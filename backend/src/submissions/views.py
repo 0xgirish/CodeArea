@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 from .forms import SubmissionForm, ContestSubmissionForm
 from accounts.models import Profile
@@ -7,8 +9,14 @@ from problems.models import Problem, TestCase
 from contests.models import ContestsHaveProblems, Contest, Participant
 from .models import Submission, ContestSubmission, Language, SubmissionTasks
 # Create your views here.
+from django.http import Http404
 
+
+@login_required
 def submission_list(request):
+	"""
+	view for a list of user submissions
+	"""
 	
 	submission_list = Submission.objects.filter(user = request.user.profile).order_by('-timestamp')
 	paginator = Paginator(submission_list,10)
@@ -26,8 +34,11 @@ def submission_list(request):
 
 	return render(request, "submissions/submission_list.html", context)
 
+@login_required
 def problem_submission_list(request,slug):
-	
+	"""
+	view for a list of user submissions for a problem
+	"""
 	submission_list = Submission.objects.filter(user = request.user.profile, problem__slug = slug).order_by('-timestamp')
 	paginator = Paginator(submission_list,10)
 	page = request.GET.get('page',1)
@@ -45,8 +56,12 @@ def problem_submission_list(request,slug):
 
 	return render(request, "submissions/problem_submission_list.html", context)
 
+
+@login_required
 def contest_submission_list(request):
-	
+	"""
+	View for a list of contet submission of a user
+	"""
 	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile).order_by('-timestamp')
 	paginator = Paginator(contest_submission_list,1)
 	page = request.GET.get('page',1)
@@ -63,9 +78,13 @@ def contest_submission_list(request):
 
 	return render(request, "submissions/contest_submission_list.html", context)
 
+
+@login_required
 def submit_problem(request, *args, **kwargs):
-	# form = SubmissionForm(request.POST or None)
-	
+	"""
+	View for problem submit
+	:params slug: problem slug
+	"""
 	context = {}
 	problem = get_object_or_404(Problem, slug = kwargs['slug'])
 	testcases = TestCase.objects.filter(problem = problem)
@@ -90,11 +109,18 @@ def submit_problem(request, *args, **kwargs):
 			'submission': instance,
 			'lang': lang,
 		}
+	else:
+		raise Http404("Submission not Found")
 
 	return render(request, "submissions/problem_submission.html", context)
 
+@login_required
 def submit_contest_problem(request, *args, **kwargs):
-
+	"""
+	View for submitting a contest problem
+	:params slug1: contest slug
+	:params slug2: problem slug
+	"""
 	context = {}
 	contest = get_object_or_404(Contest, slug = kwargs['slug1'])
 	problem = get_object_or_404(Problem, slug = kwargs['slug2'])
@@ -114,8 +140,6 @@ def submit_contest_problem(request, *args, **kwargs):
 		instance.code = request.POST.get('code')
 		instance.language = lang
 		instance.save()
-		# print("done")
-		
 
 		context = {
 			'obj': problem,
@@ -123,4 +147,8 @@ def submit_contest_problem(request, *args, **kwargs):
 			'contest': contest,
 			'lang': lang,
 		}
+
+	else:
+		raise Http404("Submission not Found")
+
 	return render(request, 'submissions/contest_problem_submission.html', context)
