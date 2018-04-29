@@ -1,4 +1,5 @@
-from allauth.account.forms import LoginForm,SignupForm
+from allauth.account.forms import LoginForm,SignupForm,ResetPasswordForm
+from django import forms
 
 class AuthLoginForm(LoginForm):
 	def __init__(self, *args, **kwargs):
@@ -16,3 +17,10 @@ class AuthSignupForm(SignupForm):
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
 						
+class AuthResetPasswordForm(ResetPasswordForm):
+	def __init__(self, *args, **kwargs):
+		super(AuthResetPasswordForm, self).__init__(*args, **kwargs)
+		
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'form-control'
+	
