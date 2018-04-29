@@ -41,7 +41,7 @@ $(document).ready(function() {
                                 <a href="{{obj.get_absolute_url}}">
                             {{obj.problem.title}}</a></strong>
                         </h3>
-                        {{obj.problem.statement | truncatewords:40}}
+                        <p class="content-markdown">{{obj.problem.statement | truncatewords:40}}</p>
                         </div>
                         <hr>
                         {% endfor %}
@@ -56,6 +56,30 @@ $(document).ready(function() {
                         <div class="row">
                             <div class="col-md-8 ml-auto mr-auto">
                                 <h2 class="title">Leaderboard</h2>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
+                                        <table class="table table-hover text-center" id="problem-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Rank</th>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Score</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for participant in participant_list %}
+                                                <tr>
+                                                    <td>{{forloop.counter}}</td>
+                                                    <td>{{participant.user}}</td>
+                                                    <td>{{participant.points}}</td>
+                                                </tr>
+                                                
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <a href={% url "leaderboard" contest.slug %}>More</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="features">

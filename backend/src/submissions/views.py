@@ -10,7 +10,7 @@ from .models import Submission, ContestSubmission, Language, SubmissionTasks
 
 def submission_list(request):
 	
-	submission_list = Submission.objects.filter(user = request.user.profile)
+	submission_list = Submission.objects.filter(user = request.user.profile).order_by('-timestamp')
 	paginator = Paginator(submission_list,10)
 	page = request.GET.get('page',1)
 	try:
@@ -28,7 +28,7 @@ def submission_list(request):
 
 def problem_submission_list(request,slug):
 	
-	submission_list = Submission.objects.filter(user = request.user.profile, problem__slug = slug)
+	submission_list = Submission.objects.filter(user = request.user.profile, problem__slug = slug).order_by('-timestamp')
 	paginator = Paginator(submission_list,10)
 	page = request.GET.get('page',1)
 	try:
@@ -47,7 +47,7 @@ def problem_submission_list(request,slug):
 
 def contest_submission_list(request):
 	
-	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile)
+	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile).order_by('-timestamp')
 	paginator = Paginator(contest_submission_list,1)
 	page = request.GET.get('page',1)
 	try:

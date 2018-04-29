@@ -29,10 +29,12 @@ def problem(request, slug1, slug2):
 
 def problem_list(request, slug):
 	contest = get_object_or_404(Contest, slug = slug)
+	participant_list = Participant.objects.filter(contest = contest.id).order_by('-points')[:5:1]
 	queryset = ContestsHaveProblems.objects.filter(contest = contest) 
 	context = {
 		'contest': contest,
-		'problem_list' : queryset
+		'problem_list' : queryset,
+		'participant_list' : participant_list
 	}
 
 	return render(request, "contests/contest_details.html", context)
@@ -54,6 +56,29 @@ def contest_list(request):
 	}
 	return render(request, "contests/contests.html", context)
 
+def leaderboard(request, slug):
+	instance = get_object_or_404(Contest, slug = slug)
+	participant_list = Participant.objects.filter(contest = instance.id).order_by('-points')
+	paginator = Paginator(participant_list,10)
+
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+		rank = (int(page)-1)*10
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+		rank = 0
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+		rank = 0
+
+	context = {
+		'title' : instance.title,
+		'slug' : slug,
+		'participant_list' : queryset,
+		'rank' : rank,
+	}
+	return render(request, "contests/leaderboard.html", context)
 
 def manage_contest(request, slug):
 	instance = get_object_or_404(Contest, slug = slug)
