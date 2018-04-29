@@ -41,7 +41,7 @@ def problem_list(request):
 	View for a problem feed
 	"""
 
-	problem_list = Problem.objects.all()
+	problem_list = Problem.objects.filter(unlisted = False)
 
 	if request.method == 'GET':
 		level = request.GET.get('level')
