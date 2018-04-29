@@ -16,7 +16,6 @@ $(document).ready(function() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <!-- Resource style -->
 <script src={% static "filter/js/modernizr.js" %}></script>
-<link rel="stylesheet" href={% static "css/feed.css" %}>
 <style type="text/css">
 .autocomplete-suggestions {
     border: 1px solid #999;
@@ -50,23 +49,15 @@ $(document).ready(function() {
 </style>
 <!-- Modernizr -->
 <div id="cd-nav" class="is-fixed">
-    <a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+    <a href="#" class="cd-nav-trigger">Menu<span></span></a>
     <div id="cd-main-nav">
-        <form>
             <ul>
                 <li>
-                    <form>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-rose btn-fab btn-fab-mini btn-round btn-link" type="submit"><i class="material-icons">search</i></button>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
+                    <a href="/problems/create/">
+                    <button class="btn btn-red btn-round btn-sm"><i class="material-icons">add</i> Problem</button>
+                </a>
                 </li>
             </ul>
-        </form>
     </div>
 </div>
 <div class="container feed-container">
