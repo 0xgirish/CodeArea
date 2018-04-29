@@ -17,6 +17,7 @@ from .Language import get_code_by_name as lang_code
 from django.conf import settings
 from contests.models import Participant, ContestsHaveProblems
 from django.db.models import Sum
+from django.utils import timezone
 
 
 logging.basicConfig(level=logging.INFO)
@@ -210,23 +211,24 @@ class JudgeContest:
         current_score = (scores/weight)*100 if weight>0 else 100
         max_instance = ContestSubmission.objects.filter(user = self.instance.user, problem = self.instance.problem).order_by('-score')[0]
         self.instance.score = current_score
-
         current_score = current_score/100
-
-        participant = Participant.objects.get(id = self.instance.user.id)
-        print(participant.user.user.username)
-        score_to_add = 0 if current_score < max_instance.score else (current_score - max_instance.score )
-        
-
         self.instance.save()
+
+
+        current_time = timezone.now()
+
+        if self.instance.problem.contest.end_contest > current_time:
+            # Contest is ON
+            participant = Participant.objects.get(id = self.instance.user.id)
+            # print(participant.user.user.username)
+            score_to_add = 0 if current_score < max_instance.score else (current_score - max_instance.score )
             
-        cur_weight = max_instance.problem.weight
-        print(participant.points, score_to_add, max_instance.score, current_score)
-        participant.points = participant.points + cur_weight*score_to_add
+            cur_weight = max_instance.problem.weight
+            # print(participant.points, score_to_add, max_instance.score, current_score)
+            participant.points = participant.points + cur_weight*score_to_add
+            participant.save()
 
-        participant.save()
-
-        print("Score Updated")
+        # print("Score Updated")
         return True
 
     def status_code(self, status):
