@@ -98,6 +98,19 @@ def add_testcase(request, slug):
 	}
 	return render(request,"problems/add_testcase.html", context)
 
+@login_required
+def delete_problem(request, slug):
+	problem = get_object_or_404(Problem, slug = slug)
+
+	if request.user.profile != problem.setter:
+		# Only problem setter can delete
+		raise PermissionDenied
+
+	context = {
+		'obj': problem,
+	}
+	return render(request,"problems/delete_problem.html", context)
+
 
 @login_required
 def problem_manage(request, slug):
