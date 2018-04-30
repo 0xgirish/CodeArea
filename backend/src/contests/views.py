@@ -14,6 +14,9 @@ from submissions.models import ContestSubmission
 from problems.models import Problem
 from django.db.models import F
 
+import operator
+
+
 @login_required
 def create(request):
 	""" 
@@ -196,8 +199,9 @@ def leaderboard_contest_problem(request, slug1, slug2):
 	instance = get_object_or_404(Contest, slug = slug1)
 	problem = get_object_or_404(Problem, slug=slug2)
 	contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = instance)
-	participant_list = ContestSubmission.objects.filter(problem = contest_problem).extra(select={ "submissions_contestsubmission": "select auth_user.username as part, MAX(submissions_contestsubmission.score) as score from submissions_contestsubmission, auth_user where submissions_contestsubmission.user_id = auth_user.id order by score group by auth_user.username"})
-	print(participant_list)
+
+	participant_list = ContestSubmission.objects.filter(problem = contest_problem).order_by('user', '-score', 'timestamp').distinct('user')
+	participant_list = sorted(participant_list, key=operator.attrgetter('score'), reverse=True)
 	paginator = Paginator(participant_list,10)
 
 	page = request.GET.get('page',10)
