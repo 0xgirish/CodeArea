@@ -3,6 +3,35 @@
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
 <script type="text/javascript" src={% static "js/csrf.js" %}></script>
+<script type="text/javascript">
+
+function populate(data) {
+        var markedContent = marked("```\n"+data["code"]+"\n```")
+        // console.log(data["code"])
+        $(".content-markdown").html(markedContent);
+    }
+
+$(document).on('click','.v-code', function(e) {
+        e.preventDefault();
+        var this_ = $(this);
+        var geturl = "/submissions/api/contestsubmission/" + this_.attr("data-id") + "/";
+        //console.log(geturl)
+        $.ajax({
+            url: geturl,
+            method: "GET",
+            data: {},
+            success: function(data) {
+                console.log(data)
+                populate(data);
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+
+        });
+    });
+</script>
 <style type="text/css">
 .wmd-panel {
     margin: 0;
@@ -125,6 +154,9 @@ a:hover {
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
+                            <a class="nav-link" href={% url "contest_problem_list" obj.slug %}>Home</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href={% url "manage_contest" obj.slug %}>Details</a>
                         </li>
                         <li class="nav-item">
@@ -160,7 +192,7 @@ a:hover {
                                             <td>{{submission.status}}</td>
                                             <td>{{submission.timestamp}} </td>
                                             <td>
-                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="{{problem.id}}"data-toggle="modal" data-target="#codePreview">
+                                                <button class="btn btn-fab btn-fab-mini btn-round v-code" data-id="{{submission.id}}"data-toggle="modal" data-target="#codePreview">
                                                     <i class="material-icons i-sm">launch</i></button>
                                             </td>
                                         </tr>
@@ -184,10 +216,8 @@ a:hover {
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <pre><code class="codeblock">
-                                        #include<hello>
-                                    </code>
-                                    </pre>
+                                    <div class="content-markdown">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
