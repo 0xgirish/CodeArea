@@ -90,4 +90,17 @@ def post_manage(request, slug):
 	}
 	return render(request, 'posts/post_manage.html', context)
 
+@login_required
+def delete_post(request, slug):
+	instance = get_object_or_404(Post, slug = slug)
+
+	if request.user.profile != instance.author:
+		# User != the author
+		raise PermissionDenied
+
+	context = {
+		'obj': instance,
+	}
+	return render(request, 'posts/delete_post.html', context)
+
 

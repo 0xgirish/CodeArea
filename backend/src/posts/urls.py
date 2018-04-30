@@ -11,6 +11,7 @@ urlpatterns = [
 	url(r'^create/', views.create, name='create_posy'),
 	url(r'^(?P<slug>[-\w]+)/$', views.post, name='post'),
 	url(r'^(?P<slug>[-\w]+)/manage/$', views.post_manage, name='post_manage'),
+	url(r'^(?P<slug>[-\w]+)/manage/delete/$', views.delete_post, name='delete_post'),
 	url(r'^api/', include(router.urls)),
 	url(r'^likes/(?P<slug>[-\w]+)/likes/$', api.PostLikeAPIToggle.as_view(), name='post_likes_api'),
 	url(r'^$', views.post_list, name='post_list'),
