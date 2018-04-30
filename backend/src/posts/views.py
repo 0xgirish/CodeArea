@@ -15,8 +15,8 @@ def create(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.author = request.user.profile
-		form.save_m2m()
 		instance.save()
+		form.save_m2m()
 
 	context = {
 		'form': form,
