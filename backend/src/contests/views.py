@@ -67,7 +67,7 @@ def contest_list(request):
 	View for the contest feed
 	"""
 	contest_list = Contest.objects.all()
-	paginator = Paginator(contest_list,1)
+	paginator = Paginator(contest_list,3)
 
 	page = request.GET.get('page',1)
 	try:

@@ -56,7 +56,7 @@ def problem_list(request):
 		if title:
 			problem_list = problem_list.filter(title__contains=request.GET.get('title'))
 
-	paginator = Paginator(problem_list,2)
+	paginator = Paginator(problem_list,3)
 
 	page = request.GET.get('page',1)
 	try:
