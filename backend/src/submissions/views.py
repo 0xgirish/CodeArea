@@ -39,6 +39,7 @@ def problem_submission_list(request,slug):
 	"""
 	view for a list of user submissions for a problem
 	"""
+	problem = get_object_or_404(Problem, slug = slug)
 	submission_list = Submission.objects.filter(user = request.user.profile, problem__slug = slug).order_by('-timestamp')
 	paginator = Paginator(submission_list,10)
 	page = request.GET.get('page',1)
@@ -51,7 +52,7 @@ def problem_submission_list(request,slug):
 
 	context = {
 		'submission_list' : submission_list,
-		'slug' : slug,
+		'obj' : problem,
 	}
 
 	return render(request, "submissions/problem_submission_list.html", context)
@@ -78,6 +79,33 @@ def contest_submission_list(request):
 
 	return render(request, "submissions/contest_submission_list.html", context)
 
+
+def contest_problem_submission(request, slug1, slug2):
+	"""
+	View for contest problem submission
+	:params slug1: contest slug
+	:params slug2: problem slug
+	"""
+	contest = get_object_or_404(Contest, slug = slug1)
+	problem = get_object_or_404(Problem, slug = slug2)
+	contest_problem = get_object_or_404(ContestsHaveProblems, contest= contest, problem = problem )
+	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile, problem = contest_problem).order_by('-timestamp')
+	paginator = Paginator(contest_submission_list,1)
+	page = request.GET.get('page',1)
+	try:
+		contest_submission_list = paginator.page(page)
+	except PageNotAnInteger:
+		contest_submission_list = paginator.page(1)
+	except EmptyPage:
+		contest_submission_list = paginator.page(paginator.num_pages)
+
+	context = {
+		'queryset' : contest_submission_list,
+		'contest': contest,
+		'obj': problem,
+	}
+
+	return render(request, "contests/contest_problem_submission.html", context)
 
 @login_required
 def submit_problem(request, *args, **kwargs):
@@ -129,11 +157,7 @@ def submit_contest_problem(request, *args, **kwargs):
 
 	if request.method == 'POST':
 		isParticipant = get_object_or_404(Participant, user = request.user.profile, contest = contest)
-		print(request.POST.get('lang'))
-
 		lang = get_object_or_404(Language, language_name = request.POST.get('lang'))
-		print(problem.problem_code)
-
 		instance = ContestSubmission()
 		instance.user = isParticipant
 		instance.problem = contest_problem

@@ -13,7 +13,9 @@ class ProblemForm(forms.ModelForm):
 			"title", 
 			"problem_code",
 			"statement",
+			"level",
 			"tags",
+			"unlisted",
 		]
 
 	def __init__(self, *args, **kwargs):
@@ -26,6 +28,8 @@ class ProblemForm(forms.ModelForm):
 
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+
+		self.fields['unlisted'].widget.attrs['class'] = ''
 
 
 	def clean_problem_code(self):

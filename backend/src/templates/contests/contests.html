@@ -1,5 +1,8 @@
 {% extends "index.html" %} {% load staticfiles %} {% block content %}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.19/marked.js' type="text/javascript" ></script>
+<link rel="stylesheet" href={% static "css/feed.css" %}>
+<link rel="stylesheet" href={% static "filter/css/style.css" %}>
+<script src={% static "filter/js/modernizr.js" %}></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -43,6 +46,18 @@ $(document).ready(function() {
 })
 </script>
 <link rel="stylesheet" href={% static "css/feed.css" %}>
+<div id="cd-nav" class="is-fixed">
+    <a href="#" class="cd-nav-trigger">Menu<span></span></a>
+    <div id="cd-main-nav">
+            <ul>
+                <li>
+                    <a href="/contests/create/">
+                    <button class="btn btn-red btn-round btn-sm"><i class="material-icons">add</i> Contest</button>
+                </a>
+                </li>
+            </ul>
+    </div>
+</div>
 <div class="container feed-container">
     <div class="row">
         <!--  <div class="col-sm-6 text-left">
@@ -131,5 +146,6 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
+<script src={% static "filter/js/main.js" %}></script>
 
 {% endblock %}

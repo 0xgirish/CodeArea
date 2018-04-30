@@ -17,6 +17,7 @@ def create(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.setter = request.user.profile
+		form.save_m2m()
 		instance.save()
 
 	context = {
@@ -41,7 +42,7 @@ def problem_list(request):
 	View for a problem feed
 	"""
 
-	problem_list = Problem.objects.all()
+	problem_list = Problem.objects.filter(unlisted = False)
 
 	if request.method == 'GET':
 		level = request.GET.get('level')
@@ -113,6 +114,7 @@ def problem_manage(request, slug):
 	form = ProblemForm(request.POST or None, instance = instance)
 	if form.is_valid():
 		instance = form.save(commit=False)
+		form.save_m2m()
 		instance.save()
 
 	context = {

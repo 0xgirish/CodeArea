@@ -122,26 +122,24 @@ a:hover {
         <div class="col-12">
             <div class="card feed-item">
                 <div class="head">
-                    <h3 class="card-title text-center"> {{contest.title | title}} </h3>
+                   <h3 class="card-title text-center"> {{obj.title | title}} | {{contest.title | title}} </h3>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{contest.get_absolute_url}}">Home</a>
+                            <a class="nav-link" href={% url "contest_problem_list" contest.slug %}>Contest Page</a>
                         </li>
-                        {% if contest.has_started %}
                         <li class="nav-item">
-                            <a class="nav-link active" href={% url "leaderboard" contest.slug %}>Leaderboard</a>
+                            <a class="nav-link" href={% url "contest_problem" contest.slug obj.slug %}>Statement</a>
                         </li>
-                        {% endif %} {% if user.profile == contest.creator %}
+               
                         <li class="nav-item">
-                            <a class="nav-link " href={% url "manage_contest" contest.slug %}>Manage</a>
+                            <a class="nav-link" href={% url "contest_problem_submissions" contest.slug obj.slug %}>Submissions</a>
                         </li>
-                        {% endif %}
-                        <li>
-                            <button class="btn  btn-round btn-sm signup-btn {% if user.profile in contest.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{contest.get_signup_url}}">{% if user.profile in contest.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
+                        <li class="nav-item">
+                            <a class="nav-link active" href={% url "leaderboard_contest_problem" contest.slug obj.slug %}>Leaderboard</a>
                         </li>
                     </ul>
-                </div>
+                        </div>
                 <div class="card-body">
                     <div class="container-fluid">
                         <div class="row">
@@ -158,8 +156,8 @@ a:hover {
                                         {% for participant in participant_list %}
                                         <tr>
                                             <td>{{rank|add:forloop.counter}}</td>
-                                            <td>{{participant.user}}</td>
-                                            <td>{{participant.points}}</td>
+                                            <td>{{participant.part}}</td>
+                                            <td>{{participant.score}}</td>
                                         </tr>
                                         
                                         {% endfor %}

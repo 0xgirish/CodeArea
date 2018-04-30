@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-
+ 
 from .models import Post
 from .forms import PostForm
 
@@ -15,6 +15,7 @@ def create(request):
 	if form.is_valid():
 		instance = form.save(commit=False)
 		instance.author = request.user.profile
+		form.save_m2m()
 		instance.save()
 
 	context = {
@@ -39,7 +40,17 @@ def post_list(request):
 	View for a post feed
 	"""
 	post_list = Post.objects.all()
-	paginator = Paginator(post_list,1)
+
+	if request.method == 'GET':
+		tags = request.GET.get('tags')
+		title = request.GET.get('title')
+
+		if tags:
+			post_list = post_list.filter(tags__in = tags)
+		if title:
+			post_list = post_list.filter(title__contains=request.GET.get('title'))
+
+	paginator = Paginator(post_list,3)
 
 	page = request.GET.get('page',1)
 	try:
@@ -70,6 +81,7 @@ def post_manage(request, slug):
 	form = PostForm(request.POST or None, instance = instance)
 	if form.is_valid() and instance.author == request.user.profile:
 		instance = form.save(commit=False)
+		form.save_m2m()
 		instance.save()
 
 	context = {

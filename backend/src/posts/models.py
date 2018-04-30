@@ -20,9 +20,6 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse("post", kwargs={"slug": self.slug})
 
-	def get_likes_url(self):
-		return reverse("post_likes", kwargs={"slug": self.slug})
-
 	def get_likes_api_url(self):
 		return reverse("post_likes_api", kwargs={"slug": self.slug})
 

@@ -3,7 +3,6 @@
 <link rel="stylesheet" href={% static "css/feed.css" %}>
 <link rel="stylesheet" href={% static "filter/css/style.css" %}> {% block head_extra %} {{ form.media }} {% endblock head_extra %}
 <script type="text/javascript" src={% static "js/csrf.js" %}></script>
-
 <style type="text/css">
 .wmd-panel {
     margin: 0;
@@ -121,27 +120,26 @@ a:hover {
     <div class="row">
         <div class="col-12">
             <div class="card feed-item">
-                <div class="head">
-                    <h3 class="card-title text-center"> {{contest.title | title}} </h3>
+               <div class="head">
+                   <h3 class="card-title text-center"> {{obj.title | title}} | {{contest.title | title}} </h3>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{contest.get_absolute_url}}">Home</a>
+                            <a class="nav-link" href={% url "contest_problem_list" contest.slug %}>Contest Page</a>
                         </li>
-                        {% if contest.has_started %}
                         <li class="nav-item">
-                            <a class="nav-link active" href={% url "leaderboard" contest.slug %}>Leaderboard</a>
+                            <a class="nav-link" href={% url "contest_problem" contest.slug obj.slug %}>Statement</a>
                         </li>
-                        {% endif %} {% if user.profile == contest.creator %}
+               
                         <li class="nav-item">
-                            <a class="nav-link " href={% url "manage_contest" contest.slug %}>Manage</a>
+                            <a class="nav-link active" href={% url "contest_problem_submissions" contest.slug obj.slug %}>Submissions</a>
                         </li>
-                        {% endif %}
-                        <li>
-                            <button class="btn  btn-round btn-sm signup-btn {% if user.profile in contest.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{contest.get_signup_url}}">{% if user.profile in contest.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "leaderboard_contest_problem" contest.slug obj.slug %}>Leaderboard</a>
                         </li>
                     </ul>
-                </div>
+                        </div>
+                       
                 <div class="card-body">
                     <div class="container-fluid">
                         <div class="row">
@@ -149,52 +147,52 @@ a:hover {
                                 <table class="table table-hover text-center" id="problem-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Rank</th>
-                                            <th scope="col">User</th>
-                                            <th scope="col">Score</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Timestamp</th>
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for participant in participant_list %}
-                                        <tr>
-                                            <td>{{rank|add:forloop.counter}}</td>
-                                            <td>{{participant.user}}</td>
-                                            <td>{{participant.points}}</td>
+                                        {% for submission in queryset %}
+                                        <tr id="{{submission.id}}">
+
+                                            <td>{{submission.status}}</td>
+                                            <td>{{submission.timestamp}} </td>
+                                            <td>
+                                                <button class="btn btn-fab btn-fab-mini btn-round p-del" data-id="{{problem.id}}"data-toggle="modal" data-target="#codePreview">
+                                                    <i class="material-icons i-sm">launch</i></button>
+                                            </td>
                                         </tr>
-                                        
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <ul class="pagination">
-                                    {% if participant_list.has_previous %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ participant_list.previous_page_number }}">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ participant_list.previous_page_number }}">{{ participant_list.previous_page_number }}</a></li>
-                                    {% else %}
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Previous</span>
-                                    </li>
-                                    {% endif %}
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#"> {{participant_list.number}} <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    {% if participant_list.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ participant_list.next_page_number }}">{{ participant_list.next_page_number }}</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ participant_list.next_page_number }}">Next</a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Next</span>
-                                    </li>
-                                    {% endif %}
-                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+                    <div class="modal fade" id="codePreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Code</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <pre><code class="codeblock">
+                                        #include<hello>
+                                    </code>
+                                    </pre>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
        
         {% endblock %}

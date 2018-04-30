@@ -1,7 +1,8 @@
 #cd-nav ul {
     /* mobile first */
     position: fixed;
-    width: 90%;
+    min-width: 250px;
+    width: auto;
     max-width: 400px;
     right: 1.5%;
     bottom: 1%;
