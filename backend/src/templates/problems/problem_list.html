@@ -82,7 +82,7 @@ $(document).ready(function() {
                 </div>
             </div>
             {% endfor %}
-            <ul class="pagination">
+            <ul class="pagination justify-content-center">
                 {% if problem_list.has_previous %}
                 <li class="page-item">
                 	{% if request.GET.level and request.GET.tags %}
@@ -159,7 +159,7 @@ $(document).ready(function() {
         </div>
         <div class="card feed-item" >
             <div class="card-body">
-                <h3 class="card-title text-center"> FILTER </h3>
+                <h3 class="card-title text-center"> FILTER PROBLEMS</h3>
                 <form method="GET" action={% url "problem_list" %}>
                     <div class="form-group">
                         <label for="Difficulty">Difficulty</label>
@@ -176,7 +176,9 @@ $(document).ready(function() {
                         
                         </select>
                     </div>
+                    <center>
                     <button type="submit" class="btn btn-red">Filter</button>
+               		</center>
                 </form>
             </div>
         </div>

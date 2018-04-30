@@ -95,16 +95,10 @@ a:hover {
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "contest_problem_list" obj.slug %}>Home</a>
+                            <a class="nav-link" href={% url "post" obj.slug %}>Content</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "manage_contest" obj.slug %}>Details</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href={% url "add_problems" obj.slug %}>Problems</a>
-                        </li>
-                       <li class="nav-item">
-                            <a class="nav-link" href={% url "contest_submissions" obj.slug %} >Submissions</a>
+                            <a class="nav-link" href={% url "post_manage" obj.slug %}>Manage</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Settings</a>
@@ -115,11 +109,11 @@ a:hover {
                     <div class="container-fluid">
                             <center>
                             <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <button class="btn btn-col btn-round" data-toggle="modal" data-target="#deletecontest">Delete Contest</button>
+                                    <button class="btn btn-col btn-round" data-toggle="modal" data-target="#deletepost">Delete Post</button>
                             </div>
                             </center>
                             <!-- Add Modal -->
-                            <div class="modal fade" id="deletecontest" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal fade" id="deletepost" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -146,7 +140,7 @@ a:hover {
     $(document).on('click','.p-del',function(e) {
         e.preventDefault();
         var this_ = $(this);
-        var likeUrl = "/contests/api/contest/c/" + {{obj.id}} + "/";
+        var likeUrl = "/posts/api/posts/" + {{obj.id}} + "/";
 
         console.log(likeUrl)
         $.ajax({
@@ -154,7 +148,7 @@ a:hover {
             method: "DELETE",
             data: {},
             success: function(data) {
-                window.location = {% url "contest_list" %}
+                window.location = {% url "post_list" %}
             },
             error: function(error) {
                 console.log(error)
