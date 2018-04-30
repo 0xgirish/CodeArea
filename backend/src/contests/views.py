@@ -4,14 +4,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Max
 
 # App related imports
 from .forms import ContestForm
 from .models import Contest, ContestsHaveProblems, Participant
 from submissions.models import ContestSubmission
-
-
+from problems.models import Problem
+from django.db.models import F
 
 @login_required
 def create(request):
@@ -165,6 +165,39 @@ def view_submissions(request, slug):
 	}
 
 	return render(request, "contests/contest_submissions.html", context)
+
+def leaderboard_contest_problem(request, slug1, slug2):
+	"""
+	View for a contest problem leaderboard
+	:params slug1: contest slug
+	:params slug2: problem slug
+	"""
+	instance = get_object_or_404(Contest, slug = slug1)
+	problem = get_object_or_404(Problem, slug=slug2)
+	contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = instance)
+	participant_list = ContestSubmission.objects.filter(problem = contest_problem).annotate(part=F('user__user__user__username')).values('part').annotate(score=Max('score')).order_by('-score')
+	print(participant_list)
+	paginator = Paginator(participant_list,10)
+
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+		rank = (int(page)-1)*10
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+		rank = 0
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+		rank = 0
+
+	context = {
+		'contest' : instance,
+		'obj': problem,
+		'participant_list' : queryset,
+		'rank' : rank,
+	}
+	return render(request, "contests/contest_problem_leaderboard.html", context)
+
 
 
 

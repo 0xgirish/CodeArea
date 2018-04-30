@@ -85,10 +85,10 @@ body {
                         </li>
                
                         <li class="nav-item">
-                            <a class="nav-link active" href={% url "contest_problem_submissions" contest.slug obj.slug %}>Submissions</a>
+                            <a class="nav-link" href={% url "contest_problem_submissions" contest.slug obj.slug %}>Submissions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "leaderboard" contest.slug %}>Contest Leaderboard</a>
+                            <a class="nav-link active" href={% url "leaderboard_contest_problem" contest.slug obj.slug %}>Leaderboard</a>
                         </li>
                     </ul>
                 		</div>
