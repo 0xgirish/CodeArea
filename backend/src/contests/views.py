@@ -5,6 +5,7 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
+from django.contrib.auth.models import User
 
 # App related imports
 from .forms import ContestForm
@@ -195,8 +196,8 @@ def leaderboard_contest_problem(request, slug1, slug2):
 	instance = get_object_or_404(Contest, slug = slug1)
 	problem = get_object_or_404(Problem, slug=slug2)
 	contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = instance)
-	participant_list = ContestSubmission.objects.filter(problem = contest_problem).annotate(part=F('user__user__user__username')).values('part').annotate(score=Max('score')).order_by('-score', 'timestamp')
-	# print(participant_list)
+	participant_list = ContestSubmission.objects.filter(problem = contest_problem).extra(select={ "submissions_contestsubmission": "select auth_user.username as part, MAX(submissions_contestsubmission.score) as score from submissions_contestsubmission, auth_user where submissions_contestsubmission.user_id = auth_user.id order by score group by auth_user.username"})
+	print(participant_list)
 	paginator = Paginator(participant_list,10)
 
 	page = request.GET.get('page',10)
