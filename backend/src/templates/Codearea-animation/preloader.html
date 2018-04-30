@@ -1,0 +1,46 @@
+<!DOCTYPE html>    
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <title>HTML CODE</title>
+    </head>  
+    <style>
+    	body {
+    		background-image:url("im.jpg");
+    	}    
+    </style>
+    <link rel="stylesheet" href="custom-style.css"> 
+    <div id="fatherload">
+    <div id="load">
+  <div>A</div>
+  <div>E</div>
+  <div>R</div>
+  <div>A</div>
+  <div>E</div>
+  <div>D</div>
+  <div>O</div>
+  <div>C</div>
+  </div>
+  </div>
+  	<div id="insider">
+  	<center>
+  		<h1 style="color:white"> Heading</h1>	
+  	</center>
+  	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    	function fatherload(){
+    		$(function(){
+    			$("#fatherload").fadeOut("slow");
+    		});
+    		//window.open("index.html",'_self');
+    	}
+    	setTimeout(fatherload,4000);
+    	$('#insider').fadeOut('fast').delay(4000).fadeIn('slow'); 	
+    </script>
+    
+    </body>
+    
+    </html>
+    
+    
