@@ -56,17 +56,21 @@
     #editor {
         margin: 0;
         position: absolute;
-        top: 0;
-        bottom: 70;
+        top: 50;
+        bottom: 0;
         left: 0;
         right: 0;
     }
     #language {
     	margin: 0;
     	position: absolute;
-    	bottom: 20;
-    	right: 2%;
+    	top: 3;
+    	left: 3%;
     	width: 16%;
+    }
+    #icon1{
+        position: absolute;
+        top: 5px;
     }
     #btn-run {
     	margin: 0;
@@ -101,22 +105,30 @@
 
 <!-- <div class="panel" style="height: 100%;font-family: 'Ubuntu', sans-serif; border-color: #03295e">
 	<div class="panel-heading"><b>CodeArea</b></div> -->
-
-		<pre id="editor"></pre>
+        <div class="panel panel-default" style="background-color: #f7f7f7">
+            <div class="row">
+            <div class="col-sm-2" style="left: 3%;display: inline-block;vertical-align: middle;float: none;">
+                <div class="form-group form-improve">
+                    <select class="form-control" name="quantity" onchange="changeLanguage()">
+                        <option value="python2">Python 2.7</option>
+                        <option value="python3">Python 3.6</option>
+                        <option value="golang">GO</option>
+                        <option value="C">C</option>
+                        <option value="cpp14">C++14</option>
+                        <option value="java">Java 8</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2">
+                <span class="glyphicon glyphicon-cog" id="icon1" onclick="spanIcon()"></span>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+        </div>
+		<div id="editor"></div>
         <!-- <div id="statusBar">ace rocks!</div> -->
-		<button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button>
-        <button class="btn btn-primary" id="myBtn">Open Modal</button>
-		<div class="form-group form-improve">
-			<select class="form-control" name="quantity" id="language" onchange="changeLanguage()">
-				<option value="python2">Python 2.7</option>
-				<option value="python3">Python 3.6</option>
-				<option value="golang">GO</option>
-				<option value="C">C</option>
-				<option value="cpp14">C++14</option>
-				<option value="java">Java 8</option>
-			</select>
-		</div>
-
+		<!-- <button class="btn btn-primary" onclick="senddata()" id="btn-run">Run Code</button> -->
 		<div class="form-group form-improve" style="margin-right: 20px">
 			<select class="form-control" name="quantity" id="fontsize" onchange="changeFontSize()">
 				<option value="m">Medium</option>
@@ -133,12 +145,13 @@
 				<option value="ace/theme/twilight">Twilight</option>
 			</select>
 		</div>
+    </div>
 
         <div id="myModal" class="modal">
 
           <!-- Modal content -->
           <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="spanClose()">&times;</span>
             <p>Some text in the Modal</p>
             <hr/>
             This it
@@ -282,12 +295,12 @@
     var span = document.getElementsByClassName("close")[0];
 
     // When the user clicks the button, open the modal 
-    btn.onclick = function() {
+    function spanIcon() {
         modal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    function spanClose() {
         modal.style.display = "none";
     }
 

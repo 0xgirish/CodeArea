@@ -153,11 +153,10 @@ def view_submissions(request, slug):
 	"""
 	View for contest submissions
 	"""
+	instance = get_object_or_404(Contest, slug = slug)
 	if request.user.profile != instance.creator:
 		# Only the creator has permission to view
 		raise PermissionDenied
-
-	instance = get_object_or_404(Contest, slug = slug)
 	queryset = ContestSubmission.objects.filter(problem__contest = instance)
 
 	context = {
