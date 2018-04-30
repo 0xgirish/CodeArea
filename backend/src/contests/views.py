@@ -87,7 +87,7 @@ def leaderboard(request, slug):
 	participant_list = Participant.objects.filter(contest = instance.id).order_by('-points')
 	paginator = Paginator(participant_list,10)
 
-	page = request.GET.get('page',1)
+	page = request.GET.get('page',10)
 	try:
 		queryset = paginator.page(page)
 		rank = (int(page)-1)*10
@@ -192,7 +192,7 @@ def leaderboard_contest_problem(request, slug1, slug2):
 	print(participant_list)
 	paginator = Paginator(participant_list,10)
 
-	page = request.GET.get('page',1)
+	page = request.GET.get('page',10)
 	try:
 		queryset = paginator.page(page)
 		rank = (int(page)-1)*10

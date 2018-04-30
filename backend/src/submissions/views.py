@@ -64,7 +64,7 @@ def contest_submission_list(request):
 	View for a list of contet submission of a user
 	"""
 	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile).order_by('-timestamp')
-	paginator = Paginator(contest_submission_list,1)
+	paginator = Paginator(contest_submission_list,10)
 	page = request.GET.get('page',1)
 	try:
 		contest_submission_list = paginator.page(page)
@@ -90,7 +90,7 @@ def contest_problem_submission(request, slug1, slug2):
 	problem = get_object_or_404(Problem, slug = slug2)
 	contest_problem = get_object_or_404(ContestsHaveProblems, contest= contest, problem = problem )
 	contest_submission_list = ContestSubmission.objects.filter(user__user = request.user.profile, problem = contest_problem).order_by('-timestamp')
-	paginator = Paginator(contest_submission_list,1)
+	paginator = Paginator(contest_submission_list,10)
 	page = request.GET.get('page',1)
 	try:
 		contest_submission_list = paginator.page(page)

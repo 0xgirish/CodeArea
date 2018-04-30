@@ -46,6 +46,10 @@ class JudgeContest:
             # user code string
 
             self.instance = ContestSubmission.objects.get(pk = submission_id)
+            if self.instance.status != "R":
+                self.is_exist = True
+            else:
+                self.is_exist = False
             problem = self.instance.problem.problem
             self.code = self.instance.code
             self.problem = problem.problem_code
@@ -267,8 +271,10 @@ def judge_main_contest(request):
     # default value is ../backend/media_cdn
     PATH_CONTEST = ''
 
-
     judge = JudgeContest(PATH, request)
+    if judge.is_exist:
+        json_data = json.dumps({"result": judge.instance.status, "score":judge.instance.score})
+        return HttpResponse(json_data)
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
