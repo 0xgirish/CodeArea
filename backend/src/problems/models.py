@@ -30,7 +30,7 @@ class Problem(models.Model):
 	timestamp = models.DateTimeField(auto_now = False, auto_now_add = True)
 	setter = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.SET_NULL, related_name='setter')
 	tags = models.ManyToManyField(Tag, blank=True)
-	level = models.CharField(max_length=5, choices= LEVEL_CHOICES, default = 'EASY')
+	level = models.CharField(max_length=10, choices= LEVEL_CHOICES, default = 'EASY')
 	unlisted = models.BooleanField(default=False)
 
 	def __str__(self):
