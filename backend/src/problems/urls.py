@@ -17,6 +17,7 @@ urlpatterns = [
 	url(r'^(?P<slug>[-\w]+)/submit/$', submit_problem, name='problem_submission'),
 	url(r'^(?P<slug>[-\w]+)/manage/$', views.problem_manage, name='problem_manage'),
 	url(r'^(?P<slug>[-\w]+)/manage/testcase/$', views.add_testcase, name='problem_testcase'),
+	url(r'^(?P<slug>[-\w]+)/manage/delete/$', views.delete_problem, name='delete_problem'),
 	url(r'^$', views.problem_list, name='problem_list'),
 	url(r'^api/', include(router.urls)),
 ]
