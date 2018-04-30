@@ -19,4 +19,6 @@ urlpatterns = [
 	url(r'^contest/$', views.contest_submission_list, name='contest_submission_list'),
 	url(r'^api/', include(router.urls)),
 	url(r'^problem/(?P<slug>[-\w]+)/', views.problem_submission_list, name='problem_submission_list'),
+	
+
 ]

@@ -69,6 +69,8 @@ body {
 .problem-statement {
     margin-top: 40px;
     font-weight: 400;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .ide {
@@ -84,27 +86,28 @@ body {
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
+                            <a class="nav-link active" href="{{contest.get_absolute_url}}">Home</a>
                         </li>
+                        {% if contest.has_started %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Leaderboard</a>
+                            <a class="nav-link" href={% url "leaderboard" contest.slug %}>Leaderboard</a>
                         </li>
-                        {% if user.profile == contest.creator %}
+                        {% endif %} {% if user.profile == contest.creator %}
                         <li class="nav-item">
                             <a class="nav-link" href={% url "manage_contest" contest.slug %}>Manage</a>
                         </li>
                         {% endif %}
+                        <li>
+                            <button class="btn  btn-round btn-sm signup-btn {% if user.profile in contest.participants.all %} btn-success disabled {% else %} btn-col{% endif %}" data-href="{{contest.get_signup_url}}">{% if user.profile in contest.participants.all %} Signed Up {% else %} Sign Up {% endif %} </button>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-12 problem-statement">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-9 col-md-9 com-sm-12">
+                    
                                 <div class="card-text content-markdown"> {{contest.description}} </div>
-                            </div>
-                        </div>
-                    </div>
+                       
                 </div>
+                {% if contest.has_started and user.profile in contest.participants.all%}
                 <hr>
                 <div class="container feed-container">
                     <div class="row">
@@ -114,10 +117,17 @@ body {
                             </div>
                             {% for obj in problem_list %}
                             <div class="col-12">
-                                <h4> <strong>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4> <strong>
                                 <a href="{{obj.get_absolute_url}}">
-                            {{obj.problem.title}}</a></strong>
+                            {{obj.problem.title}}</a></strong>  
                         </h4>
+                                    </div>
+                                    <div class="text-right col-6">
+                                        <small> {{obj.weight}} Points </small>
+                                    </div>
+                                </div>
                                 <p class="content-markdown">{{obj.problem.statement | truncatewords:40}}</p>
                             </div>
                             <hr style="opacity:0.5"> {% endfor %}
@@ -151,6 +161,7 @@ body {
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="features">
                 <div class="row">
                 </div>

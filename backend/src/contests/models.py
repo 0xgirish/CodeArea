@@ -7,6 +7,8 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 # Create your models here
 from django.core.urlresolvers import reverse
+from django.utils import timezone
+
 
 
 
@@ -35,6 +37,9 @@ class Contest(models.Model):
 
 	def get_signup_url(self):
 		return reverse("contest_signup_api", kwargs={"slug": self.slug})
+
+	def has_started(self):
+		return self.start_contest <= timezone.now()
 
 
 	class Meta:

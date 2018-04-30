@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from . import views
-from submissions.views import submit_contest_problem
+from submissions.views import submit_contest_problem, contest_problem_submission
 
 from . import api
 
@@ -15,8 +15,9 @@ router.register(r'c', api.ContestViewSet)
 urlpatterns = [
 	url(r'^create/', views.create, name='create_contest'),
 	url(r'^(?P<slug1>[-\w]{1,100})/problems/(?P<slug2>[-\w]+)/$', views.problem, name='contest_problem'),
+	url(r'^(?P<slug1>[-\w]{1,100})/problems/(?P<slug2>[-\w]+)/submissions/', contest_problem_submission, name='contest_problem_submissions'),
 	url(r'^(?P<slug1>[-\w]{1,100})/problems/(?P<slug2>[-\w]+)/submit/', submit_contest_problem, name='contest_problem_submission'),
-	url(r'^(?P<slug>[-\w]+)/$', views.problem_list, name='contest_problem_list'),
+	url(r'^(?P<slug>[-\w]+)/$', views.contest_home, name='contest_problem_list'),
 	url(r'^(?P<slug>[-\w]+)/leaderboard/$', views.leaderboard, name='leaderboard'),
 	url(r'^(?P<slug>[-\w]+)/manage/$', views.manage_contest, name='manage_contest'),
 	url(r'^(?P<slug>[-\w]+)/manage/problems/$', views.add_problems, name='add_problems'),

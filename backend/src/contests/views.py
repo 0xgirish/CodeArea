@@ -43,7 +43,7 @@ def problem(request, slug1, slug2):
 
 	return render(request, "contests/problem_details.html", context)
 
-def problem_list(request, slug):
+def contest_home(request, slug):
 	"""
 	View of the contest page showing the list of problems
 	"""
@@ -99,8 +99,7 @@ def leaderboard(request, slug):
 		rank = 0
 
 	context = {
-		'title' : instance.title,
-		'slug' : slug,
+		'contest' : instance,
 		'participant_list' : queryset,
 		'rank' : rank,
 	}
