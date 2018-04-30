@@ -188,8 +188,8 @@ def leaderboard_contest_problem(request, slug1, slug2):
 	instance = get_object_or_404(Contest, slug = slug1)
 	problem = get_object_or_404(Problem, slug=slug2)
 	contest_problem = get_object_or_404(ContestsHaveProblems, problem = problem, contest = instance)
-	participant_list = ContestSubmission.objects.filter(problem = contest_problem).annotate(part=F('user__user__user__username')).values('part').annotate(score=Max('score')).order_by('-score')
-	print(participant_list)
+	participant_list = ContestSubmission.objects.filter(problem = contest_problem).annotate(part=F('user__user__user__username')).values('part').annotate(score=Max('score')).order_by('-score', 'timestamp')
+	# print(participant_list)
 	paginator = Paginator(participant_list,10)
 
 	page = request.GET.get('page',10)
