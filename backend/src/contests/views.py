@@ -169,12 +169,19 @@ def view_submissions(request, slug):
 	if request.user.profile != instance.creator:
 		# Only the creator has permission to view
 		raise PermissionDenied
-
-	queryset = ContestSubmission.objects.filter(problem__contest = instance)
+	contest_submission_list = ContestSubmission.objects.filter(problem__contest = instance);
+	paginator = Paginator(contest_submission_list,10)
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
 
 	context = {
 		'obj': instance,
-		'queryset': queryset
+		'submission_list': queryset
 	}
 
 	return render(request, "contests/contest_submissions.html", context)
