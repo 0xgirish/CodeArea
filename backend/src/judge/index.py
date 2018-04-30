@@ -42,29 +42,29 @@ class Judge:
             self.submission = data_dict['type']
 
             submission_id = data_dict['submission_id']
+            print("\n\n--------",submission_id,"---------\n\n")
             # user code string
 
-            if self.submission == 'normal':
-                self.code = data_dict['code']
-                self.instance = None
-                self.language_id = data_dict['lang_id']
+            self.instance = Submission.objects.get(pk = submission_id)
+            if self.instance.status != "R":
+                self.is_exist = True
             else:
-                self.instance = Submission.objects.get(pk = submission_id)
-                problem = self.instance.problem
-                self.code = self.instance.code
-                self.problem = problem.problem_code
-                testcases = TestCase.objects.filter(problem = problem)
-                
-                # testcase calculation
-                self.testcase = []
-                self.testcase_id = []
-                for testcase in testcases:
-                    testcase_file_name = testcase.input
-                    testcase_file_name = str(testcase_file_name).split("/")[1].split(".")[0]
-                    testcase_id = testcase.id
-                    self.testcase.append(testcase_file_name)
-                    self.testcase_id.append(testcase_id)
-                self.language_id = lang_code(self.instance.language.language_name)
+                self.is_exist = False
+            problem = self.instance.problem
+            self.code = self.instance.code
+            self.problem = problem.problem_code
+            testcases = TestCase.objects.filter(problem = problem)
+            
+            # testcase calculation
+            self.testcase = []
+            self.testcase_id = []
+            for testcase in testcases:
+                testcase_file_name = testcase.input
+                testcase_file_name = str(testcase_file_name).split("/")[1].split(".")[0]
+                testcase_id = testcase.id
+                self.testcase.append(testcase_file_name)
+                self.testcase_id.append(testcase_id)
+            self.language_id = lang_code(self.instance.language.language_name)
 
 
             # custom_input value | if not custom_input then empty string
@@ -76,15 +76,12 @@ class Judge:
             self.md5_name = random_md5(level)
             self.md5_input = random_md5(level)
             self.md5_result = random_md5(level)
-            self.safe_to_remove = False
             self.problem_output_not_found = []
             if target_folder is None:
                 self.target_folder = random_md5(level)
             else:
                 self.target_folder = target_folder
 
-            if self.submission == 'normal':
-                self.testcase = ['normal']
             # logging info
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
@@ -97,21 +94,15 @@ class Judge:
         :return : boolean value
         '''
         try:
-            # creating input file copy md5
-            if self.submission == 'normal':
+            for t in self.testcase:
+                static_input_path = "{}/{}/{}.in".format(path, self.problem, t)
+                # mkdir userData/md5_folder
                 os.system("mkdir {}".format(self.path))
-                with open('{}/{}_normal.in'.format(self.path, self.md5_input), 'w') as fp:
-                    fp.write(self.custom_input)
-            else:
-                for t in self.testcase:
-                    static_input_path = "{}/{}/{}.in".format(path, self.problem, t)
-                    # mkdir userData/md5_folder
-                    os.system("mkdir {}".format(self.path))
-                    with open(static_input_path, 'r') as fp:
-                        data = fp.read()
+                with open(static_input_path, 'r') as fp:
+                    data = fp.read()
 
-                    with open('{}/{}_{}.in'.format(self.path, self.md5_input, t), 'w') as fp:
-                        fp.write(data)
+                with open('{}/{}_{}.in'.format(self.path, self.md5_input, t), 'w') as fp:
+                    fp.write(data)
                 # del data
             self.path_contest = path
             return True
@@ -132,8 +123,6 @@ class Judge:
             result = docker.execute()
             print("RESULT:")
             print(result)
-            if self.submission.lower() == 'normal':
-                return result
 
             result_list = []
             # print(result," " ,getframeinfo(currentframe()).lineno)
@@ -237,20 +226,6 @@ class Judge:
         else:
             return 'IE'
         
-
-    def get_output(self):
-        '''
-        :return: output of the program | use only if self.submission == normal
-        :out_string conatins user.code output -> compilation_error or runtime_error or output (if SUCCESS)
-        '''
-        if self.submission.lower() != 'normal':
-           self.safe_to_remove = True
-           return ""
-        with open('{}/{}_normal.out'.format(self.path, self.md5_result), 'r') as fp:
-            out_string = fp.read()
-        self.safe_to_remove = True
-        return out_string
-
     
     def get_problem(self):
         return self.problem, self.problem_output_not_found
@@ -260,13 +235,9 @@ class Judge:
         '''
         remove directory from userData after getting user code output_string
         '''
-        if(self.safe_to_remove):
-            os.system("rm -rf {}".format(self.path))
-            print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
-            return True
-        else:
-            print('[{}]\n\tRemoving without get_output is not safe'.format(time.asctime()))
-            return False
+        os.system("rm -rf {}".format(self.path))
+        print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
+        return True
 
 
 
@@ -282,6 +253,9 @@ def judge_main(request):
 
 
     judge = Judge(PATH, request)
+    if judge.is_exist:
+        json_data = json.dumps({"result": judge.instance.status, "score":judge.instance.score})
+        return HttpResponse(json_data)
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
@@ -291,15 +265,7 @@ def judge_main(request):
             json_data = json.dumps({"result": "CE", "score": judge.instance.score})
             del judge
             return HttpResponse(json_data)
-        elif judge.submission == 'normal':
-            output_string = judge.get_output()
-            judge.remove_directory()
-            print(res[0])
-            json_data = json.dumps({"result":res[0].name, "output":output_string})
-            del judge
-            return HttpResponse(json_data)
         else:
-            judge.safe_to_remove = True
             judge.save_result(res)
             judge.remove_directory()
             json_data = json.dumps({"result": judge.instance.status, "score": judge.instance.score})
