@@ -156,7 +156,7 @@ a:hover {
                                         {% for participant in participant_list %}
                                         <tr>
                                             <td>{{rank|add:forloop.counter}}</td>
-                                            <td>{{participant.part}}</td>
+                                            <td>{{participant.user.user}}</td>
                                             <td>{{participant.score}}</td>
                                         </tr>
                                         
