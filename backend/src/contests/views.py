@@ -129,6 +129,19 @@ def manage_contest(request, slug):
 	return render(request, "contests/manage_contest.html",context)
 
 @login_required
+def delete_contest(request, slug):
+	contest = get_object_or_404(Contest, slug = slug)
+
+	if request.user.profile != contest.creator:
+		# Only problem setter can delete
+		raise PermissionDenied
+
+	context = {
+		'obj': contest,
+	}
+	return render(request,"contests/delete_contest.html", context)
+
+@login_required
 def add_problems(request, slug):
 	"""
 	Adding problems to a contest
