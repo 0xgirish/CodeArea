@@ -100,7 +100,7 @@ def contest_problem_submission(request, slug1, slug2):
 		contest_submission_list = paginator.page(paginator.num_pages)
 
 	context = {
-		'queryset' : contest_submission_list,
+		'submission_list' : contest_submission_list,
 		'contest': contest,
 		'obj': problem,
 	}

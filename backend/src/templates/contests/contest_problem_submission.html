@@ -180,7 +180,7 @@ a:hover {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for submission in queryset %}
+                                        {% for submission in submission_list %}
                                         <tr id="{{submission.id}}">
 
                                             <td>{{submission.status}}</td>
@@ -193,6 +193,30 @@ a:hover {
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                <ul class="pagination">
+                                    {% if submission_list.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ submission_list.previous_page_number }}">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ submission_list.previous_page_number }}">{{ submission_list.previous_page_number }}</a></li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Previous</span>
+                                    </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#"> {{submission_list.number}} <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    {% if submission_list.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ submission_list.next_page_number }}">{{ submission_list.next_page_number }}</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ submission_list.next_page_number }}">Next</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Next</span>
+                                    </li>
+                                    {% endif %}
                             </div>
                         </div>
                     </div>
