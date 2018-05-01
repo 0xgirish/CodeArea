@@ -14,6 +14,7 @@ from .models import Contest, ContestsHaveProblems, Participant
 from problems.models import Problem
 from rest_framework import viewsets
 from rest_framework import status
+from django.utils import timezone
 
 import datetime
 
@@ -23,7 +24,7 @@ class OnGoingContest(filters.BaseFilterBackend):
 	Filter that only allows users to see their own objects.
 	"""
 	def filter_queryset(self, request, queryset, view):
-		date = datetime.datetime.today()
+		date = timezone.localtime(timezone.now())
 		return queryset.filter(end_contest__gt=date)
 
 

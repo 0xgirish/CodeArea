@@ -9,6 +9,7 @@ from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
+import datetime
 
 
 
@@ -39,7 +40,7 @@ class Contest(models.Model):
 		return reverse("contest_signup_api", kwargs={"slug": self.slug})
 
 	def has_started(self):
-		return self.start_contest <= timezone.now()
+		return self.start_contest <= timezone.localtime(timezone.now())
 
 
 	class Meta:

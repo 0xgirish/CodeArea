@@ -110,6 +110,13 @@ body {
                                 <div class="card-text content-markdown"> {{obj.content}} </div>
                             </div>
                         </div>
+                         <div class="col-12 feed-time text-right">
+                                <button class="btn btn-fab btn-fab-mini btn-round btn-link like-btn {% if user.profile in obj.likes.all %} btn-rose {% else %} btn-unlike {% endif %} " data-href="{{obj.get_likes_api_url}}">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                                <div class="count">
+                                {{obj.likes.count}}
+                            </div>
                     <div class="author text-right"> Author : {{obj.author.user.username}} </div> 
                     </div>
                 </div>

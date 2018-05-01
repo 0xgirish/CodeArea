@@ -13,7 +13,6 @@ from .models import Contest, ContestsHaveProblems, Participant
 from submissions.models import ContestSubmission
 from problems.models import Problem
 from django.db.models import F
-
 import operator
 
 
