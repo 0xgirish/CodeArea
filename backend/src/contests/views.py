@@ -87,7 +87,7 @@ def leaderboard(request, slug):
 	:params slug: contest slug
 	"""
 	instance = get_object_or_404(Contest, slug = slug)
-	participant_list = Participant.objects.filter(contest = instance.id).order_by('-points')
+	participant_list = Participant.objects.filter(contest = instance.id).order_by('-points', 'timestamp')
 	paginator = Paginator(participant_list,10)
 
 	page = request.GET.get('page',10)
