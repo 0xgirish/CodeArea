@@ -8,7 +8,7 @@ echo
 echo "Testing completed"
 echo
 echo 'Creating image of virtual_machine (docker)'
-docker build -t virtual_machine .backend/src/judge/docker/
+docker build -t virtual_machine ./backend/src/judge/docker/
 echo
 echo Docker image virtual_machine succesfully created
 echo
