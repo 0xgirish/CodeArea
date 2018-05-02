@@ -49,7 +49,7 @@ Later inside that directory, run the following command:
 python manage.py makemigrations
 python manage.py migrate
 ```
-This would create the necessary tables in the postgres database. Make sure the username and password of your database is set in settings.py found in backend/src/codearea.
+This would create the necessary tables in the postgres database. Make sure the username and password of your database is set in DATABASE variable in settings.py found in backend/src/codearea.
 
 To create a superuser, run the following command
 ``` 
