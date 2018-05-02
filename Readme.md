@@ -1,5 +1,5 @@
 # Code Area
-Code Area is an competitive programming platform made using Django+Postgres and Docker. The platform is made to run in Ubuntu.
+Code Area is an competitive programming platform made using Django+Postgres and Docker. The platform is made to run in Ubuntu. An overview of the project can be found in the project_details folder.
 
 ## Requirements
 Python 3+, PostreSQL, Docker.
