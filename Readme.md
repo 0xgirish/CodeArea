@@ -1,15 +1,19 @@
-#folder permissions :: Important 
+# Docker Installation and Docker image installation
+Follow these steps for Docker installation
+1.) cd /path/to/CodeAreaMaster/
+2.) chmod +x config.sh config2.sh
+3.) ./config.sh
 
+Now docker installation has been completed
+**Note: You may have to logout (or restart your machine) to allow Docker to run without sudo**
 
-	drwxrwxr-x 4 admin   admin   backend
-	drwxr-x--- 5 admin   www-data  bootstrap
-	-rwxr-x--- 1 admin   www-data  code.html
-	-rwxr-x--- 1 admin   www-data  index.php
-	-rw-rw-r-- 1 admin   admin     LICENSE.md
-	drwx--x--- 2 admin   www-data  Output
-	-rwxr-x--- 1 admin   www-data  output.php
-	-rwxr-x--- 1 admin   www-data  phpcode.html
-	drwxr-x--- 2 admin   www-data  pyscript
-	-rwxr-x--- 1 admin   www-data  result.php
-	drwxr-x--- 2 www-data admin    userCode
+Instructions to create Docker image from Dockerfile [./backend/src/judge/Dockerfile]
 
+1.) open a new terminal
+2.) cd path/to/CodeAreaMaster/
+3.) ./config2.sh 				**Third step may take some time**
+
+**If above script give the error (Can't connect to docker daemon) during hello-world installation
+It means docker is not allowed to run without sudo (running docker without sudo is required)
+Please logout from the system (or restart your computer).
+It will fix the issue.**
