@@ -23,5 +23,5 @@ This includes the various CSS and JS libraries used to make the application more
 1. [Bootstrap](https://getbootstrap.com/): An open source toolkit for developing with HTML, CSS, and JS. 
 2. [Material Kit](http://demos.creative-tim.com/material-kit/index.html): A UI kit that works on top of Bootstraps
 3. Ajax(jQuery): for communicating with the judge and backend API to do CRUD operations on the database without reloading the page
-4. [Select2](select2.org): Integerated with our self-created backend API to provide autocomplete search
+4. [Select2](https://select2.org/): Integerated with our self-created backend API to provide autocomplete search
 5. Markdownjs: Converts markdown into renderable HTML
