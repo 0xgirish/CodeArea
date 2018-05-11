@@ -49,7 +49,7 @@ program against custom input).
 	index.py  : When running a problem outside of contest (or in problem section)
 	contest.py: When running a problem inside a contest.
 	
-	Their is slight changes in above three files.
+	There is slight changes in above three files.
 	These files were created separately because of readability.
 Normal or common instructions are :
 	Create random_md5 folder(mentioned in Docker class report) in directory ./docker/userData/
