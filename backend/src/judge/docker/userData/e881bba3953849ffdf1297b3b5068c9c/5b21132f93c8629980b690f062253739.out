@@ -1,0 +1,4 @@
+/55e417a696de4ca36e26cf88a2d3d2a0/CodeArea.java:15: error: illegal start of expression
+	    static int x = 10;
+	    ^
+1 error
