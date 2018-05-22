@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import ProblemForm, TestCaseForm
 from .models import Problem, TestCase
+from submissions.models import Submission
 # Create your views here.
 
 @login_required
@@ -136,6 +137,31 @@ def problem_manage(request, slug):
 	}
 	return render(request, 'problems/problem_manage.html', context)
 
+@login_required
+def view_submissions(request, slug):
+	"""
+	View for contest submissions
+	"""
+	instance = get_object_or_404(Problem, slug = slug)
+	if request.user.profile != instance.setter:
+		# Only the creator has permission to view
+		raise PermissionDenied
+	problem_submission_list = Submission.objects.filter(problem = instance);
+	paginator = Paginator(problem_submission_list,10)
+	page = request.GET.get('page',1)
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+
+	context = {
+		'obj': instance,
+		'submission_list': queryset
+	}
+
+	return render(request, "problems/problem_submissions.html", context)
 
 def ide(request):
 	return render(request, 'problems/code.html',{})
