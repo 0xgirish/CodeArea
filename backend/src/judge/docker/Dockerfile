@@ -14,7 +14,6 @@ RUN apt-get install -y golang-go
 
 # preparing for java
 
-RUN apt-get install -y python-software-properties
 RUN apt-get install -y software-properties-common
 
 
