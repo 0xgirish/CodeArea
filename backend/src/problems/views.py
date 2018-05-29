@@ -102,14 +102,21 @@ def add_testcase(request, slug):
 @login_required
 def delete_problem(request, slug):
 	problem = get_object_or_404(Problem, slug = slug)
+	admin = request.user.profile.admin
 
 	if request.user.profile != problem.setter:
 		# Only problem setter can delete
 		raise PermissionDenied
 
+	if admin and request.method == 'POST':
+		problem.solution_checker = request.FILES['file']
+		problem.save()
+
 	context = {
 		'obj': problem,
+		'admin': admin
 	}
+
 	return render(request,"problems/delete_problem.html", context)
 
 
@@ -120,7 +127,6 @@ def problem_manage(request, slug):
 	"""
 
 	instance = get_object_or_404(Problem, slug = slug)
-
 	if request.user.profile != instance.setter:
 		# Only problem setter edit problem
 		raise PermissionDenied
@@ -130,6 +136,7 @@ def problem_manage(request, slug):
 		instance = form.save(commit=False)
 		form.save_m2m()
 		instance.save()
+
 
 	context = {
 		'form': form,
@@ -165,4 +172,5 @@ def view_submissions(request, slug):
 
 def ide(request):
 	return render(request, 'problems/code.html',{})
+
 

@@ -16,6 +16,9 @@ class ProblemForm(forms.ModelForm):
 			"level",
 			"tags",
 			"unlisted",
+			"time_limit",
+			"memory_limit",
+			# "solution_checker"
 		]
 
 	def __init__(self, *args, **kwargs):
@@ -24,6 +27,7 @@ class ProblemForm(forms.ModelForm):
 		if instance and instance.pk:
 			self.fields['problem_code'].required = False
 			self.fields['problem_code'].widget = forms.HiddenInput()
+			
 
 
 		for visible in self.visible_fields():

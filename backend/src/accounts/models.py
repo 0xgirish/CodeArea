@@ -10,6 +10,7 @@ class Profile(models.Model):
 	""" A Model Representing a User Profile"""
 
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
+	admin = models.BooleanField(default = False)
 	
 	def __str__(self):
 		return self.user.username

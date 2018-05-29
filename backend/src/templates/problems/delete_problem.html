@@ -108,6 +108,14 @@ a:hover {
                 <div class="card-body">
                     <div class="container-fluid">
                             <center>
+                                {% if admin %}
+                                <form method="POST" enctype="multipart/form-data"  action={% url 'delete_problem' obj.slug %}>
+                                    {% csrf_token %}
+                                <input type="file" name="file" class="form-control" id="file">
+                                
+                                <button type="submit" class="btn btn-col btn-round"> Submit </button>
+                                </form>
+                                {% endif %}
                             <div class="col-lg-3 col-md-3 col-sm-12">
                                     <button class="btn btn-col btn-round" data-toggle="modal" data-target="#deleteproblem">Delete Problem</button>
                             </div>

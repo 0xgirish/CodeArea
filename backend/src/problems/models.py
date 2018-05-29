@@ -12,7 +12,9 @@ from django.core.urlresolvers import reverse
 
 
 
-# Create your models here.
+def upload_solution(instance, filename):
+	extension = filename.split(".")[-1]
+	return "%s/solution.%s" %(instance.problem_code, extension)
 
 class Problem(models.Model):
 	""" Represents a programming problem on the website"""
@@ -32,6 +34,10 @@ class Problem(models.Model):
 	tags = models.ManyToManyField(Tag, blank=True)
 	level = models.CharField(max_length=10, choices= LEVEL_CHOICES, default = 'EASY')
 	unlisted = models.BooleanField(default=False)
+
+	solution_checker = models.FileField(upload_to = upload_solution,storage=OverwriteStorage(), blank = True, null = True)
+	time_limit = models.IntegerField(default = 2)
+	memory_limit = models.FloatField(blank = True, null = True)
 
 	def __str__(self):
 		return self.problem_code
