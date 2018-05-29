@@ -129,7 +129,6 @@ class JudgeNormal:
 def judge_main_normal(request):
     print("\n\nIn judge_main .........................\n\n")
     level = 7   # NOTE: Change level here
-
     PATH = path.format(random_md5(level))
 
     # PATH_CONTEST: path to contest parent folder
