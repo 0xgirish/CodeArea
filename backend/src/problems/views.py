@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 
 
-from .forms import ProblemForm, TestCaseForm
+from .forms import ProblemForm, TestCaseForm, ProblemAdminForm
 from .models import Problem, TestCase
 from submissions.models import Submission
 # Create your views here.
@@ -108,14 +108,17 @@ def delete_problem(request, slug):
 		# Only problem setter can delete
 		raise PermissionDenied
 
-	if admin and request.method == 'POST':
-		problem.solution_checker = request.FILES['file']
-		problem.save()
+	context = {}
 
-	context = {
-		'obj': problem,
-		'admin': admin
-	}
+	if admin:
+		form = ProblemAdminForm(request.POST or None, request.FILES or None, instance = problem)
+		context['form'] = form
+		if form.is_valid():
+			problem = form.save(commit=False)
+			problem.save()
+			print(problem.solution_checker)
+
+	context['obj'] = problem
 
 	return render(request,"problems/delete_problem.html", context)
 

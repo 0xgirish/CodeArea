@@ -27,7 +27,7 @@ class ProblemForm(forms.ModelForm):
 		if instance and instance.pk:
 			self.fields['problem_code'].required = False
 			self.fields['problem_code'].widget = forms.HiddenInput()
-			
+
 
 
 		for visible in self.visible_fields():
@@ -42,6 +42,20 @@ class ProblemForm(forms.ModelForm):
 			return instance.problem_code
 		else:
 			return self.cleaned_data['problem_code']
+
+class ProblemAdminForm(forms.ModelForm):
+	class Meta:
+		model = Problem
+		fields = [
+			"solution_checker"
+		]
+
+	def __init__(self, *args, **kwargs):
+		super(ProblemAdminForm, self).__init__(*args, **kwargs)
+		instance = getattr(self, 'instance', None)
+		
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'form-control'
 
 class TestCaseForm(forms.ModelForm):
 	class Meta:
