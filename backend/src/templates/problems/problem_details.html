@@ -102,6 +102,12 @@ body {
                         <div class="row">
                             <div class="col-lg-9 col-md-9 com-sm-12">
                                 <div class="card-text content-markdown"> {{obj.statement}} </div>
+                                 {% for test in obj.get_sample %}
+                                 <h5> Sample Input </h5>
+                                {{test.input2string}}
+                                <h5> Sample Output </h5>
+                                {{test.output2string}}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

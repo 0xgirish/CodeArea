@@ -39,6 +39,11 @@ class Problem(models.Model):
 	def get_absolute_url(self):
 		return reverse("problem", kwargs={"slug": self.slug})
 
+	def get_sample(self):
+		queryset = TestCase.objects.filter(problem = self, sample = True)
+		print(queryset)
+		return queryset
+
 	class Meta:
 		ordering = ["-timestamp"]
 
@@ -65,6 +70,15 @@ class TestCase(models.Model):
 
 	def get_api_url(self):
 		return reverse("testcase-detail", kwargs={"pk": self.pk})
+
+	def input2string(self):
+		self.input.open("rb")
+		return(self.input.read())
+
+	def output2string(self):
+		self.output.open("rb")
+		# print(self.output.read())
+		return(self.output.read())
 
 	class Meta:
 		unique_together = ('problem', 'testcase')
