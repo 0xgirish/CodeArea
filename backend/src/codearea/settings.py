@@ -63,6 +63,18 @@ INSTALLED_APPS = [
 ]
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'codearea',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+
 # AllAuth
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
@@ -157,17 +169,6 @@ WSGI_APPLICATION = 'codearea.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'codearea',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 
 
 # Password validation
