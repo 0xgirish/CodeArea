@@ -7,7 +7,7 @@ from random import randint
 from inspect import getframeinfo, currentframe
 from .Language import LANGUAGE, TWO_STEP
 
-LOGFILE_NAME = './judge.log'
+LOGFILE_NAME = 'judge.log'
 
 logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
@@ -27,7 +27,6 @@ class Status(Enum):
 	WRONG = -1
 
 
-
 class Docker:
 	'''
 	Docker:	Initialize docker container and run program of user and destroy container
@@ -42,9 +41,10 @@ class Docker:
 	# last container id is stored in container.log
 	CONTAINER_RUNTIME = 'container.log'
 
-	def __init__(self, timeout, language_id, code, source_path, md5_result, test_case_list ,md5_name, md5_input, target_folcer):
+	def __init__(self, timeout, memory_limit, language_id, code, source_path, md5_result, test_case_list ,md5_name, md5_input, target_folcer):
 		'''
 		:param timeout: max time limit for code execution
+		:param memory_limit: max memory limit for code execution
 		:param language_id: user programming language id option on submission
 		:param code: user submitted code in string
 		:param source_path: path to user folder e.g. /home/$USER/temp/userData/judge
@@ -55,6 +55,7 @@ class Docker:
 		'''
 		try:
 			self.timeout = timeout
+			self.memory_limit = memory_limit
 			self.language_id = language_id
 			self.code = code
 			self.target_folder = target_folcer
@@ -65,7 +66,7 @@ class Docker:
 			self.input = md5_input
 			#logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
 		except Exception as e:
-			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			exit(-1)
 
 	def prepare(self):
@@ -78,10 +79,10 @@ class Docker:
 			# container_internet = Docker.container_no_internet.format(name=self.name)
 			os.system(container_command)
 			# os.system(container_internet)
-			print('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
+			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
-			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			return False
 
 	def execute(self):
@@ -103,7 +104,7 @@ class Docker:
 			# if self.language_id > TWO_STEP then language is compiled
 			two_step = (self.language_id > TWO_STEP)
 			if not two_step:
-				# interpreted languages		
+				# interpreted languages
 				result_list = []
 				for t in self.test_case_list:
 					# print("\n\nTestCaseList: ", t, "\n\n")
@@ -112,9 +113,9 @@ class Docker:
 						input_file=input_path.format(folder=self.target_folder, input_md5=self.input, test=t),
 							output=output_path.format(folder=self.target_folder, output=self.output, test=t))
 
-					docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
-						.format(name=self.name,  timeout=self.timeout, command=execute_command)
-					print("\n\nDockerCommand: ", docker_command, "\n\n")
+					docker_command = "docker exec {name} sh -c 'ulimit -v {memory_limit}; timeout {timeout} {command}'"\
+						.format(name=self.name,memory_limit=self.memory_limit, timeout=self.timeout, command=execute_command)
+					logging.info("\n\nDockerCommand: ", docker_command, "\n\n")
 					status = self.execute_one_by_one(docker_command)
 					# print("\n\nStatus: ", status.name, "\n\n")
 					result_list.append(status)
@@ -143,8 +144,8 @@ class Docker:
 							.format(command2=LANGUAGE[self.language_id]['command2'].format(path),
 									input_file=input_path.format(folder=self.target_folder, input_md5=self.input, test=t),
 									output=output_path.format(folder=self.target_folder, output=self.output, test=t))
-						docker_command = "docker exec {name} sh -c 'timeout {timeout} {command}'"\
-							.format(name=self.name,  timeout=self.timeout, command=execute_command)
+						docker_command = "docker exec {name} sh -c 'ulimit -v {memory_limit}; timeout {timeout} {command}'"\
+							.format(name=self.name,memory_limit=self.memory_limit, timeout=self.timeout, command=execute_command)
 
 						status = self.execute_one_by_one(docker_command)
 						result_list.append(status)
@@ -159,7 +160,7 @@ class Docker:
 			self.destroy()
 			return return_val
 		except Exception as e:
-			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 			self.destroy()
 			# for internal error | e.g. not able to create file CodeArea
 			return [Status.INTERNAL_ERROR] * len(self.test_case_list)
@@ -167,6 +168,7 @@ class Docker:
 
 	def execute_one_by_one(self, command):
 		status = os.system(command)
+		print("status value = ", status)
 		if status is 0:
 			return Status.SUCCESS
 		elif status >> 8 is 124:
@@ -185,7 +187,7 @@ class Docker:
 			os.system(remove_container)
 			#logging.info('[{}]\n\tContainer removed'.format(time.asctime()))
 		except Exception as e:
-			print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 
 
 def random_md5(size):
@@ -203,5 +205,5 @@ def random_md5(size):
 		hash = str(MD5(rand_string).hexdigest())
 		return hash
 	except Exception as e:
-		print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+		logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
 		return False

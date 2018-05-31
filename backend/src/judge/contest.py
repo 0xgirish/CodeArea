@@ -2,7 +2,6 @@
 
 import json
 import sys
-# import cgi
 import logging
 import time
 import os
@@ -20,13 +19,13 @@ from django.db.models import Sum
 from django.utils import timezone
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
 
 
 class JudgeContest:
 
-    def __init__(self, path, request, timeout=2.0, level=7, target_folder=None):
+    def __init__(self, path, request, level=7, target_folder=None):
         '''
         :param path: full path to mount container source
         :param level: level or size of random_md5
@@ -53,8 +52,11 @@ class JudgeContest:
             problem = self.instance.problem.problem
             self.code = self.instance.code
             self.problem = problem.problem_code
+            # time limit(in second) and memory_limit ( in bytes)
+            self.timeout = float(problem.time_limit)
+            self.memory_limit = int(problem.memory_limit * 1024 * 1024)
             testcases = TestCase.objects.filter(problem = problem)
-            
+
             # testcase calculation
             self.testcase = []
             self.testcase_id = []
@@ -70,8 +72,6 @@ class JudgeContest:
             # custom_input value | if not custom_input then empty string
             self.custom_input = data_dict['custom_input']
 
-
-            self.timeout = timeout
             self.path = path
             self.md5_name = random_md5(level)
             self.md5_input = random_md5(level)
@@ -86,7 +86,7 @@ class JudgeContest:
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
-            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             exit(-1)
 
     def prepare_envior(self, path=settings.MEDIA_ROOT):
@@ -175,8 +175,8 @@ class JudgeContest:
             subtask = ContestSubmissionTasks()
             subtask.submission = self.instance
             subtask.testcase = TestCase.objects.get(id = test_id)
-            """ 
-            Status options are: 
+            """
+            Status options are:
             ACCEPTED_ANSWER = 'AC'
             WRONG_ANSWER = 'WA'
             RUNTIME_ERROR = 'RE'
@@ -226,7 +226,7 @@ class JudgeContest:
             participant = Participant.objects.get(id = self.instance.user.id)
             # print(participant.user.user.username)
             score_to_add = 0 if current_score < max_instance.score else (current_score - max_instance.score )
-            
+
             cur_weight = max_instance.problem.weight
             # print(participant.points, score_to_add, max_instance.score, current_score)
             participant.points = participant.points + cur_weight*score_to_add
@@ -246,17 +246,17 @@ class JudgeContest:
             return 'TLE'
         else:
             return 'IE'
-    
+
     def get_problem(self):
         return self.problem, self.problem_output_not_found
-    
+
 
     def remove_directory(self):
         '''
         remove directory from userData after getting user code output_string
         '''
         os.system("rm -rf {}".format(self.path))
-        print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
+        logging.info('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
         return True
 
 

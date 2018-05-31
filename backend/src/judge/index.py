@@ -18,17 +18,16 @@ from django.conf import settings
 
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
 
 
 class Judge:
 
-    def __init__(self, path, request, timeout=2.0, level=7, target_folder=None):
+    def __init__(self, path, request, level=7, target_folder=None):
         '''
         :param path: full path to mount container source
         :param level: level or size of random_md5
-        :param timeout: max time limit for program
         :param folder: folder name target
         '''
         try:
@@ -53,8 +52,12 @@ class Judge:
             problem = self.instance.problem
             self.code = self.instance.code
             self.problem = problem.problem_code
+            # time_limit in second
+            self.timeout = float(problem.time_limit)
+            # memory_limit in bytes (problem.memory_limit in MB)
+            self.memory_limit = int(problem.memory_limit * 1024 * 1024)
             testcases = TestCase.objects.filter(problem = problem)
-            
+
             # testcase calculation
             self.testcase = []
             self.testcase_id = []
@@ -69,9 +72,7 @@ class Judge:
 
             # custom_input value | if not custom_input then empty string
             self.custom_input = data_dict['custom_input']
-
-
-            self.timeout = timeout
+            
             self.path = path
             self.md5_name = random_md5(level)
             self.md5_input = random_md5(level)
@@ -86,7 +87,7 @@ class Judge:
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
-            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             exit(-1)
 
     def prepare_envior(self, path=settings.MEDIA_ROOT):
@@ -108,7 +109,7 @@ class Judge:
             return True
 
         except Exception as e:
-            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             return False
 
     def run(self):
@@ -116,7 +117,7 @@ class Judge:
         : create docker instance, execute user program and check user code
         '''
         # print(self.path)
-        docker = Docker(self.timeout, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
+        docker = Docker(self.timeout,self.memory_limit, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
                         self.md5_input, self.target_folder)
         # print("SUCCESS")
         if docker.prepare():
@@ -174,8 +175,8 @@ class Judge:
             subtask = SubmissionTasks()
             subtask.submission = self.instance
             subtask.testcase = TestCase.objects.get(id = test_id)
-            """ 
-            Status options are: 
+            """
+            Status options are:
             ACCEPTED_ANSWER = 'AC'
             WRONG_ANSWER = 'WA'
             RUNTIME_ERROR = 'RE'
@@ -225,18 +226,18 @@ class Judge:
             return 'TLE'
         else:
             return 'IE'
-        
-    
+
+
     def get_problem(self):
         return self.problem, self.problem_output_not_found
-    
+
 
     def remove_directory(self):
         '''
         remove directory from userData after getting user code output_string
         '''
         os.system("rm -rf {}".format(self.path))
-        print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
+        logging.info('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
         return True
 
 
@@ -278,4 +279,3 @@ def judge_main(request):
         del judge
         return HttpResponse(json_data)
     # return HttpResponse("Hello")
-

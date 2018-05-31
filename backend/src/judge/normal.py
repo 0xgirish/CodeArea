@@ -17,13 +17,13 @@ from .Language import get_code_by_name as lang_code
 from django.conf import settings
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename=LOGFILE_NAME, level=logging.INFO)
 filename = getframeinfo(currentframe()).filename
 
 
 class JudgeNormal:
 
-    def __init__(self, path, request, timeout=2.0, level=7, target_folder=None):
+    def __init__(self, path, request, level=7, target_folder=None):
         '''
         :param path: full path to mount container source
         :param level: level or size of random_md5
@@ -46,7 +46,8 @@ class JudgeNormal:
             self.language_id = data_dict['lang_id']
             # custom_input value | if not custom_input then empty string
             self.custom_input = data_dict['custom_input']
-            self.timeout = timeout
+            self.timeout = 2.0
+            self.memory_limit = 50000
             self.path = path
             self.md5_name = random_md5(level)
             self.md5_input = random_md5(level)
@@ -63,7 +64,7 @@ class JudgeNormal:
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
-            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             exit(-1)
 
     def prepare_envior(self, path=settings.MEDIA_ROOT):
@@ -80,7 +81,7 @@ class JudgeNormal:
             return True
 
         except Exception as e:
-            print("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
             return False
 
     def run(self):
@@ -88,7 +89,7 @@ class JudgeNormal:
         : create docker instance, execute user program and check user code
         '''
         # print(self.path)
-        docker = Docker(self.timeout, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
+        docker = Docker(self.timeout, self.memory_limit, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
                         self.md5_input, self.target_folder)
         # print("SUCCESS")
         if docker.prepare():
@@ -101,7 +102,7 @@ class JudgeNormal:
             self.instance.status = 'IE'
             self.instance.save()
             return False
-        
+
     def get_output(self):
         '''
         :return: output of the program | use only if self.submission == normal
@@ -118,10 +119,10 @@ class JudgeNormal:
         '''
         if(self.safe_to_remove):
             os.system("rm -rf {}".format(self.path))
-            print('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
+            logging.info('[{}]\n\tfolder {} removed'.format(time.asctime(), self.path))
             return True
         else:
-            print('[{}]\n\tRemoving without get_output is not safe'.format(time.asctime()))
+            logging.warning('[{}]\n\tRemoving without get_output is not safe'.format(time.asctime()))
             return False
 
 
@@ -153,4 +154,3 @@ def judge_main_normal(request):
         del judge
         return HttpResponse(json_data)
     # return HttpResponse("Hello")
-
