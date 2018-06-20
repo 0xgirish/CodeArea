@@ -63,12 +63,14 @@ INSTALLED_APPS = [
 ]
 
 
+POSTGRES_USERNAME = os.getenv("POSTGRES_USERNAME")
+POSTGRES_PASSWORD_USER = os.getenv("POSTGRES_PASSWORD_USER")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'codearea',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': POSTGRES_USERNAME,
+        'PASSWORD': POSTGRES_PASSWORD_USER,
         'HOST': 'localhost',
         'PORT': '',
     }
