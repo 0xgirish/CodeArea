@@ -39,13 +39,13 @@ func main() {
 forloop:
 	for {
 		line, err = reader.ReadString('\n')
-		checkErr(err)
 		switch {
 		case err == io.EOF:
 			break forloop
 		case line == "\n":
 			continue
 		}
+		checkErr(err)
 		// fmt.Print(line)
 		literals := strings.Fields(line)
 		line = strings.Join(literals, " ") + "\n"
