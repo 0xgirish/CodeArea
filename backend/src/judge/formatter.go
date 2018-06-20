@@ -39,11 +39,10 @@ func main() {
 forloop:
 	for {
 		line, err = reader.ReadString('\n')
+		checkErr(err)
 		switch {
 		case err == io.EOF:
 			break forloop
-		case err != nil:
-			checkErr(err)
 		case line == "\n":
 			continue
 		}
