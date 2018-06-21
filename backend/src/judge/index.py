@@ -138,7 +138,7 @@ class Judge:
                     check_against = '{}/{}/{}.out'.format(self.path_contest, self.problem, test)
                     output_path = '{}/{}_{}.out'.format(self.path, self.md5_result, test)
                     if os.path.isfile(output_path) and os.path.isfile(check_against):
-                        os.system("./formatter-linux-amd64 {}".format(output_path))
+                        os.system("judge/formatter-linux-amd64 {}".format(output_path))
                         res_ = filecmp.cmp(check_against, output_path)
                         # if user output is correct then return CORRECT else WRONG
                         result_list.append(Status.CORRECT if res_ else Status.WRONG)
@@ -269,7 +269,7 @@ def judge_main(request):
             return HttpResponse(json_data)
         else:
             judge.save_result(res)
-            judge.remove_directory()
+            # judge.remove_directory()
             json_data = json.dumps({"result": judge.instance.status, "score": judge.instance.score})
             del judge
             return HttpResponse(json_data)

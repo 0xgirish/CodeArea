@@ -115,7 +115,7 @@ class Docker:
 
 					docker_command = "docker exec {name} sh -c 'ulimit -v {memory_limit}; timeout {timeout} {command}'"\
 						.format(name=self.name,memory_limit=self.memory_limit, timeout=self.timeout, command=execute_command)
-					logging.info("\n\nDockerCommand: ", docker_command, "\n\n")
+					logging.info("\n\nDockerCommand: {}\n\n".format(docker_command))
 					status = self.execute_one_by_one(docker_command)
 					# print("\n\nStatus: ", status.name, "\n\n")
 					result_list.append(status)
@@ -181,8 +181,10 @@ class Docker:
 		Destroy the docker container
 		'''
 		try:
+			give_permission = "docker exec {name} sh -c 'chmod -R 666 {source}/*'".format(name=self.name, source=self.target_folder)
 			stop_container = "docker container stop {name} 1>{devnull} 2>&1".format(name=self.name, devnull=Docker.CONTAINER_RUNTIME)
 			remove_container = "docker container rm {name} 1>{devnull} 2>&1".format(name=self.name, devnull=Docker.CONTAINER_RUNTIME)
+			os.system(give_permission)
 			os.system(stop_container)
 			os.system(remove_container)
 			#logging.info('[{}]\n\tContainer removed'.format(time.asctime()))
