@@ -39,7 +39,7 @@ class Docker:
 	# CONTAINER_RUNTIME = os.devnull #
 	##################################
 	# last container id is stored in container.log
-	CONTAINER_RUNTIME = 'container.log'
+	CONTAINER_RUNTIME = os.devnull
 
 	def __init__(self, timeout, memory_limit, language_id, code, source_path, md5_result, test_case_list ,md5_name, md5_input, target_folcer):
 		'''

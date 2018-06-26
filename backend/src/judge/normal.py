@@ -64,7 +64,7 @@ class JudgeNormal:
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
-            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno,")\n\t" + str(e) + "\n\n")
             exit(-1)
 
     def prepare_envior(self, path=settings.MEDIA_ROOT):
@@ -81,7 +81,7 @@ class JudgeNormal:
             return True
 
         except Exception as e:
-            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno,")\n\t" + str(e) + "\n\n")
             return False
 
     def run(self):

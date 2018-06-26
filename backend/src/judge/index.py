@@ -87,7 +87,7 @@ class Judge:
             logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             #logging.critical('[{}]\n\t{}'.format(time.asctime(), "[{} | {}] {}".format(filename, getframeinfo(currentframe()).lineno, str(e))))
-            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: " +  str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno,")\n\t" + str(e) + "\n\n")
             exit(-1)
 
     def prepare_envior(self, path=settings.MEDIA_ROOT):
@@ -109,7 +109,7 @@ class Judge:
             return True
 
         except Exception as e:
-            logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+            logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno,")\n\t" + str(e) + "\n\n")
             return False
 
     def run(self):
@@ -269,7 +269,7 @@ def judge_main(request):
             return HttpResponse(json_data)
         else:
             judge.save_result(res)
-            # judge.remove_directory()
+            judge.remove_directory()
             json_data = json.dumps({"result": judge.instance.status, "score": judge.instance.score})
             del judge
             return HttpResponse(json_data)
