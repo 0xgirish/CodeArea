@@ -66,7 +66,7 @@ class Docker:
 			self.input = md5_input
 			#logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
 		except Exception as e:
-			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 			exit(-1)
 
 	def prepare(self):
@@ -82,7 +82,7 @@ class Docker:
 			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
-			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 			return False
 
 	def execute(self):
@@ -160,7 +160,7 @@ class Docker:
 			self.destroy()
 			return return_val
 		except Exception as e:
-			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 			self.destroy()
 			# for internal error | e.g. not able to create file CodeArea
 			return [Status.INTERNAL_ERROR] * len(self.test_case_list)
@@ -189,7 +189,7 @@ class Docker:
 			os.system(remove_container)
 			#logging.info('[{}]\n\tContainer removed'.format(time.asctime()))
 		except Exception as e:
-			logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 
 
 def random_md5(size):
@@ -207,5 +207,5 @@ def random_md5(size):
 		hash = str(MD5(rand_string).hexdigest())
 		return hash
 	except Exception as e:
-		logging.critical("\n\nCritical: ", str(time.asctime()), "\n\t(file, line) = (", filename, ", ", getframeinfo(currentframe()).lineno,")\n\t", str(e), "\n\n")
+		logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 		return False
