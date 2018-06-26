@@ -69,3 +69,13 @@ To start the application, simply run the server:
 ``` 
 python manage.py runserver
 ```
+systemd configuration
+---
+- add environment variables in .service file
+- add path to python(anaconda3)
+- set working directory according to given example
+- follow these commands
+	1. sudo mv codearea.service /etc/systemd/system
+	2. sudo systemctl enable codearea
+	3. sudo systemctl start codearea
+

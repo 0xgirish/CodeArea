@@ -1,0 +1,17 @@
+[Unit]
+Description=CodeArea an online judge platform for IIT Ropar
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/workspace/online-judge/backend/src
+ExecStart=/root/anaconda3/bin/python manage.py runserver
+Restart=on-abort
+
+Environment=POSTGRES_USERNAME=
+Environment=POSTGRES_PASSWORD_USER=
+
+[Install]
+WantedBy=multi-user.target
+
