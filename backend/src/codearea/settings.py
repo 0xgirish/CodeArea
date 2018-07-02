@@ -219,3 +219,15 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+# Broker username password
+RABBITMQ_USERNAME = os.getenv("RABBITMQ_USERNAME")
+RABBITMQ_PASSWORD_USER=os.getenv("RABBITMQ_PASSWORD_USER")
+
+
+# TODO: Change localhost
+CELERY_BROKER_URL = "pyamqp://{user}:{passwd}@localhost"\
+                    .format(
+                        user=RABBITMQ_USERNAME,
+                        passwd=RABBITMQ_PASSWORD_USER,
+                    )
