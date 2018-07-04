@@ -2,7 +2,7 @@
 Code Area is an competitive programming platform made using Django+Postgres and Docker. The platform is made to run in Ubuntu. An overview of the project can be found in the project_details folder.
 
 ## Requirements
-Python 3+, PostreSQL, Docker.
+Python 3+, PostreSQL, Docker, rabbitmq-server.
 
 ## Docker Installation and Docker image installation
 Follow these steps for Docker installation
@@ -23,6 +23,15 @@ Instructions to create Docker image from Dockerfile [./backend/src/judge/Dockerf
 It means docker is not allowed to run without sudo (running docker without sudo is required)
 Please logout from the system (or restart your computer).
 It will fix the issue.**
+
+## rabbitmq-server installation
+On Ubuntu, run the following command:
+``` sudo apt install rabbitmq-server ```
+To add user and password follow these commands
+> sudo su
+> rabbitmqctl add_user username password
+> rabbitmqctl set_user_tags username administrator
+> rabbitmqctl set_permissions -p / username ".*" ".*" ".*"
 
 ## Postgres Installation
 On Ubuntu, run the following command:

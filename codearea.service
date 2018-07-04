@@ -11,6 +11,8 @@ Restart=on-abort
 
 Environment=POSTGRES_USERNAME=
 Environment=POSTGRES_PASSWORD_USER=
+Environment=RABBITMQ_USERNAME=
+Environment=RABBITMQ_PASSWORD_USER=
 
 [Install]
 WantedBy=multi-user.target
