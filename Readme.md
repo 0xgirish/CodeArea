@@ -28,11 +28,11 @@ It will fix the issue.**
 On Ubuntu, run the following command:
 ``` sudo apt install rabbitmq-server ```
 To add user and password follow these commands
-	sudo su
+```	sudo su
 	rabbitmqctl add_user username password
 	rabbitmqctl set_user_tags username administrator
 	rabbitmqctl set_permissions -p / username ".*" ".*" ".*"
-
+```
 ## Postgres Installation
 On Ubuntu, run the following command:
 ``` sudo apt-get install postgresql postgresql-contrib ```
