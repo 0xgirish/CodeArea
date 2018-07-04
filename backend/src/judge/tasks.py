@@ -8,9 +8,9 @@ from .contest import judge_main_contest
 # TOOD: change return HttpResponse func judge_main*
 
 @shared_task
-def task_main(request):
-	judge_main(request)
+def task_main(data):
+	judge_main(data)
 
 @shared_task
-def task_contest(request):
-	judge_main_contest(request)
+def task_contest(data):
+	judge_main_contest(data)

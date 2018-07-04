@@ -25,7 +25,7 @@ filename = getframeinfo(currentframe()).filename
 
 class JudgeContest:
 
-    def __init__(self, path, request, level=7, target_folder=None):
+    def __init__(self, path, json_data, level=7, target_folder=None):
         '''
         :param path: full path to mount container source
         :param level: level or size of random_md5
@@ -33,22 +33,12 @@ class JudgeContest:
         :param folder: folder name target
         '''
         try:
-            #json_data = cgi.FieldStorage()['query']
-
-            data = request.POST.get("submit")
-            print("Data: "+str(data))
-
-            logging.info(data)
-            data_dict = json.loads(data)
+            data_dict = json.loads(json_data)
 
             submission_id = data_dict['submission_id']
             # user code string
 
             self.instance = ContestSubmission.objects.get(pk = submission_id)
-            if self.instance.status != "R":
-                self.is_exist = True
-            else:
-                self.is_exist = False
             problem = self.instance.problem.problem
             self.code = self.instance.code
             self.problem = problem.problem_code
@@ -82,8 +72,6 @@ class JudgeContest:
             else:
                 self.target_folder = target_folder
 
-            # logging info
-            logging.info('[{}]\n\tJudge instance created'.format(time.asctime()))
         except Exception as e:
             logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
             exit(-1)
@@ -272,29 +260,23 @@ def judge_main_contest(request):
     PATH_CONTEST = ''
 
     judge = JudgeContest(PATH, request)
-    if judge.is_exist:
-        json_data = json.dumps({"result": judge.instance.status, "score":judge.instance.score})
-        return HttpResponse(json_data)
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)
     if judge_prepare:
         res = judge.run()
         if isinstance(res, bool) and not res:
             judge.remove_directory()
-            json_data = json.dumps({"result": "CE", "score": judge.instance.score})
             del judge
-            return HttpResponse(json_data)
+            return True
         else:
             judge.safe_to_remove = True
             judge.save_result(res)
             judge.remove_directory()
-            json_data = json.dumps({"result": judge.instance.status, "score": judge.instance.score})
             del judge
-            return HttpResponse(json_data)
+            return True
     else:
         judge.save_result(is_judge_IE=True)
         judge.remove_directory()
-        json_data = json.dumps({"result": "IE"})
         del judge
-        return HttpResponse(json_data)
+        return True
     # return HttpResponse("Hello")

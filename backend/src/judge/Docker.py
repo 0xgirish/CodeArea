@@ -79,7 +79,6 @@ class Docker:
 			# container_internet = Docker.container_no_internet.format(name=self.name)
 			os.system(container_command)
 			# os.system(container_internet)
-			logging.info('[{}]\n\tcontainer created . . .\n{}'.format(time.asctime(), container_command))
 			return True
 		except Exception as e:
 			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
