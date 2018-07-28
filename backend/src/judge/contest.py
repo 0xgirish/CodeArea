@@ -258,7 +258,7 @@ def judge_main_contest(request):
     # PATH_CONTEST: path to contest parent folder
     # default value is ../backend/media_cdn
     PATH_CONTEST = ''
-
+    print(PATH)
     judge = JudgeContest(PATH, request)
     res = 0
     judge_prepare = judge.prepare_envior() if PATH_CONTEST == '' else judge.prepare_envior(PATH_CONTEST)

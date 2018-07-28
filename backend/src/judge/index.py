@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 
 import json
-import sys
 import logging
 import time
 import os
@@ -9,7 +8,6 @@ import filecmp
 from inspect import getframeinfo, currentframe
 from .Docker import Docker, random_md5, LOGFILE_NAME, Status
 from .PATH import PATH as path
-from django.http import HttpResponse
 from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
 from .Language import get_code_by_name as lang_code

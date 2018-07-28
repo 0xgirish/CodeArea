@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.utils.text import slugify
 from django.db.models import Max
 from django.dispatch import receiver
@@ -8,6 +8,7 @@ from django.conf import settings
 from problems.storage import OverwriteStorage
 from accounts.models import Profile
 from tags.models import Tag
+import os
 
 from django.core.urlresolvers import reverse
 
@@ -101,7 +102,13 @@ def pre_save_post_receiver(sender, instance, *args, **kwagrs):
 def pre_save_testcase_number(sender, instance, *args, **kwagrs):
 	exists = TestCase.objects.filter(problem = instance.problem).exists()
 	instance.testcase = 1
+	# print(instance.output.name)
 	if exists:
 		instance.testcase = 1 + TestCase.objects.filter(problem = instance.problem).aggregate(Max('testcase'))["testcase__max"]
+
+@receiver(post_save, sender=TestCase)
+def post_save_testcase(sender, instance, *args, **kwargs):
+	command = "{formatter} {file_name}".format(formatter="./src/judge/formatter-linux-amd64", file_name="media_cdn/"+instance.output.name)
+	os.system(command)
 
 pre_save.connect(pre_save_post_receiver, sender = Problem)

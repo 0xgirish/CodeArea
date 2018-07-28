@@ -16,6 +16,8 @@ import (
 // formatter for output and user output files to make filecmp easy
 
 func main() {
+	dir := os.Getenv("WORKING_DIR")
+	os.Chdir(dir)
 	if len(os.Args) < 2 {
 		log.Fatal(fmt.Sprintf("Usages:\t%s file-path\n", os.Args[0]))
 	}
@@ -24,8 +26,8 @@ func main() {
 	checkErr(err)
 
 	// string reader
-	reader_string := strings.NewReader(string(str) + "\n")
-	reader := bufio.NewReader(reader_string)
+	readerString := strings.NewReader(string(str) + "\n")
+	reader := bufio.NewReader(readerString)
 
 	// writer to same file
 	fwriter, err := os.Create(os.Args[1])

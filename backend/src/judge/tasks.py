@@ -9,8 +9,8 @@ from .contest import judge_main_contest
 
 @shared_task
 def task_main(data):
-	judge_main(data)
+	return judge_main(data)
 
 @shared_task
 def task_contest(data):
-	judge_main_contest(data)
+	return judge_main_contest(data)
