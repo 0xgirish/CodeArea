@@ -49,9 +49,18 @@ TWO_STEP = 1
 
 
 
-def get_code_by_name(name):
+def get_code_by_name(name: str) -> int:
     global LANGUAGE
     name = str(name)
     for key, value in LANGUAGE.items():
         if value['title'] == name:
             return int(key)
+
+
+# get solution.extension language
+def get_lang_id_by_extension(solution: str) -> int:
+    global LANGUAGE
+    extension = solution.split(".")[-1]
+    for key, value in LANGUAGE.items():
+        if value['extension'] == extension:
+            return key

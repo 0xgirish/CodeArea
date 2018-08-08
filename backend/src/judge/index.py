@@ -12,6 +12,7 @@ from problems.models import Problem, TestCase
 from submissions.models import Submission, SubmissionTasks
 from .Language import get_code_by_name as lang_code
 from django.conf import settings
+from glob import glob
 
 
 
@@ -28,6 +29,7 @@ class Judge:
         :param folder: folder name target
         '''
         try:
+            self.solutionFile = ""
             data_dict = json.loads(json_data)
             self.submission = data_dict['type']
 
@@ -87,6 +89,16 @@ class Judge:
 
                 with open('{}/{}_{}.in'.format(self.path, self.md5_input, t), 'w') as fp:
                     fp.write(data)
+
+                # get solution.extension if exist
+                regex_solution = "{}/{}/solution.*".format(path, self.problem)
+                solution_file = glob(regex_solution)
+                if len(solution_file) > 0:
+                    self.solutionFile = solution_file[0]
+                    with open(self.solutionFile, 'r') as fp:
+                        data = fp.read()
+                    with open('{}/{}'.format(self.path, self.solutionFile.split('/')[-1]), 'w') as fp:
+                        fp.write(data)
                 # del data
             self.path_contest = path
             return True
@@ -101,7 +113,7 @@ class Judge:
         '''
         # print(self.path)
         docker = Docker(self.timeout,self.memory_limit, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
-                        self.md5_input, self.target_folder)
+                        self.md5_input, self.target_folder, self.solutionFile)
         # print("SUCCESS")
         if docker.prepare():
             result = docker.execute()
@@ -118,8 +130,16 @@ class Judge:
                     return False
 
                 if res.name == 'SUCCESS':
-                    check_against = '{}/{}/{}.out'.format(self.path_contest, self.problem, test)
                     output_path = '{}/{}_{}.out'.format(self.path, self.md5_result, test)
+                    if self.solutionFile != "":
+                        with open(output_path, 'r') as fp:
+                            data = fp.read()
+                        if data == "PASS":
+                            result_list.append(Status.CORRECT)
+                        else:
+                            result_list.append(Status.WRONG)
+                        continue
+                    check_against = '{}/{}/{}.out'.format(self.path_contest, self.problem, test)
                     if os.path.isfile(output_path) and os.path.isfile(check_against):
                         os.system("judge/formatter-linux-amd64 {}".format(output_path))
                         res_ = filecmp.cmp(check_against, output_path)
