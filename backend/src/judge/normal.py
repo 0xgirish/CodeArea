@@ -89,7 +89,7 @@ class JudgeNormal:
         '''
         # print(self.path)
         docker = Docker(self.timeout, self.memory_limit, self.language_id, self.code, self.path, self.md5_result, self.testcase ,self.md5_name,
-                        self.md5_input, self.target_folder)
+                        self.md5_input, self.target_folder, "")
         # print("SUCCESS")
         if docker.prepare():
             result = docker.execute()
