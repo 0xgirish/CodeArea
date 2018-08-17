@@ -66,7 +66,7 @@ class Docker:
 			self.test_case_list = test_case_list
 			self.name = md5_name
 			self.input = md5_input
-			#logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
+			logging.info('[{}]\n\tDocker instance created'.format(time.asctime()))
 		except Exception as e:
 			logging.critical("\n\nCritical: " + str(time.asctime()) + "\n\t(file, line) = (" + filename + ", " + getframeinfo(currentframe()).lineno +")\n\t"+  str(e) + "\n\n")
 			exit(-1)

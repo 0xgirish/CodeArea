@@ -22,7 +22,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = SubmissionSerializer
 	filter_backends = (DjangoFilterBackend, SearchFilter, )
-	filter_fields = ('user',)
+	filter_fields = ('user', 'id', )
 
 class SubmissionTasksViewSet(viewsets.ModelViewSet):
 

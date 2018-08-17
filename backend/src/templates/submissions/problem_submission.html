@@ -147,27 +147,61 @@ $(document).ready(function(e) {
                                         </tr>');
     	}
     }
+    var dot = 0;
 
-    function onResult(data){
-    	var stat = getResult(data['result']);
-    	var score = data['score']
-    	$("#status").html(stat + ': ' + score);
+    function onResult(){
+    	{#var stat = getResult(data['submission_id']);#}
+    	{#var score = data['score']#}
+    	{#$("#status").html(stat + ': ' + score);#}
     	var id = {{submission.id}}
-    	id = '/submissions/api/subtask/?submission=' + id;
+    	var url = '/submissions/api/submission/?id=' + id;
     	console.log(id);
     	$.ajax({
-    		url: id,
+    		url: url,
     		method: "GET",
     		data: {},
     		success: function(data){
     			console.log(data);
-    			addTasks(data);
+    			if (data[0]["status"] == "R") {
+    			    dot += 1;
+    			    if (dot == 1) {
+    			        $("#status").html("Running .");
+                    } else if(dot == 2) {
+    			        $("#status").html("Running . .");
+                    } else if(dot == 3) {
+    			        $("#status").html("Running . . .");
+                    } else {
+    			        dot = 0;
+    			        $("#status").html("Running");
+                    }
+    			    setTimeout(function(){ onResult(); }, 1000);
+                } else {
+                    getSubtask(data);
+                }
     		},
     		error: function(error){
-    			console.log(error)
+    			console.log(error);
     		}
     	})
 
+    }
+
+    function getSubtask(data) {
+        var stat = data[0]["status"];
+        var score = data[0]["score"];
+        var id = data[0]["id"];
+        $("#status").html(stat + ': ' + score);
+        var url = '/submissions/api/subtask/?submission=' + id;
+        console.log(id);
+        $.ajax({
+            url: url,
+            method: "GET",
+            data: {},
+            success: function(data) {
+                console.log(data);
+                addTasks(data);
+            }
+        });
     }
 
     $.ajax({
@@ -178,8 +212,8 @@ $(document).ready(function(e) {
         dataType: 'json',
         //contentType: 'application/json; charset=utf-8',
         success: function(data) {
-            console.log(data);
-            onResult(data);
+            {#console.log(data);#}
+            onResult();
 
         },
         error: function(error) {
